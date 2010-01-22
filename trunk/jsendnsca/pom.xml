@@ -11,6 +11,32 @@
 	<issueManagement>
 		<url>http://code.google.com/p/jsendnsca/issues/list</url>
 	</issueManagement>
+	<developers>
+		<developer>
+			<id>rajneesh.patel</id>
+			<name>Raj Patel</name>
+			<email>rajneeshpatel@gmail.com</email>
+			<roles>
+				<role>owner</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>claus.ibsen</id>
+			<name>Claus Ibsen</name>
+			<email>claus.ibsen@gmail.com</email>
+			<roles>
+				<role>committer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>jeremy.spykerman</id>
+			<name>Jeremy Spykerman</name>
+			<email>jeremy.spykerman@gmail.com</email>
+			<roles>
+				<role>committer</role>
+			</roles>
+		</developer>
+	</developers>
 	<scm>
 		<url>http://jsendnsca.googlecode.com/svn/trunk/</url>
 	</scm>
