@@ -41,8 +41,8 @@
 		<url>http://jsendnsca.googlecode.com/svn/trunk/</url>
 	</scm>
 	<organization>
-		<name>jsendnsca</name>
-		<url>http://jsendnsca.googlecode.com/</url>
+		<name>Google Code</name>
+		<url>http://code.google.com/hosting/</url>
 	</organization>
 	<build>
 		<plugins>
