@@ -14,7 +14,6 @@
 package com.googlecode.jsendnsca.core;
 
 import static org.hamcrest.Matchers.*;
-
 import static org.junit.Assert.*;
 
 import java.net.SocketTimeoutException;
@@ -27,13 +26,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.googlecode.jsendnsca.core.Level;
-import com.googlecode.jsendnsca.core.MessagePayload;
-import com.googlecode.jsendnsca.core.NagiosException;
-import com.googlecode.jsendnsca.core.NagiosPassiveCheckSender;
-import com.googlecode.jsendnsca.core.NagiosSettings;
 import com.googlecode.jsendnsca.core.builders.MessagePayloadBuilder;
 import com.googlecode.jsendnsca.core.builders.NagiosSettingsBuilder;
+import com.googlecode.jsendnsca.core.encryption.Encryption;
 import com.googlecode.jsendnsca.core.mocks.NagiosNscaStub;
 
 public class NagiosPassiveCheckSenderTest {
@@ -83,6 +78,7 @@ public class NagiosPassiveCheckSenderTest {
             .withDefaults()
             .withNagiosHost(HOSTNAME)
             .withPassword(PASSWORD)
+            .withEncryption(Encryption.XOR_ENCRYPTION)
             .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
@@ -131,6 +127,7 @@ public class NagiosPassiveCheckSenderTest {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
                 .withNagiosHost(HOSTNAME)
                 .withPassword(PASSWORD)
+                .withEncryption(Encryption.XOR_ENCRYPTION)
                 .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
@@ -171,7 +168,7 @@ public class NagiosPassiveCheckSenderTest {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
             .withNagiosHost(HOSTNAME)
             .withPassword(PASSWORD)
-            .withEncryption(NagiosSettings.TRIPLE_DES_ENCRYPTION)
+            .withEncryption(Encryption.TRIPLE_DES_ENCRYPTION)
             .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);

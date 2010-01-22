@@ -24,7 +24,7 @@ class PassiveCheckBytesBuilder {
     private static final int HOST_NAME_SIZE = 64;
     private static final int SERVICE_NAME_SIZE = 128;
 
-    private byte[] bytes;
+    private final byte[] bytes;
     private int currentOffset = 0;
 
     public PassiveCheckBytesBuilder() {
@@ -85,9 +85,7 @@ class PassiveCheckBytesBuilder {
     }
 
     public PassiveCheckBytesBuilder encrypt(byte[] initVector, NagiosSettings nagiosSettings) {
-        Encryption
-            .getEncryptor(nagiosSettings.getEncryptionMethod())
-            .encrypt(bytes, initVector, nagiosSettings.getPassword());
+        nagiosSettings.getEncryptor().encrypt(bytes, initVector, nagiosSettings.getPassword());
         return this;
     }
 
