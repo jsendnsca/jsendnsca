@@ -13,44 +13,32 @@
  */
 package com.googlecode.jsendnsca.core;
 
+import static com.googlecode.jsendnsca.core.encryption.Encryption.*;
+
 import com.googlecode.jsendnsca.core.builders.NagiosSettingsBuilder;
-import com.googlecode.jsendnsca.core.utils.EncryptionUtils;
+import com.googlecode.jsendnsca.core.encryption.Encryption;
+import com.googlecode.jsendnsca.core.encryption.Encryptor;
 import com.googlecode.jsendnsca.core.utils.StringUtils;
 
 /**
  * The settings to use for sending the Passive Check
- * 
+ *
  * @author Raj.Patel
  * @version 1.0
  * @see NagiosSettingsBuilder
  */
 public class NagiosSettings {
 
-	/**
-	 * No encryption
-	 */
-	public static final int NO_ENCRYPTION = 0;
-
-	/**
-	 * XOR encryption
-	 */
-	public static final int XOR_ENCRYPTION = 1;
-
-	/**
-	 * Triple-DES encryption
-	 */
-	public static final int TRIPLE_DES_ENCRYPTION = 3;
-
 	private String nagiosHost = "localhost";
 	private int port = 5667;
 	private String password = "password";
 	private int timeout = 10000;
 	private int connectTimeout = 5000;
-	private int encryptionMethod = XOR_ENCRYPTION;
+	private Encryptor encryptor = NO_ENCRYPTION.getEncryptor();
 
 	/**
 	 * The host or IP of the Nagios host running the NSCA add-on
-	 * 
+	 *
 	 * @return the host or IP, defaults to localhost
 	 */
 	public String getNagiosHost() {
@@ -59,7 +47,7 @@ public class NagiosSettings {
 
 	/**
 	 * The host or IP of the Nagios host running the NSCA add-on
-	 * 
+	 *
 	 * @param nagiosHost
 	 *            the host or IP, defaults to localhost
 	 */
@@ -73,7 +61,7 @@ public class NagiosSettings {
 
 	/**
 	 * The port on which NSCA is listening
-	 * 
+	 *
 	 * @return the port, defaults to 5667
 	 */
 	public int getPort() {
@@ -82,7 +70,7 @@ public class NagiosSettings {
 
 	/**
 	 * The port on which NSCA is listening
-	 * 
+	 *
 	 * @param port
 	 *            the port, defaults to 5667
 	 */
@@ -92,7 +80,7 @@ public class NagiosSettings {
 
 	/**
 	 * The password configured in the ncsa.cfg file used by NSCA
-	 * 
+	 *
 	 * @return the password, defaults to "password"
 	 */
 	public String getPassword() {
@@ -101,7 +89,7 @@ public class NagiosSettings {
 
 	/**
 	 * The password configured in the ncsa.cfg file used by NSCA
-	 * 
+	 *
 	 * @param password
 	 *            the password, defaults to "password"
 	 */
@@ -115,7 +103,7 @@ public class NagiosSettings {
 
 	/**
 	 * The socket timeout to use when sending the passive check
-	 * 
+	 *
 	 * @return the timeout in ms, defaults to 10000 ms
 	 */
 	public int getTimeout() {
@@ -124,7 +112,7 @@ public class NagiosSettings {
 
 	/**
 	 * The socket timeout to use when sending the passive check
-	 * 
+	 *
 	 * @param timeout
 	 *            the timeout in ms, defaults to 10000 ms
 	 */
@@ -133,43 +121,35 @@ public class NagiosSettings {
 	}
 
 	/**
-	 * The encryption method used by the NSCA Daemon
-	 * 
-	 * @return the method
+	 * The {@link Encryptor} used to encrypt the passive check
+	 *
+	 * @return the {@link Encryptor}
 	 */
-	public int getEncryptionMethod() {
-		return encryptionMethod;
+	public Encryptor getEncryptor() {
+		return encryptor;
 	}
 
 	/**
-	 * The encryption method used by the NSCA Daemon, currently only
-	 * NO_ENCRYPTION, XOR_ENCRYPTION or TRIPLE_DES_ENCRYPTION
-	 * 
-	 * @param encryptionMethod
-	 *            the method
+	 * The {@link Encryptor} to use to encrypt the passive check
+	 *
+	 * @param encryptor
 	 */
-	public void setEncryptionMethod(int encryptionMethod) {
-		if (!EncryptionUtils.isEncryptionMethodSupported(encryptionMethod)) {
-			throw new UnsupportedOperationException(
-					"Currently only NO_ENCRYPTION, XOR_ENCRYPTION or TRIPLE_DES_ENCRYPTION Supported");
-		}
-		this.encryptionMethod = encryptionMethod;
+	public void setEncryptor(Encryptor encryptor) {
+		this.encryptor = encryptor;
 	}
-	
-    /**
-     * The encryption method used by the NSCA Daemon, currently only
-     * NO_ENCRYPTION, XOR_ENCRYPTION or TRIPLE_DES_ENCRYPTION
-     * 
-     * @param encryption
-     *            the {@link Encryption} method
+
+	/**
+     * The {@link Encryption} to use to encrypt the passive check
+     *
+     * @param encryptor
      */
-    public void setEncryptionMethod(Encryption encryption) {
-        this.encryptionMethod = encryption.getCode();
+    public void setEncryption(Encryption encryption) {
+        this.encryptor = encryption.getEncryptor();
     }
 
 	/**
 	 * The connection timeout
-	 * 
+	 *
 	 * @return timeout in ms
 	 */
 	public int getConnectTimeout() {
@@ -178,7 +158,7 @@ public class NagiosSettings {
 
 	/**
 	 * Set the connection timeout, default is 5000 ms
-	 * 
+	 *
 	 * @param connectTimeout
 	 *            timeout in ms
 	 */
@@ -186,58 +166,50 @@ public class NagiosSettings {
 		this.connectTimeout = connectTimeout;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + connectTimeout;
-		result = prime * result + encryptionMethod;
-		result = prime * result
-				+ ((nagiosHost == null) ? 0 : nagiosHost.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result + port;
-		result = prime * result + timeout;
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + connectTimeout;
+        result = prime * result + ((encryptor == null) ? 0 : encryptor.hashCode());
+        result = prime * result + ((nagiosHost == null) ? 0 : nagiosHost.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + port;
+        result = prime * result + timeout;
+        return result;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		NagiosSettings other = (NagiosSettings) obj;
-		if (connectTimeout != other.connectTimeout)
-			return false;
-		if (encryptionMethod != other.encryptionMethod)
-			return false;
-		if (nagiosHost == null) {
-			if (other.nagiosHost != null)
-				return false;
-		} else if (!nagiosHost.equals(other.nagiosHost))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (port != other.port)
-			return false;
-		if (timeout != other.timeout)
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        NagiosSettings other = (NagiosSettings) obj;
+        if (connectTimeout != other.connectTimeout)
+            return false;
+        if (encryptor == null) {
+            if (other.encryptor != null)
+                return false;
+        } else if (!encryptor.equals(other.encryptor))
+            return false;
+        if (nagiosHost == null) {
+            if (other.nagiosHost != null)
+                return false;
+        } else if (!nagiosHost.equals(other.nagiosHost))
+            return false;
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        if (port != other.port)
+            return false;
+        if (timeout != other.timeout)
+            return false;
+        return true;
+    }
+
 }

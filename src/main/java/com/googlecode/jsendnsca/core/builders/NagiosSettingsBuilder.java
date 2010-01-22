@@ -14,12 +14,14 @@
 package com.googlecode.jsendnsca.core.builders;
 
 import com.googlecode.jsendnsca.core.NagiosSettings;
+import com.googlecode.jsendnsca.core.encryption.Encryption;
+import com.googlecode.jsendnsca.core.encryption.Encryptor;
 
 /**
  * Used to construct a {@link NagiosSettings} instance using a builder pattern e.g.
- * 
+ *
  * <pre>
- * 
+ *
  * final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
  *      .withNagiosHost(HOSTNAME)
  *      .withPassword(PASSWORD)
@@ -34,7 +36,7 @@ public class NagiosSettingsBuilder {
 
     /**
      * Return an instance of {@link NagiosSettings} with default values
-     * 
+     *
      * @return default instance
      */
     public NagiosSettings createDefault() {
@@ -43,26 +45,26 @@ public class NagiosSettingsBuilder {
 
     /**
      * Return the built instance of {@link NagiosSettings}
-     * 
+     *
      * @return the built instance
      */
     public NagiosSettings create() {
         return nagiosSettings;
     }
-    
+
     /**
      * The next {@link NagiosSettings} created will use the defaults
-     * 
+     *
      * @return the {@link NagiosSettingsBuilder} instance with all the default settings
      */
     public NagiosSettingsBuilder withDefaults() {
         nagiosSettings = new NagiosSettings();
         return this;
     }
-    
+
     /**
      * The next {@link NagiosSettings} created will use the supplied nagiosHost
-     * 
+     *
      * @param nagiosHost
      *            the NSCA hostname or IP address
      * @return the {@link NagiosSettingsBuilder} instance
@@ -74,7 +76,7 @@ public class NagiosSettingsBuilder {
 
     /**
      * The next {@link NagiosSettings} created will use the supplied port
-     * 
+     *
      * @param port
      *            the port NSCA is listening on
      * @return the {@link NagiosSettingsBuilder} instance
@@ -86,7 +88,7 @@ public class NagiosSettingsBuilder {
 
     /**
      * The next {@link NagiosSettings} created will use the supplied password
-     * 
+     *
      * @param password
      *            the NSCA password
      * @return the {@link NagiosSettingsBuilder} instance
@@ -99,7 +101,7 @@ public class NagiosSettingsBuilder {
     /**
      * The next {@link NagiosSettings} created will use the supplied connection
      * timeout
-     * 
+     *
      * @param connectionTimeout
      *            the connection timeout
      * @return the {@link NagiosSettingsBuilder} instance
@@ -112,7 +114,7 @@ public class NagiosSettingsBuilder {
     /**
      * The next {@link NagiosSettings} created will use the supplied response
      * timeout
-     * 
+     *
      * @param responseTimeout
      *            the NSCA response timeout
      * @return the {@link NagiosSettingsBuilder} instance
@@ -123,25 +125,25 @@ public class NagiosSettingsBuilder {
     }
 
     /**
-     * The next {@link NagiosSettings} created will not use any encryption
-     * 
+     * The next {@link NagiosSettings} created will use the specified {@link Encryptor}
+     *
+     * @param encryptor the encryptor to use
      * @return the {@link NagiosSettingsBuilder} instance
      */
-    public NagiosSettingsBuilder withNoEncryption() {
-        nagiosSettings.setEncryptionMethod(NagiosSettings.NO_ENCRYPTION);
+    public NagiosSettingsBuilder withEncryptor(Encryptor encryptor) {
+        nagiosSettings.setEncryptor(encryptor);
         return this;
     }
 
     /**
-     * The next {@link NagiosSettings} created will use the specified encryption
-     * method
-     * 
-     * @param encryptionMethod
-     *            the encryption method to use when sending the passive check
+     * The next {@link NagiosSettings} created will use the specified {@link Encryption} constant
+     *
+     * @param encryption the {@link Encryption} to use
      * @return the {@link NagiosSettingsBuilder} instance
      */
-    public NagiosSettingsBuilder withEncryption(int encryptionMethod) {
-        nagiosSettings.setEncryptionMethod(encryptionMethod);
+    public NagiosSettingsBuilder withEncryption(Encryption encryption) {
+        nagiosSettings.setEncryption(encryption);
         return this;
     }
+
 }

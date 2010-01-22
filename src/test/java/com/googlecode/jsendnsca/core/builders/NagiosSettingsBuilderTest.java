@@ -1,22 +1,22 @@
 package com.googlecode.jsendnsca.core.builders;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import com.googlecode.jsendnsca.core.NagiosSettings;
-import com.googlecode.jsendnsca.core.builders.NagiosSettingsBuilder;
+import com.googlecode.jsendnsca.core.encryption.Encryption;
 
 public class NagiosSettingsBuilderTest {
 
 	@Test
 	public void shouldCreateDefault() throws Exception {
 		NagiosSettings defaultNagiosSettings = new NagiosSettings();
-		
+
 		NagiosSettings nagiosSettings = new NagiosSettingsBuilder().createDefault();
 		assertEquals(defaultNagiosSettings, nagiosSettings);
 	}
-	
+
 	@Test
 	public void shouldCreateWithEverythingOverriden() throws Exception {
 		String host = "nagioshost";
@@ -31,7 +31,7 @@ public class NagiosSettingsBuilderTest {
 			.withPassword(password)
 			.withConnectionTimeout(connectionTimeout)
 			.withResponseTimeout(responseTimeout)
-			.withNoEncryption()
+			.withEncryption(Encryption.XOR_ENCRYPTION)
 			.create();
 
 		assertEquals(host, nagiosSettings.getNagiosHost());
@@ -39,6 +39,6 @@ public class NagiosSettingsBuilderTest {
 		assertEquals(password, nagiosSettings.getPassword());
 		assertEquals(connectionTimeout, nagiosSettings.getConnectTimeout());
 		assertEquals(responseTimeout, nagiosSettings.getTimeout());
-		assertEquals(NagiosSettings.NO_ENCRYPTION, nagiosSettings.getEncryptionMethod());
+		assertEquals(Encryption.XOR_ENCRYPTION.getEncryptor(), nagiosSettings.getEncryptor());
 	}
 }

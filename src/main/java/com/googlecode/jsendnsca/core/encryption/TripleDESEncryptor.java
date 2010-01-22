@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.googlecode.jsendnsca.core;
+package com.googlecode.jsendnsca.core.encryption;
 
 import java.security.GeneralSecurityException;
 
@@ -9,6 +9,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
 
 class TripleDESEncryptor implements Encryptor {
 
