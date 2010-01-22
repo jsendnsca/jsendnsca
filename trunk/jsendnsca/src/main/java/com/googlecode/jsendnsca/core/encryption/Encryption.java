@@ -1,6 +1,5 @@
 package com.googlecode.jsendnsca.core.encryption;
 
-import com.googlecode.jsendnsca.core.MessagePayload;
 
 /**
  * Encryption to be used when sending the {@link MessagePayload}
