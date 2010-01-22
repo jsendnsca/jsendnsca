@@ -1,26 +1,36 @@
 package com.googlecode.jsendnsca.core.encryption;
 
+import com.googlecode.jsendnsca.core.MessagePayload;
+
+/**
+ * Encryption to be used when sending the {@link MessagePayload}
+ *
+ * @author Raj Patel
+ *
+ */
 public enum Encryption {
 
+    /**
+     * no encryption
+     */
     NO_ENCRYPTION(),
-    TRIPLE_DES_ENCRYPTION(3, new TripleDESEncryptor()),
-    XOR_ENCRYPTION(1 ,new XorEncryptor());
+    /**
+     * Triple DES encryption
+     */
+    TRIPLE_DES_ENCRYPTION(new TripleDESEncryptor()),
+    /**
+     * XOR encryption(?)
+     */
+    XOR_ENCRYPTION(new XorEncryptor());
 
-    private final int code;
     private final Encryptor encryptor;
 
     private Encryption() {
-        this.code = 0;
         this.encryptor = none();
     }
 
-    private Encryption(int code, Encryptor encryptor) {
-        this.code = code;
+    private Encryption(Encryptor encryptor) {
         this.encryptor = encryptor;
-    }
-
-    public int getCode() {
-        return code;
     }
 
     private Encryptor none() {
@@ -30,6 +40,9 @@ public enum Encryption {
         };
     }
 
+    /**
+     * @return the {@link Encryptor} for this {@link Encryption} constant
+     */
     public Encryptor getEncryptor() {
         return encryptor;
     }

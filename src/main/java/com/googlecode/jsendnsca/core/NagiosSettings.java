@@ -30,142 +30,140 @@ import com.googlecode.jsendnsca.core.encryption.Encryptor;
  */
 public class NagiosSettings {
 
-	private String nagiosHost = "localhost";
-	private int port = 5667;
-	private String password = "password";
-	private int timeout = 10000;
-	private int connectTimeout = 5000;
-	private Encryptor encryptor = NO_ENCRYPTION.getEncryptor();
+    private String nagiosHost = "localhost";
+    private int port = 5667;
+    private String password = "password";
+    private int timeout = 10000;
+    private int connectTimeout = 5000;
+    private Encryptor encryptor = NO_ENCRYPTION.getEncryptor();
 
-	/**
-	 * The host or IP of the Nagios host running the NSCA add-on
-	 *
-	 * @return the host or IP, defaults to localhost
-	 */
-	public String getNagiosHost() {
-		return nagiosHost;
-	}
+    /**
+     * The host or IP of the Nagios host running the NSCA add-on
+     *
+     * @return the host or IP, defaults to localhost
+     */
+    public String getNagiosHost() {
+        return nagiosHost;
+    }
 
-	/**
-	 * The host or IP of the Nagios host running the NSCA add-on
-	 *
-	 * @param nagiosHost
-	 *            the host or IP, defaults to localhost
-	 */
-	public void setNagiosHost(String nagiosHost) {
-		if (StringUtils.isBlank(nagiosHost)) {
-			throw new IllegalArgumentException(
-					"nagiosHost cannot be null or empty");
-		}
-		this.nagiosHost = nagiosHost;
-	}
+    /**
+     * The host or IP of the Nagios host running the NSCA add-on
+     *
+     * @param nagiosHost
+     *            the host or IP, defaults to localhost
+     */
+    public void setNagiosHost(String nagiosHost) {
+        if (StringUtils.isBlank(nagiosHost)) {
+            throw new IllegalArgumentException("nagiosHost cannot be null or empty");
+        }
+        this.nagiosHost = nagiosHost;
+    }
 
-	/**
-	 * The port on which NSCA is listening
-	 *
-	 * @return the port, defaults to 5667
-	 */
-	public int getPort() {
-		return port;
-	}
+    /**
+     * The port on which NSCA is listening
+     *
+     * @return the port, defaults to 5667
+     */
+    public int getPort() {
+        return port;
+    }
 
-	/**
-	 * The port on which NSCA is listening
-	 *
-	 * @param port
-	 *            the port, defaults to 5667
-	 */
-	public void setPort(int port) {
-		this.port = port;
-	}
+    /**
+     * The port on which NSCA is listening
+     *
+     * @param port
+     *            the port, defaults to 5667
+     */
+    public void setPort(int port) {
+        this.port = port;
+    }
 
-	/**
-	 * The password configured in the ncsa.cfg file used by NSCA
-	 *
-	 * @return the password, defaults to "password"
-	 */
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * The password configured in the ncsa.cfg file used by NSCA
+     *
+     * @return the password, defaults to "password"
+     */
+    public String getPassword() {
+        return password;
+    }
 
-	/**
-	 * The password configured in the ncsa.cfg file used by NSCA
-	 *
-	 * @param password
-	 *            the password, defaults to "password"
-	 */
-	public void setPassword(String password) {
-		if (StringUtils.isBlank(password)) {
-			throw new IllegalArgumentException(
-					"password cannot be null or empty");
-		}
-		this.password = password;
-	}
+    /**
+     * The password configured in the ncsa.cfg file used by NSCA
+     *
+     * @param password
+     *            the password, defaults to "password"
+     */
+    public void setPassword(String password) {
+        if (StringUtils.isBlank(password)) {
+            throw new IllegalArgumentException("password cannot be null or empty");
+        }
+        this.password = password;
+    }
 
-	/**
-	 * The socket timeout to use when sending the passive check
-	 *
-	 * @return the timeout in ms, defaults to 10000 ms
-	 */
-	public int getTimeout() {
-		return timeout;
-	}
+    /**
+     * The socket timeout to use when sending the passive check
+     *
+     * @return the timeout in ms, defaults to 10000 ms
+     */
+    public int getTimeout() {
+        return timeout;
+    }
 
-	/**
-	 * The socket timeout to use when sending the passive check
-	 *
-	 * @param timeout
-	 *            the timeout in ms, defaults to 10000 ms
-	 */
-	public void setTimeout(int timeout) {
-		this.timeout = timeout;
-	}
+    /**
+     * The socket timeout to use when sending the passive check
+     *
+     * @param timeout
+     *            the timeout in ms, defaults to 10000 ms
+     */
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
 
-	/**
-	 * The {@link Encryptor} used to encrypt the passive check
-	 *
-	 * @return the {@link Encryptor}
-	 */
-	public Encryptor getEncryptor() {
-		return encryptor;
-	}
+    /**
+     * The {@link Encryptor} used to encrypt the passive check
+     *
+     * @return the {@link Encryptor}
+     */
+    public Encryptor getEncryptor() {
+        return encryptor;
+    }
 
-	/**
-	 * The {@link Encryptor} to use to encrypt the passive check
-	 *
-	 * @param encryptor
-	 */
-	public void setEncryptor(Encryptor encryptor) {
-		this.encryptor = encryptor;
-	}
-
-	/**
-     * The {@link Encryption} to use to encrypt the passive check
+    /**
+     * The {@link Encryptor} to use to encrypt the passive check
      *
      * @param encryptor
+     */
+    public void setEncryptor(Encryptor encryptor) {
+        this.encryptor = encryptor;
+    }
+
+    /**
+     * The {@link Encryption} to use to encrypt the passive check
+     *
+     * @param encryption
      */
     public void setEncryption(Encryption encryption) {
         this.encryptor = encryption.getEncryptor();
     }
 
-	/**
-	 * The connection timeout
-	 *
-	 * @return timeout in ms
-	 */
-	public int getConnectTimeout() {
-		return connectTimeout;
-	}
+    /**
+     * The connection timeout
+     *
+     * @return timeout in ms
+     */
+    public int getConnectTimeout() {
+        return connectTimeout;
+    }
 
-	/**
-	 * Set the connection timeout, default is 5000 ms
-	 *
-	 * @param connectTimeout
-	 *            timeout in ms
-	 */
-	public void setConnectTimeout(int connectTimeout) {
-		this.connectTimeout = connectTimeout;
-	}
+    /**
+     * Set the connection timeout, default is 5000 ms
+     *
+     * @param connectTimeout
+     *            timeout in ms
+     */
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
 
     @Override
     public int hashCode() {
