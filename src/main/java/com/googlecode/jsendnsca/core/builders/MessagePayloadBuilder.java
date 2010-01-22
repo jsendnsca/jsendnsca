@@ -7,7 +7,7 @@ import com.googlecode.jsendnsca.core.MessagePayload;
 
 /**
  * Used to construct a {@link MessagePayload} using a builder pattern e.g.
- * 
+ *
  * <pre>
  * MessagePayload payload = new MessagePayloadBuilder()
  *			.withHostname("localhost")
@@ -22,11 +22,11 @@ import com.googlecode.jsendnsca.core.MessagePayload;
  */
 public class MessagePayloadBuilder {
 
-	private MessagePayload payload = new MessagePayload();
+	private final MessagePayload payload = new MessagePayload();
 
 	/**
 	 * Return the built {@link MessagePayload}
-	 * 
+	 *
 	 * @return the built {@link MessagePayload}
 	 */
 	public MessagePayload create() {
@@ -35,7 +35,7 @@ public class MessagePayloadBuilder {
 
 	/**
 	 * Use the short hostname of the local machine in the passive check
-	 * 
+	 *
 	 * @return the {@link MessagePayloadBuilder}
 	 * @throws UnknownHostException
 	 *             error while determining local machine name
@@ -49,7 +49,7 @@ public class MessagePayloadBuilder {
 	/**
 	 * Use the fully qualified domain name of the local machine in the passive
 	 * check
-	 * 
+	 *
 	 * @return the {@link MessagePayloadBuilder}
 	 * @throws UnknownHostException
 	 *             error while determining local machine name
@@ -62,7 +62,7 @@ public class MessagePayloadBuilder {
 
 	/**
 	 * Use the supplied hostname in the passive check
-	 * 
+	 *
 	 * @param hostname
 	 *            the hostname
 	 * @return the {@link MessagePayloadBuilder}
@@ -74,33 +74,18 @@ public class MessagePayloadBuilder {
 
 	/**
 	 * Set the level of the passive check
-	 * 
-	 * @param level
-	 *            the integer level, use the constants defined in
-	 *            {@link MessagePayload}
+	 *
+	 * @param level the level value
 	 * @return the {@link MessagePayloadBuilder}
 	 */
 	public MessagePayloadBuilder withLevel(int level) {
-		payload.setLevel(level);
+		payload.setLevel(Level.toLevel(level));
 		return this;
 	}
 
 	/**
 	 * Set the level of the passive check
-	 * 
-	 * @param level
-	 *            the String level, case insensitive values are either "ok",
-	 *            "warning", "critical" or "unknown"
-	 * @return the {@link MessagePayloadBuilder}
-	 */
-	public MessagePayloadBuilder withLevel(String level) {
-		payload.setLevel(level);
-		return this;
-	}
-
-	/**
-	 * Set the level of the passive check
-	 * 
+	 *
 	 * @param level
 	 *            the {@link Level}
 	 * @return the {@link MessagePayloadBuilder}
@@ -112,7 +97,7 @@ public class MessagePayloadBuilder {
 
 	/**
 	 * Set the service name of the passive check
-	 * 
+	 *
 	 * @param serviceName
 	 *            the service name
 	 * @return the {@link MessagePayloadBuilder}
@@ -124,7 +109,7 @@ public class MessagePayloadBuilder {
 
 	/**
 	 * Set the message of the passive check
-	 * 
+	 *
 	 * @param message
 	 *            the message
 	 * @return the {@link MessagePayloadBuilder}

@@ -24,7 +24,7 @@ import com.googlecode.jsendnsca.core.utils.IOUtils;
 
 /**
  * This class is used to send a Passive Check to the Nagios NSCA add-on
- * 
+ *
  * @author Raj.Patel
  * @version 1.0
  */
@@ -32,12 +32,12 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
 
 	private static final int INITIALISATION_VECTOR_SIZE = 128;
 
-	private NagiosSettings nagiosSettings;
+	private final NagiosSettings nagiosSettings;
 
 	/**
 	 * Construct a new {@link NagiosPassiveCheckSender} with the provided
 	 * {@link NagiosSettings}
-	 * 
+	 *
 	 * @param nagiosSettings
 	 *            the {@link NagiosSettings} to use to send the Passive Check
 	 */
@@ -50,7 +50,7 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.googlecode.jsendnsca.sender.INagiosPassiveCheckSender#send(com.googlecode
 	 * .jsendnsca.sender.MessagePayload)
@@ -78,7 +78,7 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
 		int timeStamp = inputStream.readInt();
 
 		try {
-		    
+
 		    final byte[] passiveCheckBytes = new PassiveCheckBytesBuilder()
 			    .withTimeStamp(timeStamp)
 			    .withLevel(payload.getLevel())

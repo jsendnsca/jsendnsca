@@ -16,37 +16,18 @@ package com.googlecode.jsendnsca.core;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.MessageFormat;
 
 import com.googlecode.jsendnsca.core.builders.MessagePayloadBuilder;
-import com.googlecode.jsendnsca.core.utils.LevelUtils;
 import com.googlecode.jsendnsca.core.utils.StringUtils;
 
 /**
  * The Passive Check Message Payload
- * 
+ *
  * @author Raj.Patel
  * @version 1.0
  * @see MessagePayloadBuilder
  */
 public class MessagePayload implements Serializable {
-
-    /**
-	 * OK Level
-	 */
-	public static final int LEVEL_OK = 0;
-	/**
-	 * Warning level
-	 */
-	public static final int LEVEL_WARNING = 1;
-	/**
-	 * Critical Level
-	 */
-	public static final int LEVEL_CRITICAL = 2;
-	/**
-	 * Unknown level
-	 */
-	public static final int LEVEL_UNKNOWN = 3;
 
 	private static final long serialVersionUID = 6014395299584333124L;
 
@@ -54,7 +35,7 @@ public class MessagePayload implements Serializable {
 	private static final String DEFAULT_SERVICENAME = "UNDEFINED";
 
 	private String hostname = DEFAULT_HOSTNAME;
-	private int level = LEVEL_UNKNOWN;
+	private Level level = Level.UNKNOWN;
 	private String serviceName = DEFAULT_SERVICENAME;
 	private String message = StringUtils.EMPTY;
 
@@ -67,7 +48,7 @@ public class MessagePayload implements Serializable {
 
 	/**
 	 * Construct a new {@link MessagePayload}
-	 * 
+	 *
 	 * @param hostname
 	 *            the hostname to be sent in this passive check
 	 * @param level
@@ -77,7 +58,7 @@ public class MessagePayload implements Serializable {
 	 * @param message
 	 *            the message
 	 */
-	public MessagePayload(String hostname, int level, String serviceName,
+	public MessagePayload(String hostname, Level level, String serviceName,
 			String message) {
 		if (StringUtils.isBlank(hostname) || StringUtils.isBlank(serviceName)) {
 			throw new IllegalArgumentException(
@@ -92,7 +73,7 @@ public class MessagePayload implements Serializable {
 
 	/**
 	 * The hostname to be sent in this passive check
-	 * 
+	 *
 	 * @return the hostname, defaults to "localhost"
 	 */
 	public String getHostname() {
@@ -101,7 +82,7 @@ public class MessagePayload implements Serializable {
 
 	/**
 	 * Use the short hostname of this machine in the passive check
-	 * 
+	 *
 	 * @throws UnknownHostException
 	 *             thrown if unable to determine the machines hostname
 	 */
@@ -111,7 +92,7 @@ public class MessagePayload implements Serializable {
 
 	/**
 	 * Set the hostname in the passive check
-	 * 
+	 *
 	 * @param useCanonical
 	 *            true to use this machines fully qualified domain name, false
 	 *            to use the short hostname
@@ -129,7 +110,7 @@ public class MessagePayload implements Serializable {
 
 	/**
 	 * Set the hostname in the passive check
-	 * 
+	 *
 	 * @param hostname
 	 *            the hostname to use
 	 */
@@ -143,49 +124,37 @@ public class MessagePayload implements Serializable {
 
 	/**
 	 * Get the level of the Passive check
-	 * 
-	 * @return the level, default is UNKNOWN
+	 *
+	 * @return the level
 	 */
-	public int getLevel() {
+	public Level getLevel() {
 		return level;
-	}
-
-	/**
-	 * Set the level of the Passive check
-	 * 
-	 * @param level
-	 *            the level, use the constant field values LEVEL_...
-	 */
-	public void setLevel(int level) {
-		if (!LevelUtils.isValidLevel(level)) {
-			throw new IllegalArgumentException(MessageFormat.format("[{0}] is not a valid level", level));
-		}
-		this.level = level;
 	}
 
 	/**
 	 * Set the level of the Passive check using a {@link String} The case of the
 	 * {@link String} is ignored
-	 * 
+	 *
 	 * @param level
 	 *            either "ok", "warning", "critical" or "unknown"
 	 */
 	public void setLevel(String level) {
-		this.level = LevelUtils.getLevel(level);
+	    this.level = Level.tolevel(level);
 	}
 
 	/**
 	 * Set the level of the Passive check
-	 * 
-	 * @param levelValue the level
+	 *
+	 * @param level the level
 	 */
-	public void setLevel(Level levelValue) {
-		this.level = levelValue.ordinal();
+	public void setLevel(Level level) {
+		this.level = level;
+
 	}
 
 	/**
 	 * The service name of this passive check
-	 * 
+	 *
 	 * @return the service name, default is "UNDEFINED"
 	 */
 	public String getServiceName() {
@@ -194,7 +163,7 @@ public class MessagePayload implements Serializable {
 
 	/**
 	 * Set the service name of this passive check
-	 * 
+	 *
 	 * @param serviceName
 	 *            the service name
 	 */
@@ -208,7 +177,7 @@ public class MessagePayload implements Serializable {
 
 	/**
 	 * The message to send in this passive check
-	 * 
+	 *
 	 * @return the message, default is an empty string
 	 */
 	public String getMessage() {
@@ -217,7 +186,7 @@ public class MessagePayload implements Serializable {
 
 	/**
 	 * Set the message to send in this passive check
-	 * 
+	 *
 	 * @param message
 	 *            the message
 	 */
@@ -234,7 +203,7 @@ public class MessagePayload implements Serializable {
 		int result = 1;
 		result = prime * result
 				+ ((hostname == null) ? 0 : hostname.hashCode());
-		result = prime * result + level;
+		result = prime * result + level.ordinal();
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		result = prime * result
 				+ ((serviceName == null) ? 0 : serviceName.hashCode());

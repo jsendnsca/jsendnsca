@@ -33,8 +33,8 @@ class PassiveCheckBytesBuilder {
         currentOffset += 8;
     }
 
-    public PassiveCheckBytesBuilder withLevel(int value) {
-        ByteArrayUtils.writeShort(bytes, (short) value, currentOffset);
+    public PassiveCheckBytesBuilder withLevel(Level level) {
+        ByteArrayUtils.writeShort(bytes, (short) level.ordinal(), currentOffset);
         currentOffset += 2;
         return this;
     }

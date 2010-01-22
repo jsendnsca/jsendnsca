@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 
 import org.junit.Test;
 
-import com.googlecode.jsendnsca.core.Level;
-import com.googlecode.jsendnsca.core.MessagePayload;
 import com.googlecode.jsendnsca.core.utils.StringUtils;
 
 public class MessagePayloadTest {
@@ -18,7 +16,7 @@ public class MessagePayloadTest {
 		final MessagePayload payload = new MessagePayload();
 
 		payload.setHostname("localhost");
-		payload.setLevel(MessagePayload.LEVEL_CRITICAL);
+		payload.setLevel(Level.CRITICAL);
 		payload.setServiceName(StringUtils.EMPTY);
 	}
 
@@ -27,7 +25,7 @@ public class MessagePayloadTest {
 		final MessagePayload messagePayload = new MessagePayload();
 
 		assertEquals("localhost", messagePayload.getHostname());
-		assertEquals(MessagePayload.LEVEL_UNKNOWN, messagePayload.getLevel());
+		assertEquals(Level.UNKNOWN, messagePayload.getLevel());
 		assertEquals("UNDEFINED", messagePayload.getServiceName());
 		assertEquals(StringUtils.EMPTY, messagePayload.getMessage());
 	}
@@ -48,34 +46,34 @@ public class MessagePayloadTest {
 
 	@Test
 	public void shouldConstructNewMessagePayload() throws Exception {
-		final MessagePayload messagePayload = new MessagePayload("localhost", 0, "test service", "test message");
+		final MessagePayload messagePayload = new MessagePayload("localhost", Level.OK, "test service", "test message");
 
 		assertEquals("localhost", messagePayload.getHostname());
-		assertEquals(MessagePayload.LEVEL_OK, messagePayload.getLevel());
+		assertEquals(Level.OK, messagePayload.getLevel());
 		assertEquals("test service", messagePayload.getServiceName());
 		assertEquals("test message", messagePayload.getMessage());
 	}
 
 	@Test
 	public void shouldConstructTwoNewMessagePayload() throws Exception {
-		final MessagePayload messagePayload = new MessagePayload("localhost", 0, "test service", "test message");
+		final MessagePayload messagePayload = new MessagePayload("localhost", Level.OK, "test service", "test message");
 
-		final MessagePayload messagePayload2 = new MessagePayload("somehost", 1, "foo service", "foo message");
+		final MessagePayload messagePayload2 = new MessagePayload("somehost", Level.WARNING, "foo service", "foo message");
 
 		assertEquals("localhost", messagePayload.getHostname());
-		assertEquals(MessagePayload.LEVEL_OK, messagePayload.getLevel());
+		assertEquals(Level.OK, messagePayload.getLevel());
 		assertEquals("test service", messagePayload.getServiceName());
 		assertEquals("test message", messagePayload.getMessage());
 
 		assertEquals("somehost", messagePayload2.getHostname());
-		assertEquals(MessagePayload.LEVEL_WARNING, messagePayload2.getLevel());
+		assertEquals(Level.WARNING, messagePayload2.getLevel());
 		assertEquals("foo service", messagePayload2.getServiceName());
 		assertEquals("foo message", messagePayload2.getMessage());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionOnConstructingNewMessagePayloadWithNullHostname() throws Exception {
-		new MessagePayload(null, 1, "test service", "test message");
+		new MessagePayload(null, Level.OK, "test service", "test message");
 	}
 
 	@Test
@@ -83,13 +81,13 @@ public class MessagePayloadTest {
 		final MessagePayload messagePayload = new MessagePayload();
 
 		messagePayload.setLevel("Ok");
-		assertEquals(MessagePayload.LEVEL_OK, messagePayload.getLevel());
+		assertEquals(Level.OK, messagePayload.getLevel());
 		messagePayload.setLevel("Warning");
-		assertEquals(MessagePayload.LEVEL_WARNING, messagePayload.getLevel());
+		assertEquals(Level.WARNING, messagePayload.getLevel());
 		messagePayload.setLevel("Critical");
-		assertEquals(MessagePayload.LEVEL_CRITICAL, messagePayload.getLevel());
+		assertEquals(Level.CRITICAL, messagePayload.getLevel());
 		messagePayload.setLevel("Unknown");
-		assertEquals(MessagePayload.LEVEL_UNKNOWN, messagePayload.getLevel());
+		assertEquals(Level.UNKNOWN, messagePayload.getLevel());
 	}
 
 	@Test
@@ -104,21 +102,14 @@ public class MessagePayloadTest {
 		}
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldThrowIllegalArgumentExceptionForInvalidLevel() throws Exception {
-		final MessagePayload messagePayload = new MessagePayload();
-
-		messagePayload.setLevel(4);
-	}
-	
 	@Test
 	public void shouldSetLevelUsingEnum() throws Exception {
 		final MessagePayload payload = new MessagePayload();
 		payload.setLevel(Level.WARNING);
-		
-		assertEquals(1, payload.getLevel());
+
+		assertEquals(Level.WARNING, payload.getLevel());
 	}
-	
+
 	@Test
 	public void shouldDetermineShortHostnameCorrectly() throws Exception {
 		if (isUnix()) {
@@ -127,29 +118,29 @@ public class MessagePayloadTest {
 			assertEquals(getShortHostNameFromOS(), messagePayload.getHostname());
 		}
 	}
-	
+
 	@Test
     public void shouldReturnUsefulStringContainingMessagePayloadFields() throws Exception {
-        assertEquals("MessagePayload[level=3, hostname=localhost, serviceName=UNDEFINED, message=]", new MessagePayload().toString());
-        
+        assertEquals("MessagePayload[level=UNKNOWN, hostname=localhost, serviceName=UNDEFINED, message=]", new MessagePayload().toString());
+
     }
-	
+
 	private static boolean isUnix() {
 		if(System.getProperty("os.name").toLowerCase().contains("windows")) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	private static String getShortHostNameFromOS() throws Exception {
 		final Runtime runtime = Runtime.getRuntime();
 		final Process process = runtime.exec("hostname");
 		final BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		
+
 		final String expectedHostName = input.readLine();
 		input.close();
 		assertEquals(0,process.waitFor());
-		
+
 		return expectedHostName;
 	}
 }
