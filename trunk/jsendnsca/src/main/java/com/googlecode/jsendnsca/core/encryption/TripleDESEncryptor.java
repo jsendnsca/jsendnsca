@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.googlecode.jsendnsca.core.encryption;
 
@@ -11,7 +11,12 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 
-class TripleDESEncryptor implements Encryptor {
+/**
+ * Triple DES encryption
+ *
+ * @author Raj Patel
+ */
+public class TripleDESEncryptor implements Encryptor {
 
     private static final String DES_ALGORITHM = "DESede";
     private static final String DES_TRANSFORMATION = "DESede/CFB8/PKCS5Padding";

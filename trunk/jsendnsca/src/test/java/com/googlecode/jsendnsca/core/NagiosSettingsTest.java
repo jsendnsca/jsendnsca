@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.googlecode.jsendnsca.core.encryption.Encryption;
+import com.googlecode.jsendnsca.core.encryption.XorEncryptor;
 
 public class NagiosSettingsTest {
 
@@ -28,6 +29,15 @@ public class NagiosSettingsTest {
         NagiosSettings settings = new NagiosSettings();
 
         settings.setEncryption(Encryption.TRIPLE_DES_ENCRYPTION);
+
+        assertEquals(Encryption.TRIPLE_DES_ENCRYPTION.getEncryptor(), settings.getEncryptor());
+    }
+
+    @Test
+    public void shouldSetEncryptioUsingEncryptor() throws Exception {
+        NagiosSettings settings = new NagiosSettings();
+
+        settings.setEncryptor(new XorEncryptor());
 
         assertEquals(Encryption.TRIPLE_DES_ENCRYPTION.getEncryptor(), settings.getEncryptor());
     }
