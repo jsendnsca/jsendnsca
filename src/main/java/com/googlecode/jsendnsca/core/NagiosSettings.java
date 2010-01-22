@@ -15,10 +15,11 @@ package com.googlecode.jsendnsca.core;
 
 import static com.googlecode.jsendnsca.core.encryption.Encryption.*;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.googlecode.jsendnsca.core.builders.NagiosSettingsBuilder;
 import com.googlecode.jsendnsca.core.encryption.Encryption;
 import com.googlecode.jsendnsca.core.encryption.Encryptor;
-import com.googlecode.jsendnsca.core.utils.StringUtils;
 
 /**
  * The settings to use for sending the Passive Check

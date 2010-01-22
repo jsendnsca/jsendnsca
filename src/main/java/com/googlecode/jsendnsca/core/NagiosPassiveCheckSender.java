@@ -20,7 +20,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-import com.googlecode.jsendnsca.core.utils.IOUtils;
+import org.apache.commons.io.IOUtils;
 
 /**
  * This class is used to send a Passive Check to the Nagios NSCA add-on
@@ -98,7 +98,7 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
 		} finally {
 			IOUtils.closeQuietly(outputStream);
 			IOUtils.closeQuietly(inputStream);
-			IOUtils.closeQuietly(socket);
+			socket.close();
 		}
 	}
 

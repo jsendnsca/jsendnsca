@@ -3,7 +3,7 @@
  */
 package com.googlecode.jsendnsca.core.encryption;
 
-import com.googlecode.jsendnsca.core.utils.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 class XorEncryptor implements Encryptor {

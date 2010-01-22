@@ -17,8 +17,9 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.googlecode.jsendnsca.core.builders.MessagePayloadBuilder;
-import com.googlecode.jsendnsca.core.utils.StringUtils;
 
 /**
  * The Passive Check Message Payload

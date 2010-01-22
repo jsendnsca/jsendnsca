@@ -2,10 +2,8 @@ package com.googlecode.jsendnsca.core.utils;
 
 import static org.junit.Assert.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-
-import com.googlecode.jsendnsca.core.utils.ByteArrayUtils;
-import com.googlecode.jsendnsca.core.utils.StringUtils;
 
 public class ByteArrayUtilsTest {
 
@@ -40,14 +38,14 @@ public class ByteArrayUtilsTest {
 
         assertArrayEquals(expected, actual);
     }
-    
+
     @Test
     public void shouldReturnNullByteArrayIfPassedANullString() throws Exception {
         final byte[] actual = ByteArrayUtils.getFixedSizeBytes(5, null);
 
         assertNull(actual);
     }
-    
+
     @Test
     public void shouldReturnByteArrayOf5InSizeIfPassedEmptyString() throws Exception {
         final byte[] actual = ByteArrayUtils.getFixedSizeBytes(5, StringUtils.EMPTY);
