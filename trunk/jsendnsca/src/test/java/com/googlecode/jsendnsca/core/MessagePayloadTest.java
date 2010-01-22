@@ -5,9 +5,8 @@ import static junit.framework.Assert.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-
-import com.googlecode.jsendnsca.core.utils.StringUtils;
 
 public class MessagePayloadTest {
 

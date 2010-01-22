@@ -13,9 +13,11 @@
  */
 package com.googlecode.jsendnsca.core.utils;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Utility methods for writing to a byte array
- * 
+ *
  * @author Raj Patel
  * @version 1.0
  */
@@ -28,7 +30,7 @@ public class ByteArrayUtils {
     /**
      * Creates a fixed size byte array, populates it with contents of a String
      * and writes this to a destination byte array
-     * 
+     *
      * @param dest
      *            the destination byte array
      * @param value
@@ -44,7 +46,7 @@ public class ByteArrayUtils {
 
     /**
      * Write a short to a byte array
-     * 
+     *
      * @param dest
      *            the destination byte array
      * @param value
@@ -58,7 +60,7 @@ public class ByteArrayUtils {
 
     /**
      * Write an integer to a byte array
-     * 
+     *
      * @param dest
      *            the destination byte array
      * @param value
@@ -74,7 +76,7 @@ public class ByteArrayUtils {
      * Get a fixed size byte array populated with the contents of a
      * {@link String} If the {@link String} length is larger than the byte
      * array, the String will be truncated to the fixed size
-     * 
+     *
      * @param fixedSize
      *            the size of the byte array to place the {@link String} into
      * @param value
@@ -99,7 +101,7 @@ public class ByteArrayUtils {
 
     /**
      * Creates a byte array of 4 elements populated with an integer
-     * 
+     *
      * @param value
      *            the integer value
      * @return the byte array
@@ -117,7 +119,7 @@ public class ByteArrayUtils {
 
     /**
      * Creates a byte array of 2 elements populated with an short
-     * 
+     *
      * @param value
      *            the short value
      * @return the byte array

@@ -2,10 +2,10 @@ package com.googlecode.jsendnsca.core;
 
 import static org.junit.Assert.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.googlecode.jsendnsca.core.encryption.Encryption;
-import com.googlecode.jsendnsca.core.utils.StringUtils;
 
 public class NagiosSettingsTest {
 
