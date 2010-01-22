@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.googlecode.jsendnsca.core.encryption.Encryption;
-import com.googlecode.jsendnsca.core.encryption.XorEncryptor;
+import com.googlecode.jsendnsca.core.encryption.TripleDESEncryptor;
 
 public class NagiosSettingsTest {
 
@@ -34,11 +34,12 @@ public class NagiosSettingsTest {
     }
 
     @Test
-    public void shouldSetEncryptioUsingEncryptor() throws Exception {
+    public void shouldSetEncryptionUsingEncryptor() throws Exception {
+        TripleDESEncryptor expectedEncryptor = new TripleDESEncryptor();
         NagiosSettings settings = new NagiosSettings();
 
-        settings.setEncryptor(new XorEncryptor());
+        settings.setEncryptor(expectedEncryptor);
 
-        assertEquals(Encryption.TRIPLE_DES_ENCRYPTION.getEncryptor(), settings.getEncryptor());
+        assertEquals(expectedEncryptor, settings.getEncryptor());
     }
 }

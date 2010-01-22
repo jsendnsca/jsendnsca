@@ -18,8 +18,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import org.apache.commons.lang.StringUtils;
-
-import com.googlecode.jsendnsca.core.builders.MessagePayloadBuilder;
+import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * The Passive Check Message Payload
@@ -61,10 +62,8 @@ public class MessagePayload implements Serializable {
 	 */
 	public MessagePayload(String hostname, Level level, String serviceName,
 			String message) {
-		if (StringUtils.isBlank(hostname) || StringUtils.isBlank(serviceName)) {
-			throw new IllegalArgumentException(
-					"hostname or serviceName cannot be null or an empty String");
-		}
+	    Validate.notEmpty(hostname, "hostname cannot be null or an empty String");
+	    Validate.notEmpty(serviceName, "serviceName cannot be null or an empty String");
 
 		this.hostname = hostname;
 		this.level = level;
@@ -116,10 +115,7 @@ public class MessagePayload implements Serializable {
 	 *            the hostname to use
 	 */
 	public void setHostname(String hostname) {
-		if (StringUtils.isBlank(hostname)) {
-			throw new IllegalArgumentException(
-					"hostname cannot be null or an empty String");
-		}
+	    Validate.notEmpty(hostname, "hostname cannot be null or an empty String");
 		this.hostname = hostname;
 	}
 
@@ -169,10 +165,7 @@ public class MessagePayload implements Serializable {
 	 *            the service name
 	 */
 	public void setServiceName(String serviceName) {
-		if (StringUtils.isBlank(serviceName)) {
-			throw new IllegalArgumentException(
-					"serviceName cannot be null or an empty String");
-		}
+	    Validate.notEmpty(serviceName, "serviceName cannot be null or an empty String");
 		this.serviceName = serviceName;
 	}
 
@@ -195,20 +188,22 @@ public class MessagePayload implements Serializable {
 		this.message = message;
 	}
 
+//	private String hostname = DEFAULT_HOSTNAME;
+//    private Level level = Level.UNKNOWN;
+//    private String serviceName = DEFAULT_SERVICENAME;
+//    private String message = StringUtils.EMPTY;
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((hostname == null) ? 0 : hostname.hashCode());
-		result = prime * result + level.ordinal();
-		result = prime * result + ((message == null) ? 0 : message.hashCode());
-		result = prime * result
-				+ ((serviceName == null) ? 0 : serviceName.hashCode());
-		return result;
+	    return new HashCodeBuilder(21, 57)
+            .append(hostname)
+            .append(level)
+            .append(serviceName)
+            .append(message)
+            .toHashCode();
 	}
 
 	/* (non-Javadoc)
@@ -216,31 +211,20 @@ public class MessagePayload implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MessagePayload other = (MessagePayload) obj;
-		if (hostname == null) {
-			if (other.hostname != null)
-				return false;
-		} else if (!hostname.equals(other.hostname))
-			return false;
-		if (level != other.level)
-			return false;
-		if (message == null) {
-			if (other.message != null)
-				return false;
-		} else if (!message.equals(other.message))
-			return false;
-		if (serviceName == null) {
-			if (other.serviceName != null)
-				return false;
-		} else if (!serviceName.equals(other.serviceName))
-			return false;
-		return true;
+	    if (obj instanceof MessagePayload == false) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        MessagePayload rhs = (MessagePayload) obj;
+        
+        return new EqualsBuilder()
+            .append(hostname, rhs.hostname)
+            .append(level, rhs.level)
+            .append(serviceName,rhs.serviceName)
+            .append(message, rhs.message)
+            .isEquals();
 	}
 
     @Override
