@@ -6,7 +6,12 @@ package com.googlecode.jsendnsca.core.encryption;
 import org.apache.commons.lang.StringUtils;
 
 
-class XorEncryptor implements Encryptor {
+/**
+ * XOR "Encryption"
+ *
+ * @author Raj Patel
+ */
+public class XorEncryptor implements Encryptor {
 
     private static final int INITIALISATION_VECTOR_SIZE = 128;
 
