@@ -16,13 +16,12 @@
  */
 package com.googlecode.jsendnsca.core.builders;
 
-import com.googlecode.jsendnsca.core.Level;
-import com.googlecode.jsendnsca.core.MessagePayload;
-import com.googlecode.jsendnsca.core.builders.MessagePayloadBuilder;
+import static junit.framework.Assert.*;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
+import com.googlecode.jsendnsca.core.Level;
+import com.googlecode.jsendnsca.core.MessagePayload;
 
 /**
  * @version $Revision$
@@ -38,7 +37,7 @@ public class MessagePayloadBuilderTest {
                 .create();
 
         assertEquals("localhost", messagePayload.getHostname());
-        assertEquals(MessagePayload.LEVEL_CRITICAL, messagePayload.getLevel());
+        assertEquals(Level.CRITICAL, messagePayload.getLevel());
         assertEquals("test service", messagePayload.getServiceName());
         assertEquals("test message", messagePayload.getMessage());
     }
@@ -58,12 +57,12 @@ public class MessagePayloadBuilderTest {
                 .create();
 
         assertEquals("localhost", messagePayload.getHostname());
-        assertEquals(MessagePayload.LEVEL_OK, messagePayload.getLevel());
+        assertEquals(Level.OK, messagePayload.getLevel());
         assertEquals("test service", messagePayload.getServiceName());
         assertEquals("test message", messagePayload.getMessage());
 
         assertEquals("somehost", messagePayload2.getHostname());
-        assertEquals(MessagePayload.LEVEL_WARNING, messagePayload2.getLevel());
+        assertEquals(Level.WARNING, messagePayload2.getLevel());
         assertEquals("foo service", messagePayload2.getServiceName());
         assertEquals("foo message", messagePayload2.getMessage());
     }

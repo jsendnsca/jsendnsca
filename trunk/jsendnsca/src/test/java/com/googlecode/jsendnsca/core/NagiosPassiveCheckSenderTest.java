@@ -190,7 +190,7 @@ public class NagiosPassiveCheckSenderTest {
 
         final MessagePayload payload = new MessagePayload();
         payload.setHostname(HOSTNAME);
-        payload.setLevel(MessagePayload.LEVEL_CRITICAL);
+        payload.setLevel(Level.CRITICAL);
         payload.setServiceName(SERVICE_NAME);
         payload.setMessage(MESSAGE);
 
@@ -207,7 +207,7 @@ public class NagiosPassiveCheckSenderTest {
 
         final MessagePayload payload = new MessagePayload();
         payload.setHostname(HOSTNAME);
-        payload.setLevel(MessagePayload.LEVEL_CRITICAL);
+        payload.setLevel(Level.CRITICAL);
         payload.setServiceName(SERVICE_NAME);
         payload.setMessage(MESSAGE);
 
