@@ -15,7 +15,7 @@ package com.googlecode.jsendnsca.core;
 
 import static com.googlecode.jsendnsca.core.encryption.Encryption.*;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -31,6 +31,9 @@ import com.googlecode.jsendnsca.core.encryption.Encryptor;
  */
 public class NagiosSettings {
 
+    private static final int MIN_PORT = 1;
+    private static final int MAX_PORT = 65535;
+    
     private String nagiosHost = "localhost";
     private int port = 5667;
     private String password = "password";
@@ -54,9 +57,7 @@ public class NagiosSettings {
      *            the host or IP, defaults to localhost
      */
     public void setNagiosHost(String nagiosHost) {
-        if (StringUtils.isBlank(nagiosHost)) {
-            throw new IllegalArgumentException("nagiosHost cannot be null or empty");
-        }
+        Validate.notEmpty(nagiosHost, "nagiosHost cannot be null or empty");
         this.nagiosHost = nagiosHost;
     }
 
@@ -76,7 +77,12 @@ public class NagiosSettings {
      *            the port, defaults to 5667
      */
     public void setPort(int port) {
+        Validate.isTrue(validPortRange(port), "port must be between 1 and 65535 inclusive");
         this.port = port;
+    }
+
+    private boolean validPortRange(int port) {
+        return port >= MIN_PORT && port <= MAX_PORT;
     }
 
     /**
@@ -95,9 +101,7 @@ public class NagiosSettings {
      *            the password, defaults to "password"
      */
     public void setPassword(String password) {
-        if (StringUtils.isBlank(password)) {
-            throw new IllegalArgumentException("password cannot be null or empty");
-        }
+        Validate.notEmpty(password, "password cannot be null or empty");
         this.password = password;
     }
 

@@ -3,25 +3,46 @@ package com.googlecode.jsendnsca.core;
 import static org.junit.Assert.*;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.googlecode.jsendnsca.core.encryption.Encryption;
 import com.googlecode.jsendnsca.core.encryption.TripleDESEncryptor;
 
 public class NagiosSettingsTest {
+    
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowIllegalArgumentExceptionWhenSettingHostnameToEmptyString() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("nagiosHost cannot be null or empty");
+        
         final NagiosSettings nagiosSettings = new NagiosSettings();
 
         nagiosSettings.setNagiosHost(StringUtils.EMPTY);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowIllegalArgumentExceptionWhenSettingPasswordToEmptyString() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("password cannot be null or empty");
+        
         final NagiosSettings nagiosSettings = new NagiosSettings();
 
         nagiosSettings.setPassword(StringUtils.EMPTY);
+    }
+    
+    @Test
+    public void shouldThrowIllegalArgumentExceptionForInvalidPort() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("port must be between 1 and 65535 inclusive");
+        
+        NagiosSettings nagiosSettings = new NagiosSettings();
+        int maxValidPort = 65535;
+        nagiosSettings.setPort(maxValidPort + 1);
     }
 
     @Test
