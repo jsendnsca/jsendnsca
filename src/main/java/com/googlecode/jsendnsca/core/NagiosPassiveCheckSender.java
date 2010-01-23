@@ -21,6 +21,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.Validate;
 
 /**
  * This class is used to send a Passive Check to the Nagios NSCA add-on
@@ -42,9 +43,7 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
 	 *            the {@link NagiosSettings} to use to send the Passive Check
 	 */
 	public NagiosPassiveCheckSender(NagiosSettings nagiosSettings) {
-		if (nagiosSettings == null) {
-			throw new IllegalArgumentException("nagiosSettings cannot be null");
-		}
+	    Validate.notNull(nagiosSettings, "nagiosSettings cannot be null");
 		this.nagiosSettings = nagiosSettings;
 	}
 
@@ -56,9 +55,7 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
 	 * .jsendnsca.sender.MessagePayload)
 	 */
 	public void send(MessagePayload payload) throws NagiosException, IOException {
-		if (payload == null) {
-			throw new IllegalArgumentException("payload cannot be null");
-		}
+	    Validate.notNull(payload, "payload cannot be null");
 
 		final Socket socket = new Socket();
 		final InetSocketAddress nagiosEndpoint = new InetSocketAddress(nagiosSettings.getNagiosHost(), nagiosSettings.getPort());
