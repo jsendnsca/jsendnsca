@@ -6,13 +6,21 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class MessagePayloadTest {
 
-	@Test(expected = IllegalArgumentException.class)
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+    
+	@Test
 	public void shouldThrowIllegalArgumentExceptionOnEmptyServiceName() throws Exception {
-		final MessagePayload payload = new MessagePayload();
+	    expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("serviceName cannot be null or an empty String");
+	    
+	    final MessagePayload payload = new MessagePayload();
 
 		payload.setHostname("localhost");
 		payload.setLevel(Level.CRITICAL);
@@ -29,8 +37,11 @@ public class MessagePayloadTest {
 		assertEquals(StringUtils.EMPTY, messagePayload.getMessage());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void shouldThrowIllegalArgumentExceptionOnEmptyHostName() throws Exception {
+	    expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("hostname cannot be null or an empty String");
+        
 		final MessagePayload payload = new MessagePayload();
 
 		payload.setHostname(StringUtils.EMPTY);
@@ -70,8 +81,11 @@ public class MessagePayloadTest {
 		assertEquals("foo message", messagePayload2.getMessage());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldThrowExceptionOnConstructingNewMessagePayloadWithNullHostname() throws Exception {
+	@Test
+	public void shouldThrowExceptionOnConstructingNewMessagePayloadWithNullHostname() {
+	    expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("hostname cannot be null or an empty String");
+        
 		new MessagePayload(null, Level.OK, "test service", "test message");
 	}
 

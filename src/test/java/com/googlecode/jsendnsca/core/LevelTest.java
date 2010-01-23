@@ -2,9 +2,14 @@ package com.googlecode.jsendnsca.core;
 
 import static org.junit.Assert.*;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class LevelTest {
+    
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
 	@Test
 	public void shouldReturnIntegerValueForLevel() throws Exception {
@@ -19,11 +24,14 @@ public class LevelTest {
 	    assertEquals(Level.UNKNOWN, Level.toLevel(3));
     }
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test
     public void shouldThrowIllegalAgrumentExceptionForInvalidLevelValue() throws Exception {
+	    expectedException.expect(IllegalArgumentException.class);
+	    expectedException.expectMessage("LevelValue [4] is not a valid level");
+	    
         Level.toLevel(4);
     }
-
+	
 	@Test
     public void shouldReturnCorrectLevelForStringVersionIgnoringCaseAndWhitespace() throws Exception {
         assertEquals(Level.OK, Level.tolevel("ok"));
