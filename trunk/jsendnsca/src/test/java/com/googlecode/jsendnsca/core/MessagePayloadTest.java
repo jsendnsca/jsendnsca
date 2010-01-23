@@ -1,6 +1,6 @@
 package com.googlecode.jsendnsca.core;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -31,7 +31,7 @@ public class MessagePayloadTest {
 	public void shouldConstructValidObjectWhenUsingNoArgConstructor() throws Exception {
 		final MessagePayload messagePayload = new MessagePayload();
 
-		assertEquals("localhost", messagePayload.getHostname());
+		assertTrue(StringUtils.isNotEmpty(messagePayload.getHostname()));
 		assertEquals(Level.UNKNOWN, messagePayload.getLevel());
 		assertEquals("UNDEFINED", messagePayload.getServiceName());
 		assertEquals(StringUtils.EMPTY, messagePayload.getMessage());

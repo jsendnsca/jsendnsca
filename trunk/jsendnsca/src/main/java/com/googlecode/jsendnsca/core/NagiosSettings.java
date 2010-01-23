@@ -42,12 +42,85 @@ public class NagiosSettings {
     private Encryptor encryptor = NO_ENCRYPTION.getEncryptor();
 
     /**
+     * The connection timeout
+     * 
+     * @return timeout in ms
+     */
+    public int getConnectTimeout() {
+        return connectTimeout;
+    }
+
+    /**
+     * The {@link Encryptor} used to encrypt the passive check
+     * 
+     * @return the {@link Encryptor}
+     */
+    public Encryptor getEncryptor() {
+        return encryptor;
+    }
+
+    /**
      * The host or IP of the Nagios host running the NSCA add-on
      * 
      * @return the host or IP, defaults to localhost
      */
     public String getNagiosHost() {
         return nagiosHost;
+    }
+
+    /**
+     * The password configured in the ncsa.cfg file used by NSCA
+     * 
+     * @return the password, defaults to "password"
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * The port on which NSCA is listening
+     * 
+     * @return the port, defaults to 5667
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * The socket timeout to use when sending the passive check
+     * 
+     * @return the timeout in ms, defaults to 10000 ms
+     */
+    public int getTimeout() {
+        return timeout;
+    }
+
+    /**
+     * Set the connection timeout, default is 5000 ms
+     * 
+     * @param connectTimeout
+     *            timeout in ms
+     */
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
+    /**
+     * The {@link Encryption} to use to encrypt the passive check
+     * 
+     * @param encryption
+     */
+    public void setEncryption(Encryption encryption) {
+        this.encryptor = encryption.getEncryptor();
+    }
+
+    /**
+     * The {@link Encryptor} to use to encrypt the passive check
+     * 
+     * @param encryptor
+     */
+    public void setEncryptor(Encryptor encryptor) {
+        this.encryptor = encryptor;
     }
 
     /**
@@ -62,12 +135,14 @@ public class NagiosSettings {
     }
 
     /**
-     * The port on which NSCA is listening
+     * The password configured in the ncsa.cfg file used by NSCA
      * 
-     * @return the port, defaults to 5667
+     * @param password
+     *            the password, defaults to "password"
      */
-    public int getPort() {
-        return port;
+    public void setPassword(String password) {
+        Validate.notEmpty(password, "password cannot be null or empty");
+        this.password = password;
     }
 
     /**
@@ -81,39 +156,6 @@ public class NagiosSettings {
         this.port = port;
     }
 
-    private boolean validPortRange(int port) {
-        return port >= MIN_PORT && port <= MAX_PORT;
-    }
-
-    /**
-     * The password configured in the ncsa.cfg file used by NSCA
-     * 
-     * @return the password, defaults to "password"
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * The password configured in the ncsa.cfg file used by NSCA
-     * 
-     * @param password
-     *            the password, defaults to "password"
-     */
-    public void setPassword(String password) {
-        Validate.notEmpty(password, "password cannot be null or empty");
-        this.password = password;
-    }
-
-    /**
-     * The socket timeout to use when sending the passive check
-     * 
-     * @return the timeout in ms, defaults to 10000 ms
-     */
-    public int getTimeout() {
-        return timeout;
-    }
-
     /**
      * The socket timeout to use when sending the passive check
      * 
@@ -122,52 +164,6 @@ public class NagiosSettings {
      */
     public void setTimeout(int timeout) {
         this.timeout = timeout;
-    }
-
-    /**
-     * The {@link Encryptor} used to encrypt the passive check
-     * 
-     * @return the {@link Encryptor}
-     */
-    public Encryptor getEncryptor() {
-        return encryptor;
-    }
-
-    /**
-     * The {@link Encryptor} to use to encrypt the passive check
-     * 
-     * @param encryptor
-     */
-    public void setEncryptor(Encryptor encryptor) {
-        this.encryptor = encryptor;
-    }
-
-    /**
-     * The {@link Encryption} to use to encrypt the passive check
-     * 
-     * @param encryption
-     */
-    public void setEncryption(Encryption encryption) {
-        this.encryptor = encryption.getEncryptor();
-    }
-
-    /**
-     * The connection timeout
-     * 
-     * @return timeout in ms
-     */
-    public int getConnectTimeout() {
-        return connectTimeout;
-    }
-
-    /**
-     * Set the connection timeout, default is 5000 ms
-     * 
-     * @param connectTimeout
-     *            timeout in ms
-     */
-    public void setConnectTimeout(int connectTimeout) {
-        this.connectTimeout = connectTimeout;
     }
 
     @Override
@@ -200,6 +196,10 @@ public class NagiosSettings {
             .append(connectTimeout, rhs.connectTimeout)
             .append(encryptor, rhs.encryptor)
             .isEquals();
+    }
+
+    private boolean validPortRange(int port) {
+        return port >= MIN_PORT && port <= MAX_PORT;
     }
 
 }

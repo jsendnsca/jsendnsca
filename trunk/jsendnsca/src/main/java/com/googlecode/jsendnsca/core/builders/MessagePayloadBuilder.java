@@ -40,8 +40,7 @@ public class MessagePayloadBuilder {
 	 * @throws UnknownHostException
 	 *             error while determining local machine name
 	 */
-	public MessagePayloadBuilder withLocalHostname()
-			throws UnknownHostException {
+	public MessagePayloadBuilder withLocalHostname() throws UnknownHostException {
 		payload.useLocalHostname();
 		return this;
 	}
@@ -54,8 +53,7 @@ public class MessagePayloadBuilder {
 	 * @throws UnknownHostException
 	 *             error while determining local machine name
 	 */
-	public MessagePayloadBuilder withCanonicalHostname()
-			throws UnknownHostException {
+	public MessagePayloadBuilder withCanonicalHostname() throws UnknownHostException {
 		payload.setHostname(true);
 		return this;
 	}
