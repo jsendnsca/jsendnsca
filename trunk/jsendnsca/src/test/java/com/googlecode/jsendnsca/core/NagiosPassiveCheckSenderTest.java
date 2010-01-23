@@ -14,6 +14,7 @@
 package com.googlecode.jsendnsca.core;
 
 import static org.hamcrest.Matchers.*;
+
 import static org.junit.Assert.*;
 
 import java.net.SocketTimeoutException;
@@ -24,7 +25,9 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.googlecode.jsendnsca.core.builders.MessagePayloadBuilder;
 import com.googlecode.jsendnsca.core.builders.NagiosSettingsBuilder;
@@ -32,6 +35,9 @@ import com.googlecode.jsendnsca.core.encryption.Encryption;
 import com.googlecode.jsendnsca.core.mocks.NagiosNscaStub;
 
 public class NagiosPassiveCheckSenderTest {
+    
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     private static final String HOSTNAME = "localhost";
     private static final String MESSAGE = "Test Message";
@@ -51,20 +57,29 @@ public class NagiosPassiveCheckSenderTest {
         stub.stop();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgExceptionOnConstructingSenderWithNullNagiosSettings() throws Exception {
+    @Test
+    public void shouldThrowIllegalArgExceptionOnConstructingSenderWithNullNagiosSettings() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("nagiosSettings cannot be null");
+        
         new NagiosPassiveCheckSender(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowIllegalArgExceptionOnSendingWithNullMessagePayload() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("payload cannot be null");
+        
         final NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(new NagiosSettings());
 
         sender.send(null);
     }
-
-    @Test(expected = UnknownHostException.class)
+    
+    @Test
     public void shouldThrowUnknownHostExceptionOnUnknownHost() throws Exception {
+        expectedException.expect(UnknownHostException.class);
+        expectedException.expectMessage("foobar");
+        
         NagiosSettings nagiosSettings = new NagiosSettings();
         nagiosSettings.setNagiosHost("foobar");
         final NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(nagiosSettings);
@@ -88,8 +103,7 @@ public class NagiosPassiveCheckSenderTest {
 
         passiveAlerter.send(payload);
 
-        Thread.sleep(50); // wait before checking to ensure passive check is
-        // received by stub
+        waitForStub();
 
         List<MessagePayload> passiveChecksList = stub.getMessagePayloadList();
         assertThat(passiveChecksList, hasItem(payload));
@@ -104,26 +118,6 @@ public class NagiosPassiveCheckSenderTest {
     // to prove that NagiosStub would allow it
     @Test
     public void shouldTrimTooLongFields() throws Exception {
-        char[] tooLongHostNameChars = new char[64];
-        char[] tooLongServiceNameChars = new char[128];
-        char[] tooLongMessageChars = new char[512];
-
-        for (int i = 0; i < tooLongHostNameChars.length; i++) {
-            tooLongHostNameChars[i] = 'X';
-        }
-
-        for (int i = 0; i < tooLongServiceNameChars.length; i++) {
-            tooLongServiceNameChars[i] = 'X';
-        }
-
-        for (int i = 0; i < tooLongMessageChars.length; i++) {
-            tooLongMessageChars[i] = 'X';
-        }
-
-        String tooLongHostName = new String(tooLongHostNameChars);
-        String tooLongServiceName = new String(tooLongServiceNameChars);
-        String tooLongMessage = new String(tooLongMessageChars);
-
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
                 .withNagiosHost(HOSTNAME)
                 .withPassword(PASSWORD)
@@ -132,35 +126,32 @@ public class NagiosPassiveCheckSenderTest {
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
 
-        final MessagePayload payload = new MessagePayloadBuilder().withHostname(tooLongHostName).withServiceName(
-                tooLongServiceName).withMessage(tooLongMessage).create();
+        final MessagePayload payload = new MessagePayloadBuilder()
+            .withHostname(containingChars(64))
+            .withServiceName(containingChars(128))
+            .withMessage(containingChars(512)).create();
 
         passiveAlerter.send(payload);
 
-        Thread.sleep(50); // wait before checking to ensure passive check is
-        // received by stub
+        waitForStub();
 
-        boolean foundTrimmedTooLongHostName = false;
-        boolean foundTrimmedTooLongServiceName = false;
-        boolean foundTrimmedTooLongMessage = false;
-        List<MessagePayload> passiveChecksList = stub.getMessagePayloadList();
-        for (MessagePayload currentPayload : passiveChecksList) {
-            if (currentPayload.getHostname().equals(tooLongHostName.substring(0, tooLongHostName.length() - 1))) {
-                foundTrimmedTooLongHostName = true;
-            }
+        MessagePayload messagePayload = stub.getMessagePayloadList().get(0);
+        
+        assertEquals(containingChars(63).length(), messagePayload.getHostname().length());
+        assertEquals(containingChars(127).length(), messagePayload.getServiceName().length());
+        assertEquals(containingChars(511).length(), messagePayload.getMessage().length());
+    }
 
-            if (currentPayload.getServiceName().equals(tooLongServiceName.substring(0, tooLongServiceName.length() - 1))) {
-                foundTrimmedTooLongServiceName = true;
-            }
+    private void waitForStub() throws InterruptedException {
+        Thread.sleep(50);
+    }
 
-            if (currentPayload.getMessage().equals(tooLongMessage.substring(0, tooLongMessage.length() - 1))) {
-                foundTrimmedTooLongMessage = true;
-            }
+    private String containingChars(int size) {
+        char[] chars = new char[size];
+        for (int i = 0; i < size; i++) {
+            chars[i] = 'X';
         }
-
-        Assert.assertTrue(foundTrimmedTooLongHostName);
-        Assert.assertTrue(foundTrimmedTooLongServiceName);
-        Assert.assertTrue(foundTrimmedTooLongMessage);
+        return new String(chars);
     }
 
     @Test
