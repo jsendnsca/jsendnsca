@@ -21,8 +21,6 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -169,9 +167,12 @@ public class NagiosPassiveCheckSenderTest {
 
         passiveAlerter.send(payload);
     }
-
-    @Test(expected = NagiosException.class)
+    
+    @Test
     public void shouldThrowNagiosExceptionIfNoInitVectorSentOnConnection() throws Exception {
+        expectedException.expect(NagiosException.class);
+        expectedException.expectMessage("Can't read initialisation vector");
+        
         final NagiosSettings nagiosSettings = new NagiosSettings();
         nagiosSettings.setNagiosHost(HOSTNAME);
         nagiosSettings.setPassword(PASSWORD);
@@ -188,8 +189,11 @@ public class NagiosPassiveCheckSenderTest {
         passiveAlerter.send(payload);
     }
 
-    @Test(expected = SocketTimeoutException.class)
+    @Test
     public void shouldTimeoutWhenSendingPassiveCheck() throws Exception {
+        expectedException.expect(SocketTimeoutException.class);
+        expectedException.expectMessage("Read timed out");
+        
         final NagiosSettings nagiosSettings = new NagiosSettings();
         nagiosSettings.setTimeout(1000);
         stub.setSimulateTimeoutInMs(1500);
