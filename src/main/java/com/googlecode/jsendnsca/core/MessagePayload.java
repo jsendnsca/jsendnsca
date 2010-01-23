@@ -33,19 +33,29 @@ public class MessagePayload implements Serializable {
 
     private static final long serialVersionUID = 6014395299584333124L;
 
-    private static final String DEFAULT_HOSTNAME = "localhost";
     private static final String DEFAULT_SERVICENAME = "UNDEFINED";
 
-    private String hostname = DEFAULT_HOSTNAME;
+    private String hostname;
     private Level level = Level.UNKNOWN;
     private String serviceName = DEFAULT_SERVICENAME;
     private String message = StringUtils.EMPTY;
 
+    public static class UnknownHostRuntimeException extends RuntimeException {
+
+        private static final long serialVersionUID = 6164363358198216472L;
+
+        public UnknownHostRuntimeException(UnknownHostException e) {
+            super(e);
+        }
+    }
+
     /**
-     * Construct a new {@link MessagePayload}
+     * Construct a new {@link MessagePayload} with hostname being the short
+     * hostname of this machine, level unknown, service name "undefined" and
+     * empty message
      */
     public MessagePayload() {
-
+        useLocalHostname();
     }
 
     /**
@@ -81,11 +91,8 @@ public class MessagePayload implements Serializable {
 
     /**
      * Use the short hostname of this machine in the passive check
-     * 
-     * @throws UnknownHostException
-     *             thrown if unable to determine the machines hostname
      */
-    public void useLocalHostname() throws UnknownHostException {
+    public void useLocalHostname() {
         setHostname(false);
     }
 
@@ -95,11 +102,14 @@ public class MessagePayload implements Serializable {
      * @param useCanonical
      *            true to use this machines fully qualified domain name, false
      *            to use the short hostname
-     * @throws UnknownHostException
-     *             thrown if unable to determine the machines hostname
      */
-    public void setHostname(boolean useCanonical) throws UnknownHostException {
-        InetAddress ipAddress = InetAddress.getLocalHost();
+    public void setHostname(boolean useCanonical) {
+        InetAddress ipAddress;
+        try {
+            ipAddress = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            throw new UnknownHostRuntimeException(e);
+        }
         if (useCanonical) {
             this.hostname = ipAddress.getCanonicalHostName();
         } else {
@@ -200,12 +210,7 @@ public class MessagePayload implements Serializable {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(21, 57)
-            .append(hostname)
-            .append(level)
-            .append(serviceName)
-            .append(message)
-            .toHashCode();
+        return new HashCodeBuilder(21, 57).append(hostname).append(level).append(serviceName).append(message).toHashCode();
     }
 
     /*
@@ -223,11 +228,8 @@ public class MessagePayload implements Serializable {
         }
         MessagePayload other = (MessagePayload) obj;
 
-        return new EqualsBuilder()
-            .append(hostname, other.hostname)
-            .append(level, other.level)
-            .append(serviceName, other.serviceName)
-            .append(message, other.message).isEquals();
+        return new EqualsBuilder().append(hostname, other.hostname).append(level, other.level).append(serviceName, other.serviceName).append(message,
+                other.message).isEquals();
     }
 
     @Override

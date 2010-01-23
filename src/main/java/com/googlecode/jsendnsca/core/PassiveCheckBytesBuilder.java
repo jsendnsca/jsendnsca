@@ -63,11 +63,6 @@ class PassiveCheckBytesBuilder {
         return this;
     }
 
-    private void writeFixedString(String value, int fixedSize) {
-        ByteArrayUtils.writeFixedString(bytes, value, currentOffset, fixedSize);
-        currentOffset += fixedSize;
-    }
-
     public PassiveCheckBytesBuilder skipBytes(int numberToSkip) {
         currentOffset += numberToSkip;
         return this;
@@ -87,6 +82,11 @@ class PassiveCheckBytesBuilder {
     public PassiveCheckBytesBuilder encrypt(byte[] initVector, NagiosSettings nagiosSettings) {
         nagiosSettings.getEncryptor().encrypt(bytes, initVector, nagiosSettings.getPassword());
         return this;
+    }
+
+    private void writeFixedString(String value, int fixedSize) {
+        ByteArrayUtils.writeFixedString(bytes, value, currentOffset, fixedSize);
+        currentOffset += fixedSize;
     }
 
 }
