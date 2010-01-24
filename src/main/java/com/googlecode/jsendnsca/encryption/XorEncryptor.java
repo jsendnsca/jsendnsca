@@ -25,6 +25,9 @@ public class XorEncryptor implements Encryptor {
 
     private static final int INITIALISATION_VECTOR_SIZE = 128;
 
+    /* (non-Javadoc)
+     * @see com.googlecode.jsendnsca.encryption.Encryptor#encrypt(byte[], byte[], java.lang.String)
+     */
     public void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password) {
         for (int y = 0, x = 0; y < passiveCheckBytes.length; y++, x++) {
             if (x >= INITIALISATION_VECTOR_SIZE) {
