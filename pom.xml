@@ -8,6 +8,12 @@
 	<name>jsendnsca</name>
 	<description>Java API for sending Passive Checks to Nagios NSCA addon</description>
 	<url>http://jsendnsca.googlecode.com/</url>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
 	<issueManagement>
 		<url>http://code.google.com/p/jsendnsca/issues/list</url>
 	</issueManagement>
@@ -37,6 +43,11 @@
 			</roles>
 		</developer>
 	</developers>
+	<mailingLists>
+		<mailingList>
+			<archive>http://groups.google.com/group/jsend-nsca</archive>
+		</mailingList>
+	</mailingLists>
 	<scm>
 		<url>http://jsendnsca.googlecode.com/svn/trunk/</url>
 	</scm>
@@ -54,6 +65,19 @@
 					<source>1.5</source>
 					<target>1.5</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<phase>site</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
