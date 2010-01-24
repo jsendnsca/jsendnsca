@@ -1,6 +1,7 @@
 package com.googlecode.jsendnsca.core;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -134,8 +135,12 @@ public class MessagePayloadTest {
 
 	@Test
     public void shouldReturnUsefulStringContainingMessagePayloadFields() throws Exception {
-        assertEquals("MessagePayload[level=UNKNOWN, hostname=localhost, serviceName=UNDEFINED, message=]", new MessagePayload().toString());
+	    String payloadString = new MessagePayload().toString();
 
+	    assertThat(payloadString, startsWith("MessagePayload[level=UNKNOWN"));
+        assertThat(payloadString, containsString("hostname="));
+        assertThat(payloadString, containsString("serviceName=UNDEFINED"));
+        assertThat(payloadString, containsString("message="));
     }
 
 	private static boolean isUnix() {
