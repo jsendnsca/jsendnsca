@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.jsendnsca.core;
+package com.googlecode.jsendnsca;
 
 import static org.hamcrest.Matchers.*;
 
@@ -27,10 +27,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.googlecode.jsendnsca.core.builders.MessagePayloadBuilder;
-import com.googlecode.jsendnsca.core.builders.NagiosSettingsBuilder;
-import com.googlecode.jsendnsca.core.encryption.Encryption;
-import com.googlecode.jsendnsca.core.mocks.NagiosNscaStub;
+import com.googlecode.jsendnsca.Level;
+import com.googlecode.jsendnsca.MessagePayload;
+import com.googlecode.jsendnsca.NagiosException;
+import com.googlecode.jsendnsca.NagiosPassiveCheckSender;
+import com.googlecode.jsendnsca.NagiosSettings;
+import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
+import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
+import com.googlecode.jsendnsca.encryption.Encryption;
+import com.googlecode.jsendnsca.mocks.NagiosNscaStub;
 
 public class NagiosPassiveCheckSenderTest {
     

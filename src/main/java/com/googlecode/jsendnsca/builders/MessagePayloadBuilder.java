@@ -11,12 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.jsendnsca.core.builders;
+package com.googlecode.jsendnsca.builders;
 
 import java.net.UnknownHostException;
 
-import com.googlecode.jsendnsca.core.Level;
-import com.googlecode.jsendnsca.core.MessagePayload;
+import com.googlecode.jsendnsca.Level;
+import com.googlecode.jsendnsca.MessagePayload;
 
 /**
  * Used to construct a {@link MessagePayload} using a builder pattern e.g.

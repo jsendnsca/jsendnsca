@@ -10,25 +10,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
-package com.googlecode.jsendnsca.core;
-
-import java.io.IOException;
+ */
+package com.googlecode.jsendnsca;
 
 /**
- * Interface to be implemented by {@link PassiveCheckSender}'s
- *
+ * Thrown if an exception is encountered while sending a Passive Check
+ * 
  * @author Raj.Patel
  * @version 1.0
  */
-public interface PassiveCheckSender
-{
-	/**
-	 * Send Passive Check
-	 *
-	 * @param payload the Passive Check message payload
-	 * @throws NagiosException thrown if an error occurs while sending the passive check
-	 * @throws IOException thrown if I/O error occurs while trying to establish connection with nagios host
-	 */
-	void send(MessagePayload payload) throws NagiosException, IOException;
+public class NagiosException extends Exception {
+
+    private static final long serialVersionUID = 5630051795639637370L;
+
+    /**
+     * Constructs an instance of <code>NagiosException</code> with the cause
+     * 
+     * @param msg
+     *            the detail message.
+     * @param cause
+     *            the cause
+     */
+    public NagiosException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
 }

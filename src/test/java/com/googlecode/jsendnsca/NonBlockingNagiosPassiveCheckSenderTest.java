@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.jsendnsca.core;
+package com.googlecode.jsendnsca;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
@@ -22,10 +22,10 @@ import java.util.Date;
 import org.junit.After;
 import org.junit.Test;
 
-import com.googlecode.jsendnsca.core.PassiveCheckSender;
-import com.googlecode.jsendnsca.core.MessagePayload;
-import com.googlecode.jsendnsca.core.NagiosException;
-import com.googlecode.jsendnsca.core.NonBlockingNagiosPassiveCheckSender;
+import com.googlecode.jsendnsca.MessagePayload;
+import com.googlecode.jsendnsca.NagiosException;
+import com.googlecode.jsendnsca.NonBlockingNagiosPassiveCheckSender;
+import com.googlecode.jsendnsca.PassiveCheckSender;
 
 
 public class NonBlockingNagiosPassiveCheckSenderTest {
