@@ -30,7 +30,7 @@ import com.googlecode.jsendnsca.encryption.Encryptor;
  * 
  * @author Raj.Patel
  * @version 1.0
- * @see NagiosSettingsBuilder
+ * @see com.googlecode.jsendnsca.builders.NagiosSettingsBuilder
  */
 public class NagiosSettings {
 

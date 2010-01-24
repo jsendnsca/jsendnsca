@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  * @author Raj.Patel
  * @version 1.0
- * @see MessagePayloadBuilder
+ * @see com.googlecode.jsendnsca.builders.MessagePayloadBuilder
  */
 public class MessagePayload implements Serializable {
 
