@@ -53,16 +53,6 @@ public class NagiosSettingsBuilder {
     }
 
     /**
-     * The next {@link NagiosSettings} created will use the defaults
-     *
-     * @return the {@link NagiosSettingsBuilder} instance with all the default settings
-     */
-    public NagiosSettingsBuilder withDefaults() {
-        nagiosSettings = new NagiosSettings();
-        return this;
-    }
-
-    /**
      * The next {@link NagiosSettings} created will use the supplied nagiosHost
      *
      * @param nagiosHost

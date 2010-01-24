@@ -1,5 +1,7 @@
 package com.googlecode.jsendnsca.core;
 
+import static org.hamcrest.Matchers.*;
+
 import static org.junit.Assert.*;
 
 import org.apache.commons.lang.StringUtils;
@@ -52,6 +54,12 @@ public class NagiosSettingsTest {
         settings.setEncryption(Encryption.TRIPLE_DES_ENCRYPTION);
 
         assertEquals(Encryption.TRIPLE_DES_ENCRYPTION.getEncryptor(), settings.getEncryptor());
+    }
+    
+    @Test
+    public void shouldReturnStringOfNagiosSettings() throws Exception {
+        String settings = new NagiosSettings().toString();
+        assertEquals("NagiosSettings[nagiosHost=localhost,port=5667,password=password,timeout=10000,connectTimeout=5000,encryptor=none]", settings);
     }
 
     @Test
