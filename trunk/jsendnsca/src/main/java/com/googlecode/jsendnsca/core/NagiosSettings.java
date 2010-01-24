@@ -13,11 +13,10 @@
  */
 package com.googlecode.jsendnsca.core;
 
+import static com.googlecode.jsendnsca.core.encryption.Encryption.*;
 import static org.apache.commons.lang.StringUtils.*;
 import static org.apache.commons.lang.builder.ToStringStyle.*;
-import static com.googlecode.jsendnsca.core.encryption.Encryption.*;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
