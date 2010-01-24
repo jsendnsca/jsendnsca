@@ -1,0 +1,6 @@
+#Sun Jan 24 09:53:04 GMT 2010
+eclipse.preferences.version=1
+org.eclipse.jdt.ui.ignorelowercasenames=true
+org.eclipse.jdt.ui.importorder=\#org.hamcrest.Matchers;\#org.junit.Assert;\#org.mockito.Mockito;java;javax;org;com;
+org.eclipse.jdt.ui.ondemandthreshold=99
+org.eclipse.jdt.ui.staticondemandthreshold=1

@@ -88,7 +88,6 @@ public class NagiosPassiveCheckSenderTest {
     @Test
     public void shouldSendPassiveCheck() throws Exception {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
-            .withDefaults()
             .withNagiosHost(HOSTNAME)
             .withPassword(PASSWORD)
             .withEncryption(Encryption.XOR_ENCRYPTION)
@@ -96,8 +95,12 @@ public class NagiosPassiveCheckSenderTest {
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
 
-        final MessagePayload payload = new MessagePayloadBuilder().withHostname(HOSTNAME).withLevel(Level.CRITICAL)
-                .withServiceName(SERVICE_NAME).withMessage(MESSAGE).create();
+        final MessagePayload payload = new MessagePayloadBuilder()
+            .withHostname(HOSTNAME)
+            .withLevel(Level.CRITICAL)
+            .withServiceName(SERVICE_NAME)
+            .withMessage(MESSAGE)
+            .create();
 
         passiveAlerter.send(payload);
 
@@ -127,7 +130,8 @@ public class NagiosPassiveCheckSenderTest {
         final MessagePayload payload = new MessagePayloadBuilder()
             .withHostname(containingChars(64))
             .withServiceName(containingChars(128))
-            .withMessage(containingChars(512)).create();
+            .withMessage(containingChars(512))
+            .create();
 
         passiveAlerter.send(payload);
 

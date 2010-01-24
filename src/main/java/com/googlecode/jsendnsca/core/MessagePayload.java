@@ -13,6 +13,8 @@
  */
 package com.googlecode.jsendnsca.core;
 
+import static org.apache.commons.lang.builder.ToStringStyle.*;
+
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -21,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * The Passive Check Message Payload
@@ -198,11 +201,6 @@ public class MessagePayload implements Serializable {
         this.message = message;
     }
 
-    // private String hostname = DEFAULT_HOSTNAME;
-    // private Level level = Level.UNKNOWN;
-    // private String serviceName = DEFAULT_SERVICENAME;
-    // private String message = StringUtils.EMPTY;
-
     /*
      * (non-Javadoc)
      * 
@@ -210,7 +208,12 @@ public class MessagePayload implements Serializable {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(21, 57).append(hostname).append(level).append(serviceName).append(message).toHashCode();
+        return new HashCodeBuilder(21, 57)
+            .append(hostname)
+            .append(level)
+            .append(serviceName)
+            .append(message)
+            .toHashCode();
     }
 
     /*
@@ -228,12 +231,24 @@ public class MessagePayload implements Serializable {
         }
         MessagePayload other = (MessagePayload) obj;
 
-        return new EqualsBuilder().append(hostname, other.hostname).append(level, other.level).append(serviceName, other.serviceName).append(message,
-                other.message).isEquals();
+        return new EqualsBuilder()
+            .append(hostname, other.hostname)
+            .append(level, other.level)
+            .append(serviceName, other.serviceName)
+            .append(message, other.message)
+            .isEquals();
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
-        return "MessagePayload[level=" + level + ", hostname=" + hostname + ", serviceName=" + serviceName + ", message=" + message + "]";
+        return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
+            .append("level", level)
+            .append("hostname", hostname)
+            .append("serviceName", serviceName)
+            .append("message", message)
+            .toString();
     }
 }
