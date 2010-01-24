@@ -11,14 +11,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.jsendnsca.core.builders;
+package com.googlecode.jsendnsca.builders;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.googlecode.jsendnsca.core.NagiosSettings;
-import com.googlecode.jsendnsca.core.encryption.Encryption;
+import com.googlecode.jsendnsca.NagiosSettings;
+import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
+import com.googlecode.jsendnsca.encryption.Encryption;
 
 public class NagiosSettingsBuilderTest {
 

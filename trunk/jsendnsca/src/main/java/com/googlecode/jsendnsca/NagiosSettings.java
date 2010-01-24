@@ -11,9 +11,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.jsendnsca.core;
+package com.googlecode.jsendnsca;
 
-import static com.googlecode.jsendnsca.core.encryption.Encryption.*;
+import static com.googlecode.jsendnsca.encryption.Encryption.*;
 import static org.apache.commons.lang.StringUtils.*;
 import static org.apache.commons.lang.builder.ToStringStyle.*;
 
@@ -22,8 +22,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.googlecode.jsendnsca.core.encryption.Encryption;
-import com.googlecode.jsendnsca.core.encryption.Encryptor;
+import com.googlecode.jsendnsca.encryption.Encryption;
+import com.googlecode.jsendnsca.encryption.Encryptor;
 
 /**
  * The settings to use for sending the Passive Check

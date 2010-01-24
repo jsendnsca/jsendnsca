@@ -11,12 +11,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.jsendnsca.core.utils;
+package com.googlecode.jsendnsca.utils;
 
 import static org.junit.Assert.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+
+import com.googlecode.jsendnsca.utils.ByteArrayUtils;
 
 public class ByteArrayUtilsTest {
 

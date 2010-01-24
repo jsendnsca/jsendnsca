@@ -11,11 +11,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.jsendnsca.core;
+package com.googlecode.jsendnsca;
 
 import java.util.zip.CRC32;
 
-import com.googlecode.jsendnsca.core.utils.ByteArrayUtils;
+import com.googlecode.jsendnsca.utils.ByteArrayUtils;
 
 class PassiveCheckBytesBuilder {
 

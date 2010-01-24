@@ -11,11 +11,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.jsendnsca.core.builders;
+package com.googlecode.jsendnsca.builders;
 
-import com.googlecode.jsendnsca.core.NagiosSettings;
-import com.googlecode.jsendnsca.core.encryption.Encryption;
-import com.googlecode.jsendnsca.core.encryption.Encryptor;
+import com.googlecode.jsendnsca.NagiosSettings;
+import com.googlecode.jsendnsca.encryption.Encryption;
+import com.googlecode.jsendnsca.encryption.Encryptor;
 
 /**
  * Used to construct a {@link NagiosSettings} instance using a builder pattern e.g.
