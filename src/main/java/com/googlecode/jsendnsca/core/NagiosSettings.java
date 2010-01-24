@@ -13,11 +13,15 @@
  */
 package com.googlecode.jsendnsca.core;
 
+import static org.apache.commons.lang.StringUtils.*;
+import static org.apache.commons.lang.builder.ToStringStyle.*;
 import static com.googlecode.jsendnsca.core.encryption.Encryption.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.googlecode.jsendnsca.core.encryption.Encryption;
 import com.googlecode.jsendnsca.core.encryption.Encryptor;
@@ -196,6 +200,21 @@ public class NagiosSettings {
             .append(connectTimeout, rhs.connectTimeout)
             .append(encryptor, rhs.encryptor)
             .isEquals();
+    }
+    
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
+            .append("nagiosHost", nagiosHost)
+            .append("port", port)
+            .append("password", password)
+            .append("timeout", timeout)
+            .append("connectTimeout", connectTimeout)
+            .append("encryptor", defaultIfEmpty(encryptor.getClass().getSimpleName(), "none"))
+            .toString();
     }
 
     private boolean validPortRange(int port) {
