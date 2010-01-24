@@ -35,6 +35,13 @@ public enum Encryption {
      */
     XOR_ENCRYPTION(new XorEncryptor());
 
+    /**
+     * @return the {@link Encryptor} for this {@link Encryption} constant
+     */
+    public Encryptor getEncryptor() {
+        return encryptor;
+    }
+
     private final Encryptor encryptor;
 
     private Encryption() {
@@ -50,12 +57,5 @@ public enum Encryption {
             public void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password) {
             }
         };
-    }
-
-    /**
-     * @return the {@link Encryptor} for this {@link Encryption} constant
-     */
-    public Encryptor getEncryptor() {
-        return encryptor;
     }
 }

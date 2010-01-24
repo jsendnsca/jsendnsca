@@ -31,6 +31,9 @@ public class TripleDESEncryptor implements Encryptor {
     private static final String DES_ALGORITHM = "DESede";
     private static final String DES_TRANSFORMATION = "DESede/CFB8/PKCS5Padding";
 
+    /* (non-Javadoc)
+     * @see com.googlecode.jsendnsca.encryption.Encryptor#encrypt(byte[], byte[], java.lang.String)
+     */
     public void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password) {
         final byte[] keyBytes = toFixedSizeByteArray(password.getBytes(), 24);
         final byte[] initVectorBytes = toFixedSizeByteArray(initVector, 8);
