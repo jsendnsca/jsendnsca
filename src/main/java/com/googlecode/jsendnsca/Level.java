@@ -15,7 +15,7 @@ package com.googlecode.jsendnsca;
 
 /**
  * The level of the passive check
- *
+ * 
  * @author Raj Patel
  */
 public enum Level {
@@ -40,7 +40,7 @@ public enum Level {
     /**
      * Get the {@link Level} equaivalent of the string level provided ignoring
      * case and leading or trailing whitespace
-     *
+     * 
      * @param level
      *            the string level
      * @return the level
@@ -55,7 +55,7 @@ public enum Level {
 
     /**
      * Get the {@link Level} equaivalent of the int levelValue provided
-     *
+     * 
      * @param levelValue
      *            the integer level value
      * @return the level

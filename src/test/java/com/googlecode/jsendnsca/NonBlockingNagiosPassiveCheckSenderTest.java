@@ -27,33 +27,32 @@ import com.googlecode.jsendnsca.NagiosException;
 import com.googlecode.jsendnsca.NonBlockingNagiosPassiveCheckSender;
 import com.googlecode.jsendnsca.PassiveCheckSender;
 
-
 public class NonBlockingNagiosPassiveCheckSenderTest {
-    
-	private NonBlockingNagiosPassiveCheckSender sender;
-	
-	@After
-	public void shutdownSender() {
-	    sender.shutdown();
-	}
+
+    private NonBlockingNagiosPassiveCheckSender sender;
+
+    @After
+    public void shutdownSender() {
+        sender.shutdown();
+    }
 
     @Test
-	public void shouldReturnImmediatelyWhenSendingPassiveCheck() throws Exception {
-		sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender());
-		
-		long start = new Date().getTime();
-		sender.send(new MessagePayload());
-		long duration = new Date().getTime() - start;
-		assertThat(duration, lessThan(100L));
-	}
-	
-	private static class SlowNagiosPassiveCheckSender implements PassiveCheckSender {
+    public void shouldReturnImmediatelyWhenSendingPassiveCheck() throws Exception {
+        sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender());
 
-		public void send(MessagePayload payload) throws NagiosException, IOException {
-			try {
-				Thread.sleep(100L);
-			} catch (InterruptedException ignore) {
-			}
-		}
-	}
+        long start = new Date().getTime();
+        sender.send(new MessagePayload());
+        long duration = new Date().getTime() - start;
+        assertThat(duration, lessThan(100L));
+    }
+
+    private static class SlowNagiosPassiveCheckSender implements PassiveCheckSender {
+
+        public void send(MessagePayload payload) throws NagiosException, IOException {
+            try {
+                Thread.sleep(100L);
+            } catch (InterruptedException ignore) {
+            }
+        }
+    }
 }

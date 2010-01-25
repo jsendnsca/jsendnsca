@@ -13,12 +13,12 @@
  */
 package com.googlecode.jsendnsca.encryption;
 
-
 /**
- * Encryption to be used when sending the {@link com.googlecode.jsendnsca.MessagePayload}
- *
+ * Encryption to be used when sending the
+ * {@link com.googlecode.jsendnsca.MessagePayload}
+ * 
  * @author Raj Patel
- *
+ * 
  */
 public enum Encryption {
 

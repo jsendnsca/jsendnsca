@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * The Passive Check Message Payload
- * 
+ *
  * @author Raj.Patel
  * @version 1.0
  * @see com.googlecode.jsendnsca.builders.MessagePayloadBuilder
@@ -63,7 +63,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * Construct a new {@link MessagePayload}
-     * 
+     *
      * @param hostname
      *            the hostname to be sent in this passive check
      * @param level
@@ -85,7 +85,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * The hostname to be sent in this passive check
-     * 
+     *
      * @return the hostname, defaults to "localhost"
      */
     public String getHostname() {
@@ -101,7 +101,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * Set the hostname in the passive check
-     * 
+     *
      * @param useCanonical
      *            true to use this machines fully qualified domain name, false
      *            to use the short hostname
@@ -122,7 +122,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * Set the hostname in the passive check
-     * 
+     *
      * @param hostname
      *            the hostname to use
      */
@@ -133,7 +133,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * Get the level of the Passive check
-     * 
+     *
      * @return the level
      */
     public Level getLevel() {
@@ -143,7 +143,7 @@ public class MessagePayload implements Serializable {
     /**
      * Set the level of the Passive check using a {@link String} The case of the
      * {@link String} is ignored
-     * 
+     *
      * @param level
      *            either "ok", "warning", "critical" or "unknown"
      */
@@ -153,7 +153,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * Set the level of the Passive check
-     * 
+     *
      * @param level
      *            the level
      */
@@ -164,7 +164,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * The service name of this passive check
-     * 
+     *
      * @return the service name, default is "UNDEFINED"
      */
     public String getServiceName() {
@@ -173,7 +173,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * Set the service name of this passive check
-     * 
+     *
      * @param serviceName
      *            the service name
      */
@@ -184,7 +184,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * The message to send in this passive check
-     * 
+     *
      * @return the message, default is an empty string
      */
     public String getMessage() {
@@ -193,7 +193,7 @@ public class MessagePayload implements Serializable {
 
     /**
      * Set the message to send in this passive check
-     * 
+     *
      * @param message
      *            the message
      */
@@ -203,7 +203,7 @@ public class MessagePayload implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -218,7 +218,7 @@ public class MessagePayload implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -239,7 +239,9 @@ public class MessagePayload implements Serializable {
             .isEquals();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see java.lang.Object#toString()
      */
     @Override

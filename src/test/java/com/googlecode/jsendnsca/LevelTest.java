@@ -22,32 +22,32 @@ import org.junit.rules.ExpectedException;
 import com.googlecode.jsendnsca.Level;
 
 public class LevelTest {
-    
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-	@Test
-	public void shouldReturnIntegerValueForLevel() throws Exception {
-		assertEquals(0, Level.OK.ordinal());
-	}
-
-	@Test
-    public void shouldReturnLevelForLevelValue() throws Exception {
-	    assertEquals(Level.OK, Level.toLevel(0));
-	    assertEquals(Level.WARNING, Level.toLevel(1));
-	    assertEquals(Level.CRITICAL, Level.toLevel(2));
-	    assertEquals(Level.UNKNOWN, Level.toLevel(3));
+    @Test
+    public void shouldReturnIntegerValueForLevel() throws Exception {
+        assertEquals(0, Level.OK.ordinal());
     }
 
-	@Test
+    @Test
+    public void shouldReturnLevelForLevelValue() throws Exception {
+        assertEquals(Level.OK, Level.toLevel(0));
+        assertEquals(Level.WARNING, Level.toLevel(1));
+        assertEquals(Level.CRITICAL, Level.toLevel(2));
+        assertEquals(Level.UNKNOWN, Level.toLevel(3));
+    }
+
+    @Test
     public void shouldThrowIllegalAgrumentExceptionForInvalidLevelValue() throws Exception {
-	    expectedException.expect(IllegalArgumentException.class);
-	    expectedException.expectMessage("LevelValue [4] is not a valid level");
-	    
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("LevelValue [4] is not a valid level");
+
         Level.toLevel(4);
     }
-	
-	@Test
+
+    @Test
     public void shouldReturnCorrectLevelForStringVersionIgnoringCaseAndWhitespace() throws Exception {
         assertEquals(Level.OK, Level.tolevel("ok"));
         assertEquals(Level.WARNING, Level.tolevel("warning"));

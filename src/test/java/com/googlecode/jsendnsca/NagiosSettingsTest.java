@@ -25,7 +25,7 @@ import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.encryption.TripleDESEncryptor;
 
 public class NagiosSettingsTest {
-    
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -33,7 +33,7 @@ public class NagiosSettingsTest {
     public void shouldThrowIllegalArgumentExceptionWhenSettingHostnameToEmptyString() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("nagiosHost cannot be null or empty");
-        
+
         final NagiosSettings nagiosSettings = new NagiosSettings();
 
         nagiosSettings.setNagiosHost(StringUtils.EMPTY);
@@ -43,17 +43,17 @@ public class NagiosSettingsTest {
     public void shouldThrowIllegalArgumentExceptionWhenSettingPasswordToEmptyString() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("password cannot be null or empty");
-        
+
         final NagiosSettings nagiosSettings = new NagiosSettings();
 
         nagiosSettings.setPassword(StringUtils.EMPTY);
     }
-    
+
     @Test
     public void shouldThrowIllegalArgumentExceptionForInvalidPort() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("port must be between 1 and 65535 inclusive");
-        
+
         NagiosSettings nagiosSettings = new NagiosSettings();
         int maxValidPort = 65535;
         nagiosSettings.setPort(maxValidPort + 1);
@@ -67,7 +67,7 @@ public class NagiosSettingsTest {
 
         assertEquals(Encryption.TRIPLE_DES_ENCRYPTION.getEncryptor(), settings.getEncryptor());
     }
-    
+
     @Test
     public void shouldReturnStringOfNagiosSettings() throws Exception {
         String settings = new NagiosSettings().toString();

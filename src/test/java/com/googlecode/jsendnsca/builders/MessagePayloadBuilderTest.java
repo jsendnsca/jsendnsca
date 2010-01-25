@@ -22,7 +22,6 @@ import org.junit.Test;
 
 import com.googlecode.jsendnsca.Level;
 import com.googlecode.jsendnsca.MessagePayload;
-import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
 
 /**
  * @version $Revision$
@@ -31,11 +30,12 @@ public class MessagePayloadBuilderTest {
 
     @Test
     public void shouldConstructNewMessagePayload() throws Exception {
-        final MessagePayload messagePayload = new MessagePayloadBuilder().withHostname("localhost")
-                .withLevel(Level.CRITICAL)
-                .withServiceName("test service")
-                .withMessage("test message")
-                .create();
+        final MessagePayload messagePayload = new MessagePayloadBuilder()
+            .withHostname("localhost")
+            .withLevel(Level.CRITICAL)
+            .withServiceName("test service")
+            .withMessage("test message")
+            .create();
 
         assertEquals("localhost", messagePayload.getHostname());
         assertEquals(Level.CRITICAL, messagePayload.getLevel());
@@ -45,17 +45,19 @@ public class MessagePayloadBuilderTest {
 
     @Test
     public void shouldConstructTwoNewMessagePayload() throws Exception {
-        final MessagePayload messagePayload = new MessagePayloadBuilder().withHostname("localhost")
-                .withLevel(Level.OK)
-                .withServiceName("test service")
-                .withMessage("test message")
-                .create();
+        final MessagePayload messagePayload = new MessagePayloadBuilder()
+            .withHostname("localhost")
+            .withLevel(Level.OK)
+            .withServiceName("test service")
+            .withMessage("test message")
+            .create();
 
-        final MessagePayload messagePayload2 = new MessagePayloadBuilder().withHostname("somehost")
-                .withLevel(Level.WARNING)
-                .withServiceName("foo service")
-                .withMessage("foo message")
-                .create();
+        final MessagePayload messagePayload2 = new MessagePayloadBuilder()
+            .withHostname("somehost")
+            .withLevel(Level.WARNING)
+            .withServiceName("foo service")
+            .withMessage("foo message")
+            .create();
 
         assertEquals("localhost", messagePayload.getHostname());
         assertEquals(Level.OK, messagePayload.getLevel());

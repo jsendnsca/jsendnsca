@@ -18,15 +18,14 @@ import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.encryption.Encryptor;
 
 /**
- * Used to construct a {@link NagiosSettings} instance using a builder pattern e.g.
- *
+ * Used to construct a {@link NagiosSettings} instance using a builder pattern
+ * e.g.
+ * 
  * <pre>
- *
- * final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
- *      .withNagiosHost(HOSTNAME)
- *      .withPassword(PASSWORD)
- *      .create();
+ * 
+ * final NagiosSettings nagiosSettings = new NagiosSettingsBuilder().withNagiosHost(HOSTNAME).withPassword(PASSWORD).create();
  * </pre>
+ * 
  * @author Raj.Patel
  * @since 1.2
  */
@@ -36,7 +35,7 @@ public class NagiosSettingsBuilder {
 
     /**
      * Return an instance of {@link NagiosSettings} with default values
-     *
+     * 
      * @return default instance
      */
     public NagiosSettings createDefault() {
@@ -45,7 +44,7 @@ public class NagiosSettingsBuilder {
 
     /**
      * Return the built instance of {@link NagiosSettings}
-     *
+     * 
      * @return the built instance
      */
     public NagiosSettings create() {
@@ -54,7 +53,7 @@ public class NagiosSettingsBuilder {
 
     /**
      * The next {@link NagiosSettings} created will use the supplied nagiosHost
-     *
+     * 
      * @param nagiosHost
      *            the NSCA hostname or IP address
      * @return the {@link NagiosSettingsBuilder} instance
@@ -66,7 +65,7 @@ public class NagiosSettingsBuilder {
 
     /**
      * The next {@link NagiosSettings} created will use the supplied port
-     *
+     * 
      * @param port
      *            the port NSCA is listening on
      * @return the {@link NagiosSettingsBuilder} instance
@@ -78,7 +77,7 @@ public class NagiosSettingsBuilder {
 
     /**
      * The next {@link NagiosSettings} created will use the supplied password
-     *
+     * 
      * @param password
      *            the NSCA password
      * @return the {@link NagiosSettingsBuilder} instance
@@ -91,7 +90,7 @@ public class NagiosSettingsBuilder {
     /**
      * The next {@link NagiosSettings} created will use the supplied connection
      * timeout
-     *
+     * 
      * @param connectionTimeout
      *            the connection timeout
      * @return the {@link NagiosSettingsBuilder} instance
@@ -104,7 +103,7 @@ public class NagiosSettingsBuilder {
     /**
      * The next {@link NagiosSettings} created will use the supplied response
      * timeout
-     *
+     * 
      * @param responseTimeout
      *            the NSCA response timeout
      * @return the {@link NagiosSettingsBuilder} instance
@@ -115,9 +114,11 @@ public class NagiosSettingsBuilder {
     }
 
     /**
-     * The next {@link NagiosSettings} created will use the specified {@link Encryptor}
-     *
-     * @param encryptor the encryptor to use
+     * The next {@link NagiosSettings} created will use the specified
+     * {@link Encryptor}
+     * 
+     * @param encryptor
+     *            the encryptor to use
      * @return the {@link NagiosSettingsBuilder} instance
      */
     public NagiosSettingsBuilder withEncryptor(Encryptor encryptor) {
@@ -126,9 +127,11 @@ public class NagiosSettingsBuilder {
     }
 
     /**
-     * The next {@link NagiosSettings} created will use the specified {@link Encryption} constant
-     *
-     * @param encryption the {@link Encryption} to use
+     * The next {@link NagiosSettings} created will use the specified
+     * {@link Encryption} constant
+     * 
+     * @param encryption
+     *            the {@link Encryption} to use
      * @return the {@link NagiosSettingsBuilder} instance
      */
     public NagiosSettingsBuilder withEncryption(Encryption encryption) {

@@ -27,7 +27,7 @@ import com.googlecode.jsendnsca.encryption.Encryptor;
 
 /**
  * The settings to use for sending the Passive Check
- * 
+ *
  * @author Raj.Patel
  * @version 1.0
  * @see com.googlecode.jsendnsca.builders.NagiosSettingsBuilder
@@ -36,7 +36,7 @@ public class NagiosSettings {
 
     private static final int MIN_PORT = 1;
     private static final int MAX_PORT = 65535;
-    
+
     private String nagiosHost = "localhost";
     private int port = 5667;
     private String password = "password";
@@ -46,7 +46,7 @@ public class NagiosSettings {
 
     /**
      * The connection timeout
-     * 
+     *
      * @return timeout in ms
      */
     public int getConnectTimeout() {
@@ -55,7 +55,7 @@ public class NagiosSettings {
 
     /**
      * The {@link Encryptor} used to encrypt the passive check
-     * 
+     *
      * @return the {@link Encryptor}
      */
     public Encryptor getEncryptor() {
@@ -64,7 +64,7 @@ public class NagiosSettings {
 
     /**
      * The host or IP of the Nagios host running the NSCA add-on
-     * 
+     *
      * @return the host or IP, defaults to localhost
      */
     public String getNagiosHost() {
@@ -73,7 +73,7 @@ public class NagiosSettings {
 
     /**
      * The password configured in the ncsa.cfg file used by NSCA
-     * 
+     *
      * @return the password, defaults to "password"
      */
     public String getPassword() {
@@ -82,7 +82,7 @@ public class NagiosSettings {
 
     /**
      * The port on which NSCA is listening
-     * 
+     *
      * @return the port, defaults to 5667
      */
     public int getPort() {
@@ -91,7 +91,7 @@ public class NagiosSettings {
 
     /**
      * The socket timeout to use when sending the passive check
-     * 
+     *
      * @return the timeout in ms, defaults to 10000 ms
      */
     public int getTimeout() {
@@ -100,7 +100,7 @@ public class NagiosSettings {
 
     /**
      * Set the connection timeout, default is 5000 ms
-     * 
+     *
      * @param connectTimeout
      *            timeout in ms
      */
@@ -110,7 +110,7 @@ public class NagiosSettings {
 
     /**
      * The {@link Encryption} to use to encrypt the passive check
-     * 
+     *
      * @param encryption
      */
     public void setEncryption(Encryption encryption) {
@@ -119,7 +119,7 @@ public class NagiosSettings {
 
     /**
      * The {@link Encryptor} to use to encrypt the passive check
-     * 
+     *
      * @param encryptor
      */
     public void setEncryptor(Encryptor encryptor) {
@@ -128,7 +128,7 @@ public class NagiosSettings {
 
     /**
      * The host or IP of the Nagios host running the NSCA add-on
-     * 
+     *
      * @param nagiosHost
      *            the host or IP, defaults to localhost
      */
@@ -139,7 +139,7 @@ public class NagiosSettings {
 
     /**
      * The password configured in the ncsa.cfg file used by NSCA
-     * 
+     *
      * @param password
      *            the password, defaults to "password"
      */
@@ -150,7 +150,7 @@ public class NagiosSettings {
 
     /**
      * The port on which NSCA is listening
-     * 
+     *
      * @param port
      *            the port, defaults to 5667
      */
@@ -161,7 +161,7 @@ public class NagiosSettings {
 
     /**
      * The socket timeout to use when sending the passive check
-     * 
+     *
      * @param timeout
      *            the timeout in ms, defaults to 10000 ms
      */
@@ -190,18 +190,20 @@ public class NagiosSettings {
             return true;
         }
         NagiosSettings rhs = (NagiosSettings) obj;
-        
+
         return new EqualsBuilder()
             .append(nagiosHost, rhs.nagiosHost)
             .append(port, rhs.port)
-            .append(password,rhs.password)
+            .append(password, rhs.password)
             .append(timeout, rhs.timeout)
             .append(connectTimeout, rhs.connectTimeout)
             .append(encryptor, rhs.encryptor)
             .isEquals();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     *
      * @see java.lang.Object#toString()
      */
     @Override
