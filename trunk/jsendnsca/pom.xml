@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -21,6 +20,13 @@
 	<issueManagement>
 		<url>http://code.google.com/p/jsendnsca/issues/list</url>
 	</issueManagement>
+	<distributionManagement>
+		<repository>
+			<id>jsendnsca</id>
+			<name>JSend NSCA Google Code Maven Repository</name>
+			<url>dav:https://jsendnsca.googlecode.com/svn/repo</url>
+		</repository>
+	</distributionManagement>
 	<developers>
 		<developer>
 			<id>rajneesh.patel</id>
@@ -60,6 +66,13 @@
 		<url>http://code.google.com/hosting/</url>
 	</organization>
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
