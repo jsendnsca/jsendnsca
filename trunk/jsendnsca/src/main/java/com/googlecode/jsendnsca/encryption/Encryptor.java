@@ -15,18 +15,21 @@ package com.googlecode.jsendnsca.encryption;
 
 /**
  * All encryption methods must implement this interface
- *
+ * 
  * @author Raj Patel
- *
+ * 
  */
 public interface Encryptor {
 
     /**
      * Encrypt the passive check
-     *
-     * @param passiveCheckBytes the passive check bytes
-     * @param initVector the init vector as sent by NSCA addon upon connection
-     * @param password the NSCA daemon password
+     * 
+     * @param passiveCheckBytes
+     *            the passive check bytes
+     * @param initVector
+     *            the init vector as sent by NSCA addon upon connection
+     * @param password
+     *            the NSCA daemon password
      */
     public void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password);
 }

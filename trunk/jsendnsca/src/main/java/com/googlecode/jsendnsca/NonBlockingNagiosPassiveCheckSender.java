@@ -18,59 +18,63 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * This sender does not block unlike the {@link NagiosPassiveCheckSender}. Instead
- * it internally queues the passive check in an unbounded queue and has a single worker
- * thread sending from the queue.<p>
+ * This sender does not block unlike the {@link NagiosPassiveCheckSender}.
+ * Instead it internally queues the passive check in an unbounded queue and has
+ * a single worker thread sending from the queue.
+ * <p>
  * 
- * Any exceptions resulting from sending the passive check are output to standard error with 
- * a stack trace.<p>
+ * Any exceptions resulting from sending the passive check are output to
+ * standard error with a stack trace.
+ * <p>
  * 
- * This sender is useful where you don't want to wait for the passive check to be sent and
- * don't care if the sending fails<p>
- *
+ * This sender is useful where you don't want to wait for the passive check to
+ * be sent and don't care if the sending fails
+ * <p>
+ * 
  * @author Raj Patel
  * @since 1.2
  */
 public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
 
-	private final PassiveCheckSender sender;
-	private ExecutorService executor;
-
-	/**
-	 * Construct a new {@link NonBlockingNagiosPassiveCheckSender} with the provided
-	 * {@link NagiosSettings}
-	 * 
-	 * @param settings
-	 *            the {@link NagiosSettings} to use to send the Passive Check
-	 */
-	public NonBlockingNagiosPassiveCheckSender(NagiosSettings settings) {
-		this(new NagiosPassiveCheckSender(settings));
-	}
-	
-	NonBlockingNagiosPassiveCheckSender(PassiveCheckSender sender) {
-		this.sender = sender;
-		this.executor = Executors.newSingleThreadExecutor();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.googlecode.jsendnsca.sender.INagiosPassiveCheckSender#send(com.googlecode
-	 * .jsendnsca.sender.MessagePayload)
-	 */
-	public void send(MessagePayload payload) throws NagiosException, IOException {
-		executor.execute(new NonBlockingSender(payload));
-	}
+    private final PassiveCheckSender sender;
+    private ExecutorService executor;
 
     /**
-     * Sets the backing executor to use if you do not want to use the default executor
-     * which is a single thread executor.
+     * Construct a new {@link NonBlockingNagiosPassiveCheckSender} with the
+     * provided {@link NagiosSettings}
+     * 
+     * @param settings
+     *            the {@link NagiosSettings} to use to send the Passive Check
+     */
+    public NonBlockingNagiosPassiveCheckSender(NagiosSettings settings) {
+        this(new NagiosPassiveCheckSender(settings));
+    }
+
+    NonBlockingNagiosPassiveCheckSender(PassiveCheckSender sender) {
+        this.sender = sender;
+        this.executor = Executors.newSingleThreadExecutor();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.googlecode.jsendnsca.sender.INagiosPassiveCheckSender#send(com.googlecode
+     * .jsendnsca.sender.MessagePayload)
+     */
+    public void send(MessagePayload payload) throws NagiosException, IOException {
+        executor.execute(new NonBlockingSender(payload));
+    }
+
+    /**
+     * Sets the backing executor to use if you do not want to use the default
+     * executor which is a single thread executor.
      * <p/>
-     * You may want to use a custom executor in environments where you want to be in control
-     * of the used thread pools.
-     *
-     * @param executor the custom executor to use
+     * You may want to use a custom executor in environments where you want to
+     * be in control of the used thread pools.
+     * 
+     * @param executor
+     *            the custom executor to use
      */
     public void setExecutor(ExecutorService executor) {
         this.executor = executor;
@@ -79,27 +83,27 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
     /**
      * Shutdown the backing executor.
      * <p/>
-     * To be used when your application has been shutdown and you want to cleanup all resources
-     * such as if you run in a hot deployment environment.
+     * To be used when your application has been shutdown and you want to
+     * cleanup all resources such as if you run in a hot deployment environment.
      */
     public void shutdown() {
         executor.shutdown();
     }
-	
-	private class NonBlockingSender implements Runnable {
 
-		private MessagePayload payload;
-		
-		public NonBlockingSender(MessagePayload payload) {
-			this.payload = payload;
-		}
+    private class NonBlockingSender implements Runnable {
 
-		public void run() {
-			try {
-				sender.send(payload);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+        private MessagePayload payload;
+
+        public NonBlockingSender(MessagePayload payload) {
+            this.payload = payload;
+        }
+
+        public void run() {
+            try {
+                sender.send(payload);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -27,18 +27,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.googlecode.jsendnsca.Level;
-import com.googlecode.jsendnsca.MessagePayload;
-import com.googlecode.jsendnsca.NagiosException;
-import com.googlecode.jsendnsca.NagiosPassiveCheckSender;
-import com.googlecode.jsendnsca.NagiosSettings;
 import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
 import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
 import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.mocks.NagiosNscaStub;
 
 public class NagiosPassiveCheckSenderTest {
-    
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -64,7 +59,7 @@ public class NagiosPassiveCheckSenderTest {
     public void shouldThrowIllegalArgExceptionOnConstructingSenderWithNullNagiosSettings() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("nagiosSettings cannot be null");
-        
+
         new NagiosPassiveCheckSender(null);
     }
 
@@ -72,17 +67,17 @@ public class NagiosPassiveCheckSenderTest {
     public void shouldThrowIllegalArgExceptionOnSendingWithNullMessagePayload() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("payload cannot be null");
-        
+
         final NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(new NagiosSettings());
 
         sender.send(null);
     }
-    
+
     @Test
     public void shouldThrowUnknownHostExceptionOnUnknownHost() throws Exception {
         expectedException.expect(UnknownHostException.class);
         expectedException.expectMessage("foobar");
-        
+
         NagiosSettings nagiosSettings = new NagiosSettings();
         nagiosSettings.setNagiosHost("foobar");
         final NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(nagiosSettings);
@@ -116,19 +111,19 @@ public class NagiosPassiveCheckSenderTest {
     }
 
     /*
-     * I've confirmed externally that the NagiosStub would allow the too
-     * long hostname, servicename and message lengths so the trimming must
-     * be done by PassiveCheckBytesBuilder
+     * I've confirmed externally that the NagiosStub would allow the too long
+     * hostname, servicename and message lengths so the trimming must be done by
+     * PassiveCheckBytesBuilder
      */
     // TODO find a way to write a test that does send the too long fields
     // to prove that NagiosStub would allow it
     @Test
     public void shouldTrimTooLongFields() throws Exception {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
-                .withNagiosHost(HOSTNAME)
-                .withPassword(PASSWORD)
-                .withEncryption(Encryption.XOR_ENCRYPTION)
-                .create();
+            .withNagiosHost(HOSTNAME)
+            .withPassword(PASSWORD)
+            .withEncryption(Encryption.XOR_ENCRYPTION)
+            .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
 
@@ -143,7 +138,7 @@ public class NagiosPassiveCheckSenderTest {
         waitForStub();
 
         MessagePayload messagePayload = stub.getMessagePayloadList().get(0);
-        
+
         assertEquals(containingChars(63).length(), messagePayload.getHostname().length());
         assertEquals(containingChars(127).length(), messagePayload.getServiceName().length());
         assertEquals(containingChars(511).length(), messagePayload.getMessage().length());
@@ -171,17 +166,21 @@ public class NagiosPassiveCheckSenderTest {
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
 
-        final MessagePayload payload = new MessagePayloadBuilder().withHostname(HOSTNAME).withLevel(Level.CRITICAL)
-                .withServiceName(SERVICE_NAME).withMessage(MESSAGE).create();
+        final MessagePayload payload = new MessagePayloadBuilder()
+            .withHostname(HOSTNAME)
+            .withLevel(Level.CRITICAL)
+            .withServiceName(SERVICE_NAME)
+            .withMessage(MESSAGE)
+            .create();
 
         passiveAlerter.send(payload);
     }
-    
+
     @Test
     public void shouldThrowNagiosExceptionIfNoInitVectorSentOnConnection() throws Exception {
         expectedException.expect(NagiosException.class);
         expectedException.expectMessage("Can't read initialisation vector");
-        
+
         final NagiosSettings nagiosSettings = new NagiosSettings();
         nagiosSettings.setNagiosHost(HOSTNAME);
         nagiosSettings.setPassword(PASSWORD);
@@ -202,7 +201,7 @@ public class NagiosPassiveCheckSenderTest {
     public void shouldTimeoutWhenSendingPassiveCheck() throws Exception {
         expectedException.expect(SocketTimeoutException.class);
         expectedException.expectMessage("Read timed out");
-        
+
         final NagiosSettings nagiosSettings = new NagiosSettings();
         nagiosSettings.setTimeout(1000);
         stub.setSimulateTimeoutInMs(1500);

@@ -13,46 +13,46 @@
  */
 package com.googlecode.jsendnsca.builders;
 
+import static com.googlecode.jsendnsca.encryption.Encryption.*;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import com.googlecode.jsendnsca.NagiosSettings;
-import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
-import com.googlecode.jsendnsca.encryption.Encryption;
 
 public class NagiosSettingsBuilderTest {
 
-	@Test
-	public void shouldCreateDefault() throws Exception {
-		NagiosSettings defaultNagiosSettings = new NagiosSettings();
+    @Test
+    public void shouldCreateDefault() throws Exception {
+        NagiosSettings defaultNagiosSettings = new NagiosSettings();
 
-		NagiosSettings nagiosSettings = new NagiosSettingsBuilder().createDefault();
-		assertEquals(defaultNagiosSettings, nagiosSettings);
-	}
+        NagiosSettings nagiosSettings = new NagiosSettingsBuilder().createDefault();
+        assertEquals(defaultNagiosSettings, nagiosSettings);
+    }
 
-	@Test
-	public void shouldCreateWithEverythingOverriden() throws Exception {
-		String host = "nagioshost";
-		int port = 9999;
-		String password = "s3cr3t";
-		int connectionTimeout = 1;
-		int responseTimeout = 1;
+    @Test
+    public void shouldCreateWithEverythingOverriden() throws Exception {
+        String host = "nagioshost";
+        int port = 9999;
+        String password = "s3cr3t";
+        int connectionTimeout = 1;
+        int responseTimeout = 1;
 
-		NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
-			.withNagiosHost(host)
-			.withPort(port)
-			.withPassword(password)
-			.withConnectionTimeout(connectionTimeout)
-			.withResponseTimeout(responseTimeout)
-			.withEncryption(Encryption.XOR_ENCRYPTION)
-			.create();
+        NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
+            .withNagiosHost(host)
+            .withPort(port)
+            .withPassword(password)
+            .withConnectionTimeout(connectionTimeout)
+            .withResponseTimeout(responseTimeout)
+            .withEncryption(XOR_ENCRYPTION)
+            .create();
 
-		assertEquals(host, nagiosSettings.getNagiosHost());
-		assertEquals(port, nagiosSettings.getPort());
-		assertEquals(password, nagiosSettings.getPassword());
-		assertEquals(connectionTimeout, nagiosSettings.getConnectTimeout());
-		assertEquals(responseTimeout, nagiosSettings.getTimeout());
-		assertEquals(Encryption.XOR_ENCRYPTION.getEncryptor(), nagiosSettings.getEncryptor());
-	}
+        assertEquals(host, nagiosSettings.getNagiosHost());
+        assertEquals(port, nagiosSettings.getPort());
+        assertEquals(password, nagiosSettings.getPassword());
+        assertEquals(connectionTimeout, nagiosSettings.getConnectTimeout());
+        assertEquals(responseTimeout, nagiosSettings.getTimeout());
+        assertEquals(XOR_ENCRYPTION.getEncryptor(), nagiosSettings.getEncryptor());
+    }
 }

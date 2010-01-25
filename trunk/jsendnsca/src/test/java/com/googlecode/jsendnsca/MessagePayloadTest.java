@@ -31,150 +31,150 @@ public class MessagePayloadTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-    
-	@Test
-	public void shouldThrowIllegalArgumentExceptionOnEmptyServiceName() throws Exception {
-	    expectedException.expect(IllegalArgumentException.class);
+
+    @Test
+    public void shouldThrowIllegalArgumentExceptionOnEmptyServiceName() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("serviceName cannot be null or an empty String");
-	    
-	    final MessagePayload payload = new MessagePayload();
 
-		payload.setHostname("localhost");
-		payload.setLevel(Level.CRITICAL);
-		payload.setServiceName(StringUtils.EMPTY);
-	}
+        final MessagePayload payload = new MessagePayload();
 
-	@Test
-	public void shouldConstructValidObjectWhenUsingNoArgConstructor() throws Exception {
-		final MessagePayload messagePayload = new MessagePayload();
+        payload.setHostname("localhost");
+        payload.setLevel(Level.CRITICAL);
+        payload.setServiceName(StringUtils.EMPTY);
+    }
 
-		assertTrue(StringUtils.isNotEmpty(messagePayload.getHostname()));
-		assertEquals(Level.UNKNOWN, messagePayload.getLevel());
-		assertEquals("UNDEFINED", messagePayload.getServiceName());
-		assertEquals(StringUtils.EMPTY, messagePayload.getMessage());
-	}
+    @Test
+    public void shouldConstructValidObjectWhenUsingNoArgConstructor() throws Exception {
+        final MessagePayload messagePayload = new MessagePayload();
 
-	@Test
-	public void shouldThrowIllegalArgumentExceptionOnEmptyHostName() throws Exception {
-	    expectedException.expect(IllegalArgumentException.class);
+        assertTrue(StringUtils.isNotEmpty(messagePayload.getHostname()));
+        assertEquals(Level.UNKNOWN, messagePayload.getLevel());
+        assertEquals("UNDEFINED", messagePayload.getServiceName());
+        assertEquals(StringUtils.EMPTY, messagePayload.getMessage());
+    }
+
+    @Test
+    public void shouldThrowIllegalArgumentExceptionOnEmptyHostName() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("hostname cannot be null or an empty String");
-        
-		final MessagePayload payload = new MessagePayload();
 
-		payload.setHostname(StringUtils.EMPTY);
-	}
+        final MessagePayload payload = new MessagePayload();
 
-	@Test
-	public void shouldAllowEmptyMessageToBeSet() throws Exception {
-		final MessagePayload payload = new MessagePayload();
+        payload.setHostname(StringUtils.EMPTY);
+    }
 
-		payload.setMessage(StringUtils.EMPTY);
-	}
+    @Test
+    public void shouldAllowEmptyMessageToBeSet() throws Exception {
+        final MessagePayload payload = new MessagePayload();
 
-	@Test
-	public void shouldConstructNewMessagePayload() throws Exception {
-		final MessagePayload messagePayload = new MessagePayload("localhost", Level.OK, "test service", "test message");
+        payload.setMessage(StringUtils.EMPTY);
+    }
 
-		assertEquals("localhost", messagePayload.getHostname());
-		assertEquals(Level.OK, messagePayload.getLevel());
-		assertEquals("test service", messagePayload.getServiceName());
-		assertEquals("test message", messagePayload.getMessage());
-	}
+    @Test
+    public void shouldConstructNewMessagePayload() throws Exception {
+        final MessagePayload messagePayload = new MessagePayload("localhost", Level.OK, "test service", "test message");
 
-	@Test
-	public void shouldConstructTwoNewMessagePayload() throws Exception {
-		final MessagePayload messagePayload = new MessagePayload("localhost", Level.OK, "test service", "test message");
+        assertEquals("localhost", messagePayload.getHostname());
+        assertEquals(Level.OK, messagePayload.getLevel());
+        assertEquals("test service", messagePayload.getServiceName());
+        assertEquals("test message", messagePayload.getMessage());
+    }
 
-		final MessagePayload messagePayload2 = new MessagePayload("somehost", Level.WARNING, "foo service", "foo message");
+    @Test
+    public void shouldConstructTwoNewMessagePayload() throws Exception {
+        final MessagePayload messagePayload = new MessagePayload("localhost", Level.OK, "test service", "test message");
 
-		assertEquals("localhost", messagePayload.getHostname());
-		assertEquals(Level.OK, messagePayload.getLevel());
-		assertEquals("test service", messagePayload.getServiceName());
-		assertEquals("test message", messagePayload.getMessage());
+        final MessagePayload messagePayload2 = new MessagePayload("somehost", Level.WARNING, "foo service", "foo message");
 
-		assertEquals("somehost", messagePayload2.getHostname());
-		assertEquals(Level.WARNING, messagePayload2.getLevel());
-		assertEquals("foo service", messagePayload2.getServiceName());
-		assertEquals("foo message", messagePayload2.getMessage());
-	}
+        assertEquals("localhost", messagePayload.getHostname());
+        assertEquals(Level.OK, messagePayload.getLevel());
+        assertEquals("test service", messagePayload.getServiceName());
+        assertEquals("test message", messagePayload.getMessage());
 
-	@Test
-	public void shouldThrowExceptionOnConstructingNewMessagePayloadWithNullHostname() {
-	    expectedException.expect(IllegalArgumentException.class);
+        assertEquals("somehost", messagePayload2.getHostname());
+        assertEquals(Level.WARNING, messagePayload2.getLevel());
+        assertEquals("foo service", messagePayload2.getServiceName());
+        assertEquals("foo message", messagePayload2.getMessage());
+    }
+
+    @Test
+    public void shouldThrowExceptionOnConstructingNewMessagePayloadWithNullHostname() {
+        expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("hostname cannot be null or an empty String");
-        
-		new MessagePayload(null, Level.OK, "test service", "test message");
-	}
 
-	@Test
-	public void shouldConvertStringLevelsToIntegerWhileIgnoringCase() throws Exception {
-		final MessagePayload messagePayload = new MessagePayload();
+        new MessagePayload(null, Level.OK, "test service", "test message");
+    }
 
-		messagePayload.setLevel("Ok");
-		assertEquals(Level.OK, messagePayload.getLevel());
-		messagePayload.setLevel("Warning");
-		assertEquals(Level.WARNING, messagePayload.getLevel());
-		messagePayload.setLevel("Critical");
-		assertEquals(Level.CRITICAL, messagePayload.getLevel());
-		messagePayload.setLevel("Unknown");
-		assertEquals(Level.UNKNOWN, messagePayload.getLevel());
-	}
+    @Test
+    public void shouldConvertStringLevelsToIntegerWhileIgnoringCase() throws Exception {
+        final MessagePayload messagePayload = new MessagePayload();
 
-	@Test
-	public void shouldThrowIllegalArgumentExceptionIfStringLevelIsNotRecognised() throws Exception {
-		final MessagePayload messagePayload = new MessagePayload();
+        messagePayload.setLevel("Ok");
+        assertEquals(Level.OK, messagePayload.getLevel());
+        messagePayload.setLevel("Warning");
+        assertEquals(Level.WARNING, messagePayload.getLevel());
+        messagePayload.setLevel("Critical");
+        assertEquals(Level.CRITICAL, messagePayload.getLevel());
+        messagePayload.setLevel("Unknown");
+        assertEquals(Level.UNKNOWN, messagePayload.getLevel());
+    }
 
-		try {
-			messagePayload.setLevel("foobar");
-			fail("Should throw IllegalArgumentException");
-		} catch (IllegalArgumentException e) {
-			assertEquals("[foobar] is not valid level", e.getMessage());
-		}
-	}
+    @Test
+    public void shouldThrowIllegalArgumentExceptionIfStringLevelIsNotRecognised() throws Exception {
+        final MessagePayload messagePayload = new MessagePayload();
 
-	@Test
-	public void shouldSetLevelUsingEnum() throws Exception {
-		final MessagePayload payload = new MessagePayload();
-		payload.setLevel(Level.WARNING);
+        try {
+            messagePayload.setLevel("foobar");
+            fail("Should throw IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals("[foobar] is not valid level", e.getMessage());
+        }
+    }
 
-		assertEquals(Level.WARNING, payload.getLevel());
-	}
+    @Test
+    public void shouldSetLevelUsingEnum() throws Exception {
+        final MessagePayload payload = new MessagePayload();
+        payload.setLevel(Level.WARNING);
 
-	@Test
-	public void shouldDetermineShortHostnameCorrectly() throws Exception {
-		if (isUnix()) {
-			final MessagePayload messagePayload = new MessagePayload();
-			messagePayload.useLocalHostname();
-			assertEquals(getShortHostNameFromOS(), messagePayload.getHostname());
-		}
-	}
+        assertEquals(Level.WARNING, payload.getLevel());
+    }
 
-	@Test
+    @Test
+    public void shouldDetermineShortHostnameCorrectly() throws Exception {
+        if (isUnix()) {
+            final MessagePayload messagePayload = new MessagePayload();
+            messagePayload.useLocalHostname();
+            assertEquals(getShortHostNameFromOS(), messagePayload.getHostname());
+        }
+    }
+
+    @Test
     public void shouldReturnUsefulStringContainingMessagePayloadFields() throws Exception {
-	    String payloadString = new MessagePayload().toString();
+        String payloadString = new MessagePayload().toString();
 
-	    assertThat(payloadString, startsWith("MessagePayload[level=UNKNOWN"));
+        assertThat(payloadString, startsWith("MessagePayload[level=UNKNOWN"));
         assertThat(payloadString, containsString("hostname="));
         assertThat(payloadString, containsString("serviceName=UNDEFINED"));
         assertThat(payloadString, containsString("message="));
     }
 
-	private static boolean isUnix() {
-		if(System.getProperty("os.name").toLowerCase().contains("windows")) {
-			return false;
-		}
-		return true;
-	}
+    private static boolean isUnix() {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            return false;
+        }
+        return true;
+    }
 
-	private static String getShortHostNameFromOS() throws Exception {
-		final Runtime runtime = Runtime.getRuntime();
-		final Process process = runtime.exec("hostname");
-		final BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    private static String getShortHostNameFromOS() throws Exception {
+        final Runtime runtime = Runtime.getRuntime();
+        final Process process = runtime.exec("hostname");
+        final BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-		final String expectedHostName = input.readLine();
-		input.close();
-		assertEquals(0,process.waitFor());
+        final String expectedHostName = input.readLine();
+        input.close();
+        assertEquals(0, process.waitFor());
 
-		return expectedHostName;
-	}
+        return expectedHostName;
+    }
 }

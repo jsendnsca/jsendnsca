@@ -13,6 +13,8 @@
  */
 package com.googlecode.jsendnsca.encryption;
 
+import static javax.crypto.Cipher.*;
+
 import java.security.GeneralSecurityException;
 
 import javax.crypto.Cipher;
@@ -20,19 +22,21 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-
 /**
  * Triple DES encryption
  *
- * @author Raj Patel
+ * @author krisajenkins
  */
 public class TripleDESEncryptor implements Encryptor {
 
     private static final String DES_ALGORITHM = "DESede";
     private static final String DES_TRANSFORMATION = "DESede/CFB8/PKCS5Padding";
 
-    /* (non-Javadoc)
-     * @see com.googlecode.jsendnsca.encryption.Encryptor#encrypt(byte[], byte[], java.lang.String)
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.googlecode.jsendnsca.encryption.Encryptor#encrypt(byte[],
+     * byte[], java.lang.String)
      */
     public void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password) {
         final byte[] keyBytes = toFixedSizeByteArray(password.getBytes(), 24);
@@ -43,7 +47,7 @@ public class TripleDESEncryptor implements Encryptor {
 
         try {
             final Cipher cipher = Cipher.getInstance(DES_TRANSFORMATION);
-            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+            cipher.init(ENCRYPT_MODE, key, iv);
             final byte[] cipherText = cipher.doFinal(passiveCheckBytes);
 
             for (int i = 0; i < passiveCheckBytes.length; i++) {
