@@ -21,12 +21,13 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.Validate;
+
+import com.googlecode.jsendnsca.utils.IOUtils;
 
 /**
  * This class is used to send a Passive Check to the Nagios NSCA add-on
- * 
+ *
  * @author Raj.Patel
  * @version 1.0
  */
@@ -39,7 +40,7 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
     /**
      * Construct a new {@link NagiosPassiveCheckSender} with the provided
      * {@link NagiosSettings}
-     * 
+     *
      * @param nagiosSettings
      *            the {@link NagiosSettings} to use to send the Passive Check
      */
@@ -50,7 +51,7 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.googlecode.jsendnsca.sender.INagiosPassiveCheckSender#send(com.googlecode
      * .jsendnsca.sender.MessagePayload)
