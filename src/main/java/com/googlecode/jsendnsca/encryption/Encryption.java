@@ -25,15 +25,15 @@ public enum Encryption {
     /**
      * no encryption
      */
-    NO_ENCRYPTION(),
+    NONE(),
     /**
      * Triple DES encryption
      */
-    TRIPLE_DES_ENCRYPTION(new TripleDESEncryptor()),
+    TRIPLE_DES(new TripleDESEncryptor()),
     /**
      * XOR encryption(?)
      */
-    XOR_ENCRYPTION(new XorEncryptor());
+    XOR(new XorEncryptor());
 
     /**
      * @return the {@link Encryptor} for this {@link Encryption} constant

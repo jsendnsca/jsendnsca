@@ -42,7 +42,7 @@ public class NagiosSettings {
     private String password = "password";
     private int timeout = 10000;
     private int connectTimeout = 5000;
-    private Encryptor encryptor = NO_ENCRYPTION.getEncryptor();
+    private Encryptor encryptor = NONE.getEncryptor();
 
     /**
      * The connection timeout

@@ -45,7 +45,7 @@ public class NagiosSettingsBuilderTest {
             .withPassword(password)
             .withConnectionTimeout(connectionTimeout)
             .withResponseTimeout(responseTimeout)
-            .withEncryption(XOR_ENCRYPTION)
+            .withEncryption(XOR)
             .create();
 
         assertEquals(host, nagiosSettings.getNagiosHost());
@@ -53,6 +53,6 @@ public class NagiosSettingsBuilderTest {
         assertEquals(password, nagiosSettings.getPassword());
         assertEquals(connectionTimeout, nagiosSettings.getConnectTimeout());
         assertEquals(responseTimeout, nagiosSettings.getTimeout());
-        assertEquals(XOR_ENCRYPTION.getEncryptor(), nagiosSettings.getEncryptor());
+        assertEquals(XOR.getEncryptor(), nagiosSettings.getEncryptor());
     }
 }

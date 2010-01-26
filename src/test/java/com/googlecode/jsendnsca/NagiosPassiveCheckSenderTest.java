@@ -13,6 +13,9 @@
  */
 package com.googlecode.jsendnsca;
 
+import static com.googlecode.jsendnsca.Level.*;
+import static com.googlecode.jsendnsca.encryption.Encryption.*;
+
 import static org.hamcrest.Matchers.*;
 
 import static org.junit.Assert.*;
@@ -29,7 +32,6 @@ import org.junit.rules.ExpectedException;
 
 import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
 import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
-import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.mocks.NagiosNscaStub;
 
 public class NagiosPassiveCheckSenderTest {
@@ -90,14 +92,14 @@ public class NagiosPassiveCheckSenderTest {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
             .withNagiosHost(HOSTNAME)
             .withPassword(PASSWORD)
-            .withEncryption(Encryption.XOR_ENCRYPTION)
+            .withEncryption(XOR)
             .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
 
         final MessagePayload payload = new MessagePayloadBuilder()
             .withHostname(HOSTNAME)
-            .withLevel(Level.CRITICAL)
+            .withLevel(CRITICAL)
             .withServiceName(SERVICE_NAME)
             .withMessage(MESSAGE)
             .create();
@@ -122,7 +124,7 @@ public class NagiosPassiveCheckSenderTest {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
             .withNagiosHost(HOSTNAME)
             .withPassword(PASSWORD)
-            .withEncryption(Encryption.XOR_ENCRYPTION)
+            .withEncryption(XOR)
             .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
@@ -161,7 +163,7 @@ public class NagiosPassiveCheckSenderTest {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
             .withNagiosHost(HOSTNAME)
             .withPassword(PASSWORD)
-            .withEncryption(Encryption.TRIPLE_DES_ENCRYPTION)
+            .withEncryption(TRIPLE_DES)
             .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);

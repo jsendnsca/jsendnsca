@@ -63,9 +63,9 @@ public class NagiosSettingsTest {
     public void shouldSetEncryptionUsingEnum() throws Exception {
         NagiosSettings settings = new NagiosSettings();
 
-        settings.setEncryption(Encryption.TRIPLE_DES_ENCRYPTION);
+        settings.setEncryption(Encryption.TRIPLE_DES);
 
-        assertEquals(Encryption.TRIPLE_DES_ENCRYPTION.getEncryptor(), settings.getEncryptor());
+        assertEquals(Encryption.TRIPLE_DES.getEncryptor(), settings.getEncryptor());
     }
 
     @Test
