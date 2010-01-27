@@ -19,10 +19,16 @@ import static org.junit.Assert.*;
 
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 
 public class NagiosSettingsFactoryTest {
+    
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void shouldCreateDefaultNagiosSettingForEmptyProperties() throws Exception {
@@ -35,7 +41,7 @@ public class NagiosSettingsFactoryTest {
     }
     
     @Test
-    public void shouldOverideDefaultSettings() throws Exception {
+    public void shouldOverideDefaultSettingsWithValidProperties() throws Exception {
         Properties overrideAllSettings = new Properties();
         overrideAllSettings.setProperty("nagios.nsca.host", "foobar");
         overrideAllSettings.setProperty("nagios.nsca.port", "7665");
@@ -56,4 +62,38 @@ public class NagiosSettingsFactoryTest {
         
         assertEquals(expectedSettings, settings);
     }
+    
+    @Test
+    public void shouldThrowNagiosConfigurationExceptionForEmptyPropertyValue() throws Exception {
+        expectedException.expect(NagiosConfigurationException.class);
+        expectedException.expectMessage("Key [nagios.nsca.host] cannot be empty");
+        
+        Properties emptyPropertyValue = new Properties();
+        emptyPropertyValue.setProperty("nagios.nsca.host", StringUtils.EMPTY);
+        
+        NagiosSettingsFactory.createSettings(emptyPropertyValue);
+    }
+    
+    @Test
+    public void shouldThrowNagiosConfigurationExceptionForNonIntegerValueProvidedForIntegerValueKey() throws Exception {
+        expectedException.expect(NagiosConfigurationException.class);
+        expectedException.expectMessage("Key [nagios.nsca.timeout] must be an integer, was [notANumber]");
+        
+        Properties nonIntegerTimeout = new Properties();
+        nonIntegerTimeout.setProperty("nagios.nsca.timeout", "notANumber");
+        
+        NagiosSettingsFactory.createSettings(nonIntegerTimeout);
+    }
+    
+    @Test
+    public void shouldThrowNagiosConfigurationExceptionForUnknownEncryption() throws Exception {
+        expectedException.expect(NagiosConfigurationException.class);
+        expectedException.expectMessage("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor], was [foobar]");
+        
+        Properties unknownEncryption = new Properties();
+        unknownEncryption.setProperty("nagios.nsca.encryption", "foobar");
+        
+        NagiosSettingsFactory.createSettings(unknownEncryption);
+    }
+
 }

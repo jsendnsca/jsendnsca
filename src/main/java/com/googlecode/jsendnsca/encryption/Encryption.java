@@ -13,6 +13,8 @@
  */
 package com.googlecode.jsendnsca.encryption;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Encryption to be used when sending the
  * {@link com.googlecode.jsendnsca.MessagePayload}
@@ -40,6 +42,10 @@ public enum Encryption {
      */
     public Encryptor getEncryptor() {
         return encryptor;
+    }
+    
+    public static String supportedList() {
+        return StringUtils.join(Encryption.values(), ',');
     }
 
     private final Encryptor encryptor;
