@@ -26,20 +26,20 @@ import org.junit.rules.ExpectedException;
 
 
 public class NagiosSettingsFactoryTest {
-    
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void shouldCreateDefaultNagiosSettingForEmptyProperties() throws Exception {
         Properties emptyProperties = new Properties();
-        
+
         NagiosSettings settings = NagiosSettingsFactory.createSettings(emptyProperties);
-        
+
         NagiosSettings defaultSettings = new NagiosSettings();
         assertEquals(defaultSettings, settings);
     }
-    
+
     @Test
     public void shouldOverideDefaultSettingsWithValidProperties() throws Exception {
         Properties overrideAllSettings = new Properties();
@@ -49,9 +49,9 @@ public class NagiosSettingsFactoryTest {
         overrideAllSettings.setProperty("nagios.nsca.timeout", "20000");
         overrideAllSettings.setProperty("nagios.nsca.connect.timeout", "10000");
         overrideAllSettings.setProperty("nagios.nsca.encryption", "xor");
-        
+
         NagiosSettings settings = NagiosSettingsFactory.createSettings(overrideAllSettings);
-        
+
         NagiosSettings expectedSettings = new NagiosSettings();
         expectedSettings.setNagiosHost("foobar");
         expectedSettings.setPort(7665);
@@ -59,40 +59,64 @@ public class NagiosSettingsFactoryTest {
         expectedSettings.setTimeout(20000);
         expectedSettings.setConnectTimeout(10000);
         expectedSettings.setEncryption(XOR);
-        
+
         assertEquals(expectedSettings, settings);
     }
-    
+
+    @Test
+    public void shouldOverideHostOnly() throws Exception {
+        Properties overrideHostNameOnly = new Properties();
+        overrideHostNameOnly.setProperty("nagios.nsca.host", "foobar");
+
+        NagiosSettings settings = NagiosSettingsFactory.createSettings(overrideHostNameOnly);
+
+        NagiosSettings expectedSettings = new NagiosSettings();
+        expectedSettings.setNagiosHost("foobar");
+
+        assertEquals(expectedSettings, settings);
+    }
+
     @Test
     public void shouldThrowNagiosConfigurationExceptionForEmptyPropertyValue() throws Exception {
         expectedException.expect(NagiosConfigurationException.class);
-        expectedException.expectMessage("Key [nagios.nsca.host] cannot be empty");
-        
+        expectedException.expectMessage("Key [nagios.nsca.host] value cannot be empty or purely whitespace");
+
         Properties emptyPropertyValue = new Properties();
         emptyPropertyValue.setProperty("nagios.nsca.host", StringUtils.EMPTY);
-        
+
         NagiosSettingsFactory.createSettings(emptyPropertyValue);
     }
-    
+
     @Test
     public void shouldThrowNagiosConfigurationExceptionForNonIntegerValueProvidedForIntegerValueKey() throws Exception {
         expectedException.expect(NagiosConfigurationException.class);
         expectedException.expectMessage("Key [nagios.nsca.timeout] must be an integer, was [notANumber]");
-        
+
         Properties nonIntegerTimeout = new Properties();
         nonIntegerTimeout.setProperty("nagios.nsca.timeout", "notANumber");
-        
+
         NagiosSettingsFactory.createSettings(nonIntegerTimeout);
     }
-    
+
+    @Test
+    public void shouldThrowNagiosConfigurationExceptionForOutOfRangePort() throws Exception {
+        expectedException.expect(NagiosConfigurationException.class);
+        expectedException.expectMessage("Key [nagios.nsca.port] port must be between 1 and 65535 inclusive, was [65536]");
+
+        Properties outOfRangePort = new Properties();
+        outOfRangePort.setProperty("nagios.nsca.port", "65536");
+
+        NagiosSettingsFactory.createSettings(outOfRangePort);
+    }
+
     @Test
     public void shouldThrowNagiosConfigurationExceptionForUnknownEncryption() throws Exception {
         expectedException.expect(NagiosConfigurationException.class);
         expectedException.expectMessage("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor], was [foobar]");
-        
+
         Properties unknownEncryption = new Properties();
         unknownEncryption.setProperty("nagios.nsca.encryption", "foobar");
-        
+
         NagiosSettingsFactory.createSettings(unknownEncryption);
     }
 

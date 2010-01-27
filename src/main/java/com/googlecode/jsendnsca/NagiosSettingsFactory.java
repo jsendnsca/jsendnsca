@@ -22,8 +22,12 @@ import com.googlecode.jsendnsca.encryption.Encryption;
 public class NagiosSettingsFactory {
 
     public enum PropertyKey {
-        HOST("nagios.nsca.host"), PORT("nagios.nsca.port"), PASSWORD("nagios.nsca.password"), TIMEOUT("nagios.nsca.timeout"), CONNECT_TIMEOUT(
-                "nagios.nsca.connect.timeout"), ENCRYPTION("nagios.nsca.encryption");
+        HOST("nagios.nsca.host"),
+        PORT("nagios.nsca.port"),
+        PASSWORD("nagios.nsca.password"),
+        TIMEOUT("nagios.nsca.timeout"),
+        CONNECT_TIMEOUT("nagios.nsca.connect.timeout"),
+        ENCRYPTION("nagios.nsca.encryption");
 
         private final String name;
 
@@ -49,16 +53,13 @@ public class NagiosSettingsFactory {
         for (PropertyKey key : PropertyKey.values()) {
             if (key.providedIn(properties)) {
                 String name = key.name;
-                String value = properties.getProperty(name);
-                if (StringUtils.isBlank(value)) {
-                    throw new NagiosConfigurationException("Key [%s] cannot be empty or purely whitespace", name);
-                }
+                String value = getValue(properties, name);
                 switch (key) {
                 case HOST:
                     settings.setNagiosHost(value);
                     break;
                 case PORT:
-                    settings.setPort(toInteger(name, value));
+                    toPort(settings, name, value);
                     break;
                 case PASSWORD:
                     settings.setPassword(value);
@@ -70,14 +71,30 @@ public class NagiosSettingsFactory {
                     settings.setConnectTimeout(toInteger(name, value));
                     break;
                 case ENCRYPTION:
-                    settings.setEncryption(getEncryption(value));
+                    settings.setEncryption(toEncryption(value));
                     break;
                 }
             }
         }
     }
 
-    private static Encryption getEncryption(String value) throws NagiosConfigurationException {
+    private static String getValue(Properties properties, String name) throws NagiosConfigurationException {
+        String value = properties.getProperty(name);
+        if (StringUtils.isBlank(value)) {
+            throw new NagiosConfigurationException("Key [%s] value cannot be empty or purely whitespace", name);
+        }
+        return value;
+    }
+
+    private static void toPort(NagiosSettings settings, String name, String value) throws NagiosConfigurationException {
+        try {
+            settings.setPort(toInteger(name, value));
+        } catch (IllegalArgumentException e) {
+            throw new NagiosConfigurationException("Key [%s] %s, was [%s]", name, e.getMessage(), value);
+        }
+    }
+
+    private static Encryption toEncryption(String value) throws NagiosConfigurationException {
         try {
             return Encryption.valueOf(Encryption.class, value.toUpperCase());
         } catch (IllegalArgumentException e) {
