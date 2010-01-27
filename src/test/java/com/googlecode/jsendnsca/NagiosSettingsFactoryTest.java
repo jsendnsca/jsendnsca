@@ -17,13 +17,13 @@ import static com.googlecode.jsendnsca.encryption.Encryption.*;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 
 public class NagiosSettingsFactoryTest {
 
@@ -56,6 +56,21 @@ public class NagiosSettingsFactoryTest {
         expectedSettings.setNagiosHost("foobar");
         expectedSettings.setPort(7665);
         expectedSettings.setPassword("secret");
+        expectedSettings.setTimeout(20000);
+        expectedSettings.setConnectTimeout(10000);
+        expectedSettings.setEncryption(XOR);
+
+        assertEquals(expectedSettings, settings);
+    }
+    
+    @Test
+    public void shouldOverideDefaultSettingsWithValidPropertiesFile() throws Exception {
+        NagiosSettings settings = NagiosSettingsFactory.createSettings(new File("src/test/resources/nsca.properties"));
+
+        NagiosSettings expectedSettings = new NagiosSettings();
+        expectedSettings.setNagiosHost("foobar");
+        expectedSettings.setPort(7665);
+        expectedSettings.setPassword("password");
         expectedSettings.setTimeout(20000);
         expectedSettings.setConnectTimeout(10000);
         expectedSettings.setEncryption(XOR);

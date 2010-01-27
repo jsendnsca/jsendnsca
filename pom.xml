@@ -17,6 +17,7 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
 		</license>
 	</licenses>
+	<inceptionYear>Nov 2008</inceptionYear>
 	<issueManagement>
 		<url>http://code.google.com/p/jsendnsca/issues/list</url>
 	</issueManagement>
@@ -67,8 +68,8 @@
 		<url>http://jsendnsca.googlecode.com/svn/trunk/</url>
 	</scm>
 	<organization>
-		<name>Google Code</name>
-		<url>http://code.google.com/hosting/</url>
+		<name>JSend NSCA</name>
+		<url>http://jsendnsca.googlecode.com/</url>
 	</organization>
 	<build>
 		<extensions>
