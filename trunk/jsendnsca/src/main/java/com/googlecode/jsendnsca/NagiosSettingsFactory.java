@@ -15,73 +15,83 @@ package com.googlecode.jsendnsca;
 
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.googlecode.jsendnsca.encryption.Encryption;
 
 public class NagiosSettingsFactory {
-    
-    public enum PropertyKeyNames {
-        HOST("nagios.nsca.host"),
-        PORT("nagios.nsca.port"),
-        PASSWORD("nagios.nsca.password"),
-        TIMEOUT("nagios.nsca.timeout"),
-        CONNECT_TIMEOUT("nagios.nsca.connect.timeout"),
-        ENCRYPTION("nagios.nsca.encryption");
-        
-        private final String key;
 
-        private PropertyKeyNames(String key) {
-            this.key = key;
+    public enum PropertyKey {
+        HOST("nagios.nsca.host"), PORT("nagios.nsca.port"), PASSWORD("nagios.nsca.password"), TIMEOUT("nagios.nsca.timeout"), CONNECT_TIMEOUT(
+                "nagios.nsca.connect.timeout"), ENCRYPTION("nagios.nsca.encryption");
+
+        private final String name;
+
+        private PropertyKey(String name) {
+            this.name = name;
         }
-        
+
         private boolean providedIn(Properties properties) {
-            if(properties.containsKey(key)) {
+            if (properties.containsKey(name)) {
                 return true;
             }
             return false;
         }
     }
 
-    public static NagiosSettings createSettings(Properties properties) {
+    public static NagiosSettings createSettings(Properties properties) throws NagiosConfigurationException {
         NagiosSettings settings = new NagiosSettings();
         overrideUsing(properties, settings);
         return settings;
     }
 
-    private static void overrideUsing(Properties properties, NagiosSettings settings) {
-        for (PropertyKeyNames keyName : PropertyKeyNames.values()) {
-            if(keyName.providedIn(properties)) {
-                String value = properties.getProperty(keyName.key);
-                switch (keyName) {
+    private static void overrideUsing(Properties properties, NagiosSettings settings) throws NagiosConfigurationException {
+        for (PropertyKey key : PropertyKey.values()) {
+            if (key.providedIn(properties)) {
+                String name = key.name;
+                String value = properties.getProperty(name);
+                if (StringUtils.isBlank(value)) {
+                    throw new NagiosConfigurationException("Key [%s] cannot be empty or purely whitespace", name);
+                }
+                switch (key) {
                 case HOST:
                     settings.setNagiosHost(value);
                     break;
                 case PORT:
-                    settings.setPort(toInteger(value));
+                    settings.setPort(toInteger(name, value));
                     break;
                 case PASSWORD:
                     settings.setPassword(value);
                     break;
                 case TIMEOUT:
-                    settings.setTimeout(toInteger(value));
+                    settings.setTimeout(toInteger(name, value));
                     break;
                 case CONNECT_TIMEOUT:
-                    settings.setConnectTimeout(toInteger(value));
+                    settings.setConnectTimeout(toInteger(name, value));
                     break;
                 case ENCRYPTION:
                     settings.setEncryption(getEncryption(value));
                     break;
                 }
             }
-            
         }
     }
 
-    private static Encryption getEncryption(String value) {
-        return Encryption.valueOf(Encryption.class, value.toUpperCase());
+    private static Encryption getEncryption(String value) throws NagiosConfigurationException {
+        try {
+            return Encryption.valueOf(Encryption.class, value.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new NagiosConfigurationException("Key [%s] must be one of [%s], was [foobar]", PropertyKey.ENCRYPTION.name, Encryption
+                    .supportedList().toLowerCase(), value);
+        }
     }
 
-    private static int toInteger(String value) {
-        return Integer.parseInt(value);
+    private static int toInteger(String name, String value) throws NagiosConfigurationException {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            throw new NagiosConfigurationException("Key [%s] must be an integer, was [%s]", name, value);
+        }
     }
 
 }
