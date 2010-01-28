@@ -44,7 +44,7 @@ public class NagiosPassiveCheckSenderTest {
     private static final String SERVICE_NAME = "Test Service Name";
     private static final String PASSWORD = "password";
 
-    private static NagiosNscaStub stub;
+    private NagiosNscaStub stub;
 
     @Before
     public void startMockDaemon() throws Exception {
@@ -72,7 +72,9 @@ public class NagiosPassiveCheckSenderTest {
 
         final NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(new NagiosSettings());
 
-        sender.send(null);
+        MessagePayload messagePayload = null;
+        
+        sender.send(messagePayload);
     }
 
     @Test
