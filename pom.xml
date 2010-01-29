@@ -4,7 +4,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.googlecode</groupId>
+	<groupId>com.googlecode.jsendnsca</groupId>
 	<artifactId>jsendnsca</artifactId>
 	<packaging>jar</packaging>
 	<version>2.0.0-SNAPSHOT</version>
@@ -54,6 +54,14 @@
 			<id>jeremy.spykerman</id>
 			<name>Jeremy Spykerman</name>
 			<email>jeremy.spykerman@gmail.com</email>
+			<roles>
+				<role>committer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>dariusz.lorenc</id>
+			<name>Darius Lorence</name>
+			<email>dariusz.lorenc@gmail.com</email>
 			<roles>
 				<role>committer</role>
 			</roles>
