@@ -22,15 +22,10 @@
 		<url>http://code.google.com/p/jsendnsca/issues/list</url>
 	</issueManagement>
 	<distributionManagement>
-		<repository>
-			<id>jsendnsca</id>
-			<name>JSend NSCA Google Code Maven Repository</name>
-			<url>dav:https://jsendnsca.googlecode.com/svn/repo/releases</url>
-		</repository>
 		<snapshotRepository>
-			<id>jsendnsca</id>
-			<name>JSend NSCA Google Code Maven Repository</name>
-			<url>dav:https://jsendnsca.googlecode.com/svn/repo/snapshots</url>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<developers>
@@ -80,13 +75,6 @@
 		<url>http://jsendnsca.googlecode.com/</url>
 	</organization>
 	<build>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-2</version>
-			</extension>
-		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
