@@ -55,7 +55,7 @@
 		</developer>
 		<developer>
 			<id>dariusz.lorenc</id>
-			<name>Darius Lorence</name>
+			<name>Darius Lorenc</name>
 			<email>dariusz.lorenc@gmail.com</email>
 			<roles>
 				<role>committer</role>
@@ -183,8 +183,16 @@
 						<descriptor>src/assembly/distribution.xml</descriptor>
 					</descriptors>
 				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>	        
-	        
 		</plugins>
 	</build>
 	<dependencies>
