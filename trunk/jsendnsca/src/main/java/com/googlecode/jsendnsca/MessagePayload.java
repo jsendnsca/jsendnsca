@@ -43,15 +43,6 @@ public class MessagePayload implements Serializable {
     private String serviceName = DEFAULT_SERVICENAME;
     private String message = StringUtils.EMPTY;
 
-    public static class UnknownHostRuntimeException extends RuntimeException {
-
-        private static final long serialVersionUID = 6164363358198216472L;
-
-        public UnknownHostRuntimeException(UnknownHostException e) {
-            super(e);
-        }
-    }
-
     /**
      * Construct a new {@link MessagePayload} with hostname being the short
      * hostname of this machine, level unknown, service name "undefined" and
@@ -252,5 +243,14 @@ public class MessagePayload implements Serializable {
             .append("serviceName", serviceName)
             .append("message", message)
             .toString();
+    }
+
+    public static class UnknownHostRuntimeException extends RuntimeException {
+    
+        private static final long serialVersionUID = 6164363358198216472L;
+    
+        public UnknownHostRuntimeException(UnknownHostException e) {
+            super(e);
+        }
     }
 }
