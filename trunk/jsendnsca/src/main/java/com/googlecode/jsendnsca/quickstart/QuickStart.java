@@ -24,8 +24,16 @@ import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
 import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
 import com.googlecode.jsendnsca.encryption.Encryption;
 
+/**
+ * Quick start example code used in documentation
+ */
 public class QuickStart {
 
+    /**
+     * Creates {@link NagiosSettings}, {@link MessagePayload} using builders and sends
+     * using {@link NagiosPassiveCheckSender}
+     * @param args
+     */
     public static void main(String[] args) {
         NagiosSettings settings = new NagiosSettingsBuilder()
             .withNagiosHost("nagiosHostNameOrIPAddress")
