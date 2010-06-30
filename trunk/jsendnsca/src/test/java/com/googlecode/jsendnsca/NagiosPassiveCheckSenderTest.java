@@ -72,9 +72,7 @@ public class NagiosPassiveCheckSenderTest {
 
         final NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(new NagiosSettings());
 
-        MessagePayload messagePayload = null;
-        
-        sender.send(messagePayload);
+        sender.send(null);
     }
 
     @Test

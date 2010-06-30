@@ -21,6 +21,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.math.IntRange;
 
 import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.encryption.Encryptor;
@@ -36,6 +37,7 @@ public class NagiosSettings {
 
     private static final int MIN_PORT = 1;
     private static final int MAX_PORT = 65535;
+    private static final String INVALID_PORT_MESSAGE = String.format("port must be between %s and %s inclusive", MIN_PORT, MAX_PORT);
 
     private String nagiosHost = "localhost";
     private int port = 5667;
@@ -155,7 +157,7 @@ public class NagiosSettings {
      *            the port, defaults to 5667
      */
     public void setPort(int port) {
-        Validate.isTrue(validPortRange(port), "port must be between 1 and 65535 inclusive");
+        Validate.isTrue(validPortRange(port), INVALID_PORT_MESSAGE);
         this.port = port;
     }
 
@@ -219,7 +221,6 @@ public class NagiosSettings {
     }
 
     private boolean validPortRange(int port) {
-        return port >= MIN_PORT && port <= MAX_PORT;
+        return new IntRange(MIN_PORT, MAX_PORT).containsInteger(port);
     }
-
 }

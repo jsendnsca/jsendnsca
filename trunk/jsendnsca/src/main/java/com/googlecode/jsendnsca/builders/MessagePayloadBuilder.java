@@ -22,8 +22,12 @@ import com.googlecode.jsendnsca.MessagePayload;
  * Used to construct a {@link MessagePayload} using a builder pattern e.g.
  * 
  * <pre>
- * MessagePayload payload = new MessagePayloadBuilder().withHostname(&quot;localhost&quot;).withLevel(Level.CRITICAL).withServiceName(&quot;Test Service Name&quot;)
- *         .withMessage(&quot;Test Message&quot;).create();
+ * MessagePayload payload = new MessagePayloadBuilder()
+ *      .withHostname(&quot;localhost&quot;)
+ *      .withLevel(Level.CRITICAL)
+ *      .withServiceName(&quot;Test Service Name&quot;)
+ *      .withMessage(&quot;Test Message&quot;)
+ *      .create();
  * </pre>
  * 
  * @author Raj.Patel

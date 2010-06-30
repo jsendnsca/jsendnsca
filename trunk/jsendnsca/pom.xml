@@ -124,6 +124,7 @@
 				<configuration>
 					<windowtitle>JSend NSCA</windowtitle>
 					<quiet>true</quiet>
+					<linksource>true</linksource>
 				</configuration>
 				<executions>
 					<execution>
