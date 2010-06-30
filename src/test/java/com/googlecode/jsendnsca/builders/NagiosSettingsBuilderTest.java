@@ -46,6 +46,7 @@ public class NagiosSettingsBuilderTest {
             .withConnectionTimeout(connectionTimeout)
             .withResponseTimeout(responseTimeout)
             .withEncryption(XOR)
+            .withEncryptor(XOR.getEncryptor())
             .create();
 
         assertEquals(host, nagiosSettings.getNagiosHost());
