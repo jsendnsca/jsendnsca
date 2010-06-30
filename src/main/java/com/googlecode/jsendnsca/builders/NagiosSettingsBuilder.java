@@ -23,7 +23,10 @@ import com.googlecode.jsendnsca.encryption.Encryptor;
  * 
  * <pre>
  * 
- * final NagiosSettings nagiosSettings = new NagiosSettingsBuilder().withNagiosHost(HOSTNAME).withPassword(PASSWORD).create();
+ * NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
+ *      .withNagiosHost(HOSTNAME)
+ *      .withPassword(PASSWORD)
+ *      .create();
  * </pre>
  * 
  * @author Raj.Patel
