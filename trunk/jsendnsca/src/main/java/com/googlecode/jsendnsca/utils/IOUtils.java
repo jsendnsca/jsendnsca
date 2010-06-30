@@ -16,6 +16,7 @@
  */
 package com.googlecode.jsendnsca.utils;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -44,12 +45,7 @@ public class IOUtils {
 	 *            the InputStream to close, may be null or already closed
 	 */
 	public static void closeQuietly(InputStream input) {
-		try {
-			if (input != null) {
-				input.close();
-			}
-		} catch (IOException ignore) {
-		}
+		close(input);
 	}
 
 	/**
@@ -62,12 +58,7 @@ public class IOUtils {
 	 *            the OutputStream to close, may be null or already closed
 	 */
 	public static void closeQuietly(OutputStream output) {
-		try {
-			if (output != null) {
-				output.close();
-			}
-		} catch (IOException ignore) {
-		}
+		close(output);
 	}
 
 	/**
@@ -95,5 +86,14 @@ public class IOUtils {
 			}
 		} catch (IOException ignore) {
 		}
+	}
+	
+	private static void close(Closeable closeable) {
+	    try {
+            if (closeable != null) {
+                closeable.close();
+            }
+        } catch (IOException ignore) {
+        }
 	}
 }
