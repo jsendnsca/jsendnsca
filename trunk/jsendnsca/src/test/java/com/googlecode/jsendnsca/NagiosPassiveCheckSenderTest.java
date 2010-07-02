@@ -141,21 +141,9 @@ public class NagiosPassiveCheckSenderTest {
 
         MessagePayload messagePayload = stub.getMessagePayloadList().get(0);
 
-        assertEquals(containingChars(63).length(), messagePayload.getHostname().length());
-        assertEquals(containingChars(127).length(), messagePayload.getServiceName().length());
-        assertEquals(containingChars(511).length(), messagePayload.getMessage().length());
-    }
-
-    private void waitForStub() throws InterruptedException {
-        Thread.sleep(50);
-    }
-
-    private String containingChars(int size) {
-        char[] chars = new char[size];
-        for (int i = 0; i < size; i++) {
-            chars[i] = 'X';
-        }
-        return new String(chars);
+        assertEquals(63, messagePayload.getHostname().length());
+        assertEquals(127, messagePayload.getServiceName().length());
+        assertEquals(511, messagePayload.getMessage().length());
     }
 
     @Test
@@ -217,5 +205,17 @@ public class NagiosPassiveCheckSenderTest {
         payload.setMessage(MESSAGE);
 
         passiveAlerter.send(payload);
+    }
+
+    private String containingChars(int size) {
+        char[] chars = new char[size];
+        for (int i = 0; i < size; i++) {
+            chars[i] = 'X';
+        }
+        return new String(chars);
+    }
+
+    private void waitForStub() throws InterruptedException {
+        Thread.sleep(50);
     }
 }
