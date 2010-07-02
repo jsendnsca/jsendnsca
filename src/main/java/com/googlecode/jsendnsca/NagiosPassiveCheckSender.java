@@ -77,11 +77,17 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
 
         try {
 
-            final byte[] passiveCheckBytes = new PassiveCheckBytesBuilder().withTimeStamp(timeStamp).withLevel(payload.getLevel()).withHostname(
-                    payload.getHostname()).withServiceName(payload.getServiceName()).withMessage(payload.getMessage()).writeCRC().encrypt(initVector,
-                    nagiosSettings).toByteArray();
+            final byte[] passiveCheckBytes = new PassiveCheckBytesBuilder()
+                .withTimeStamp(timeStamp)
+                .withLevel(payload.getLevel())
+                .withHostname(payload.getHostname())
+                .withServiceName(payload.getServiceName())
+                .withMessage(payload.getMessage())
+                .writeCRC()
+                .encrypt(initVector,nagiosSettings)
+                .toByteArray();
 
-            outputStream.write(passiveCheckBytes, 0, passiveCheckBytes.length);
+            outputStream.write(passiveCheckBytes);
             outputStream.flush();
         } catch (SocketTimeoutException ste) {
             throw ste;
@@ -90,7 +96,7 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
         } finally {
             IOUtils.closeQuietly(outputStream);
             IOUtils.closeQuietly(inputStream);
-            socket.close();
+            IOUtils.closeQuietly(socket);
         }
     }
 
