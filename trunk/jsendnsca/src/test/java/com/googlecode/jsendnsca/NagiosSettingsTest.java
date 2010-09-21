@@ -40,16 +40,6 @@ public class NagiosSettingsTest {
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionWhenSettingPasswordToEmptyString() throws Exception {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("password cannot be null or empty");
-
-        final NagiosSettings nagiosSettings = new NagiosSettings();
-
-        nagiosSettings.setPassword(StringUtils.EMPTY);
-    }
-
-    @Test
     public void shouldThrowIllegalArgumentExceptionForInvalidPort() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("port must be between 1 and 65535 inclusive");
@@ -71,7 +61,7 @@ public class NagiosSettingsTest {
     @Test
     public void shouldReturnStringOfNagiosSettings() throws Exception {
         String settings = new NagiosSettings().toString();
-        assertEquals("NagiosSettings[nagiosHost=localhost,port=5667,password=password,timeout=10000,connectTimeout=5000,encryptor=none]", settings);
+        assertEquals("NagiosSettings[nagiosHost=localhost,port=5667,password=,timeout=10000,connectTimeout=5000,encryptor=none]", settings);
     }
 
     @Test
