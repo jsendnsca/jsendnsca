@@ -40,8 +40,8 @@ public class NagiosSettings {
     private static final String INVALID_PORT_MESSAGE = String.format("port must be between %s and %s inclusive", MIN_PORT, MAX_PORT);
 
     private String nagiosHost = "localhost";
+    private String password = "";
     private int port = 5667;
-    private String password = "password";
     private int timeout = 10000;
     private int connectTimeout = 5000;
     private Encryptor encryptor = NONE.getEncryptor();
@@ -76,7 +76,7 @@ public class NagiosSettings {
     /**
      * The password configured in the ncsa.cfg file used by NSCA
      *
-     * @return the password, defaults to "password"
+     * @return the password
      */
     public String getPassword() {
         return password;
@@ -143,10 +143,9 @@ public class NagiosSettings {
      * The password configured in the ncsa.cfg file used by NSCA
      *
      * @param password
-     *            the password, defaults to "password"
+     *            the password
      */
     public void setPassword(String password) {
-        Validate.notEmpty(password, "password cannot be null or empty");
         this.password = password;
     }
 
