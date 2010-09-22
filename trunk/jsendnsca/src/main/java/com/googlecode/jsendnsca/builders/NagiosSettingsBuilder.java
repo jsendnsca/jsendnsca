@@ -80,6 +80,12 @@ public class NagiosSettingsBuilder {
         return this;
     }
 
+    /**
+     * The next {@link NagiosSettings} created will have an empty string set as
+     * the password
+     *
+     * @return the {@link NagiosSettingsBuilder} instance
+     */
     public NagiosSettingsBuilder withNoPassword() {
         nagiosSettings.setPassword(EMPTY);
         return this;
