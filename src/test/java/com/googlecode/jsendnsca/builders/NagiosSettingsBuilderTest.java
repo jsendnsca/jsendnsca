@@ -14,6 +14,7 @@
 package com.googlecode.jsendnsca.builders;
 
 import static com.googlecode.jsendnsca.encryption.Encryption.*;
+import static org.apache.commons.lang.StringUtils.*;
 
 import static org.junit.Assert.*;
 
@@ -55,5 +56,15 @@ public class NagiosSettingsBuilderTest {
         assertEquals(connectionTimeout, nagiosSettings.getConnectTimeout());
         assertEquals(responseTimeout, nagiosSettings.getTimeout());
         assertEquals(XOR.getEncryptor(), nagiosSettings.getEncryptor());
+    }
+
+    @Test
+    public void shouldCreateSettingsWithNoPassword() throws Exception {
+        NagiosSettings settings = new NagiosSettingsBuilder()
+            .withPassword("set to something as default is empty string")
+            .withNoPassword()
+            .create();
+
+        assertEquals(EMPTY, settings.getPassword());
     }
 }
