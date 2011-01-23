@@ -13,8 +13,11 @@
  */
 package com.googlecode.jsendnsca;
 
+import static com.googlecode.jsendnsca.utils.IOUtils.*;
+
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -22,8 +25,6 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 import org.apache.commons.lang.Validate;
-
-import com.googlecode.jsendnsca.utils.IOUtils;
 
 /**
  * This class is used to send a Passive Check to the Nagios NSCA add-on
@@ -59,60 +60,60 @@ public class NagiosPassiveCheckSender implements PassiveCheckSender {
     public void send(MessagePayload payload) throws NagiosException, IOException {
         Validate.notNull(payload, "payload cannot be null");
 
-        final Socket socket = new Socket();
-        final InetSocketAddress nagiosEndpoint = new InetSocketAddress(nagiosSettings.getNagiosHost(), nagiosSettings.getPort());
-
-        OutputStream outputStream = null;
-        DataInputStream inputStream = null;
-        try {
-            connectWithTimeout(socket, nagiosEndpoint);
-            outputStream = socket.getOutputStream();
-            inputStream = new DataInputStream(socket.getInputStream());
-        } catch (IOException ioe) {
-            throw ioe;
-        }
-
-        final byte[] initVector = readInitializationVector(inputStream);
-        int timeStamp = inputStream.readInt();
+        Socket socket = connectedToNagios();
+        OutputStream outputStream = socket.getOutputStream();
+        InputStream inputStream = socket.getInputStream();
 
         try {
-
-            final byte[] passiveCheckBytes = new PassiveCheckBytesBuilder()
-                .withTimeStamp(timeStamp)
-                .withLevel(payload.getLevel())
-                .withHostname(payload.getHostname())
-                .withServiceName(payload.getServiceName())
-                .withMessage(payload.getMessage())
-                .writeCRC()
-                .encrypt(initVector,nagiosSettings)
-                .toByteArray();
-
-            outputStream.write(passiveCheckBytes);
+            outputStream.write(passiveCheck(payload, new DataInputStream(inputStream)));
             outputStream.flush();
         } catch (SocketTimeoutException ste) {
             throw ste;
-        } catch (Exception e) {
+        } catch (NagiosException ne) {
+            throw ne;
+        } catch (IOException e) {
             throw new NagiosException("Error occurred while sending passive alert", e);
         } finally {
-            IOUtils.closeQuietly(outputStream);
-            IOUtils.closeQuietly(inputStream);
-            IOUtils.closeQuietly(socket);
+            close(socket, outputStream, inputStream);
         }
     }
 
-    private void connectWithTimeout(final Socket socket, final InetSocketAddress nagiosEndpoint) throws IOException, SocketException {
-        socket.connect(nagiosEndpoint, nagiosSettings.getConnectTimeout());
+    private Socket connectedToNagios() throws IOException, SocketException {
+        Socket socket = new Socket();
+        socket.connect(new InetSocketAddress(nagiosSettings.getNagiosHost(), nagiosSettings.getPort()), nagiosSettings.getConnectTimeout());
         socket.setSoTimeout(nagiosSettings.getTimeout());
+        return socket;
     }
 
-    private byte[] readInitializationVector(DataInputStream inputStream) throws NagiosException, SocketTimeoutException {
+    private byte[] passiveCheck(MessagePayload payload, DataInputStream inputStream) throws IOException, NagiosException {
+        final byte[] initVector = readFrom(inputStream);
+        int receivedTimeStamp = inputStream.readInt();
+        
+        return new PassiveCheckBytesBuilder()
+            .withTimeStamp(receivedTimeStamp)
+            .withLevel(payload.getLevel())
+            .withHostname(payload.getHostname())
+            .withServiceName(payload.getServiceName())
+            .withMessage(payload.getMessage())
+            .writeCRC()
+            .encrypt(initVector,nagiosSettings)
+            .toByteArray();
+    }
+
+    private void close(final Socket socket, OutputStream outputStream, InputStream inputStream) {
+        closeQuietly(inputStream);
+        closeQuietly(outputStream);
+        closeQuietly(socket);
+    }
+
+    private byte[] readFrom(DataInputStream inputStream) throws NagiosException, SocketTimeoutException {
         final byte[] initVector = new byte[INITIALISATION_VECTOR_SIZE];
         try {
             inputStream.readFully(initVector, 0, INITIALISATION_VECTOR_SIZE);
             return initVector;
         } catch (SocketTimeoutException ste) {
             throw ste;
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new NagiosException("Can't read initialisation vector", e);
         }
     }
