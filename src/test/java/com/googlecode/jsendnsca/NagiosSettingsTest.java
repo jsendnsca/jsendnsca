@@ -16,25 +16,30 @@ package com.googlecode.jsendnsca;
 import static org.junit.Assert.*;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.googlecode.jsendnsca.NagiosSettings;
 import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.encryption.TripleDESEncryptor;
 
 public class NagiosSettingsTest {
 
+    private NagiosSettings nagiosSettings;
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+    
+    @Before
+    public void setUp() {
+        nagiosSettings = new NagiosSettings();
+    }
 
     @Test
     public void shouldThrowIllegalArgumentExceptionWhenSettingHostnameToEmptyString() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("nagiosHost cannot be null or empty");
-
-        final NagiosSettings nagiosSettings = new NagiosSettings();
 
         nagiosSettings.setNagiosHost(StringUtils.EMPTY);
     }
@@ -44,18 +49,23 @@ public class NagiosSettingsTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("port must be between 1 and 65535 inclusive");
 
-        NagiosSettings nagiosSettings = new NagiosSettings();
         int maxValidPort = 65535;
         nagiosSettings.setPort(maxValidPort + 1);
     }
 
     @Test
     public void shouldSetEncryptionUsingEnum() throws Exception {
-        NagiosSettings settings = new NagiosSettings();
+        nagiosSettings.setEncryption(Encryption.TRIPLE_DES);
 
-        settings.setEncryption(Encryption.TRIPLE_DES);
-
-        assertEquals(Encryption.TRIPLE_DES.getEncryptor(), settings.getEncryptor());
+        assertEquals(Encryption.TRIPLE_DES.getEncryptor(), nagiosSettings.getEncryptor());
+    }
+    
+    @Test
+    public void shouldThrowIllegalArgumentExceptionForNullEncryptor() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("encryptor cannot be null");
+        
+        nagiosSettings.setEncryptor(null);
     }
 
     @Test
@@ -67,10 +77,8 @@ public class NagiosSettingsTest {
     @Test
     public void shouldSetEncryptionUsingEncryptor() throws Exception {
         TripleDESEncryptor expectedEncryptor = new TripleDESEncryptor();
-        NagiosSettings settings = new NagiosSettings();
+        nagiosSettings.setEncryptor(expectedEncryptor);
 
-        settings.setEncryptor(expectedEncryptor);
-
-        assertEquals(expectedEncryptor, settings.getEncryptor());
+        assertEquals(expectedEncryptor, nagiosSettings.getEncryptor());
     }
 }

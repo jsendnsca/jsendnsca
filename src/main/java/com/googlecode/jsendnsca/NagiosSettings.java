@@ -116,7 +116,7 @@ public class NagiosSettings {
      * @param encryption
      */
     public void setEncryption(Encryption encryption) {
-        this.encryptor = encryption.getEncryptor();
+        setEncryptor(encryption.getEncryptor());
     }
 
     /**
@@ -125,6 +125,7 @@ public class NagiosSettings {
      * @param encryptor
      */
     public void setEncryptor(Encryptor encryptor) {
+        Validate.notNull(encryptor, "encryptor cannot be null");
         this.encryptor = encryptor;
     }
 
@@ -184,11 +185,10 @@ public class NagiosSettings {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof NagiosSettings == false) {
-            return false;
-        }
-        if (this == obj) {
-            return true;
+        if (obj == null) { return false; }
+        if (obj == this) { return true; }
+        if (obj.getClass() != getClass()) {
+          return false;
         }
         NagiosSettings rhs = (NagiosSettings) obj;
 
