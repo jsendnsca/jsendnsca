@@ -16,11 +16,12 @@
  */
 package com.googlecode.jsendnsca.builders;
 
-import com.googlecode.jsendnsca.Level;
-import com.googlecode.jsendnsca.MessagePayload;
+import static junit.framework.Assert.*;
+
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
+import com.googlecode.jsendnsca.Level;
+import com.googlecode.jsendnsca.MessagePayload;
 
 /**
  * @version $Revision$
@@ -28,7 +29,7 @@ import static junit.framework.Assert.assertEquals;
 public class MessagePayloadBuilderTest {
 
     @Test
-    public void shouldConstructMessagePayloadWithSupportForSmallMessage() throws Exception {
+    public void shouldConstructNewMessagePayload() throws Exception {
         final MessagePayload messagePayload = new MessagePayloadBuilder()
             .withHostname("localhost")
             .withLevel(Level.CRITICAL)
@@ -40,24 +41,6 @@ public class MessagePayloadBuilderTest {
         assertEquals(Level.CRITICAL, messagePayload.getLevel());
         assertEquals("test service", messagePayload.getServiceName());
         assertEquals("test message", messagePayload.getMessage());
-        assertEquals(512, messagePayload.getMaxMessageSizeInChars());
-    }
-
-    @Test
-    public void shouldConstructMessagePayloadWithSupportForLargeMessage() throws Exception {
-        MessagePayload messagePayload = new MessagePayloadBuilder()
-            .withSupportForLargeMessages()
-            .withHostname("localhost")
-            .withLevel(Level.CRITICAL)
-            .withServiceName("test service")
-            .withMessage("test message")
-            .create();
-
-        assertEquals("localhost", messagePayload.getHostname());
-        assertEquals(Level.CRITICAL, messagePayload.getLevel());
-        assertEquals("test service", messagePayload.getServiceName());
-        assertEquals("test message", messagePayload.getMessage());
-        assertEquals(4096, messagePayload.getMaxMessageSizeInChars());
     }
 
     @Test
