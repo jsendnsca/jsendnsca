@@ -13,10 +13,10 @@
  */
 package com.googlecode.jsendnsca.builders;
 
-import java.net.UnknownHostException;
-
 import com.googlecode.jsendnsca.Level;
 import com.googlecode.jsendnsca.MessagePayload;
+
+import java.net.UnknownHostException;
 
 /**
  * Used to construct a {@link MessagePayload} using a builder pattern e.g.
@@ -120,7 +120,9 @@ public class MessagePayloadBuilder {
     }
 
     /**
-     * Set the message of the passive check
+     * Set the message of the passive check which will be truncated to 512
+     * chars unless withSupportForLargeMessages is invoked when the message
+     * will be truncated to 4096 chars
      * 
      * @param message
      *            the message
@@ -128,6 +130,18 @@ public class MessagePayloadBuilder {
      */
     public MessagePayloadBuilder withMessage(String message) {
         payload.setMessage(message);
+        return this;
+    }
+
+    /**
+     * Set support for larger message of 4096 chars which is supported from NSCA 2.9.1
+     *
+     * Any message larger than 4096 will be truncated to this
+     *
+     * @return the {@link MessagePayloadBuilder}
+     */
+    public MessagePayloadBuilder withSupportForLargeMessages() {
+        payload.setSupportForLargeMessage();
         return this;
     }
 }

@@ -7,7 +7,7 @@
 	<groupId>com.googlecode.jsendnsca</groupId>
 	<artifactId>jsendnsca</artifactId>
 	<packaging>jar</packaging>
-	<version>2.0.1</version>
+	<version>2.1-RC1</version>
 	<name>jsendnsca</name>
 	<description>Java API for sending Passive Checks to Nagios NSCA addon</description>
 	<url>https://jsendnsca.googlecode.com/</url>
@@ -225,8 +225,15 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
-			<version>1.1</version>
+			<version>1.2</version>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.0.1</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 </project>

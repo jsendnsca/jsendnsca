@@ -13,26 +13,27 @@
  */
 package com.googlecode.jsendnsca;
 
-import static com.googlecode.jsendnsca.Level.*;
-import static com.googlecode.jsendnsca.encryption.Encryption.*;
-
-import static org.hamcrest.Matchers.*;
-
-import static org.junit.Assert.*;
-
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.util.List;
-
+import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
+import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
+import com.googlecode.jsendnsca.mocks.NagiosNscaStub;
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
-import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
-import com.googlecode.jsendnsca.mocks.NagiosNscaStub;
+import java.io.FileInputStream;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.util.List;
+
+import static com.googlecode.jsendnsca.Level.CRITICAL;
+import static com.googlecode.jsendnsca.encryption.Encryption.TRIPLE_DES;
+import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class NagiosPassiveCheckSenderTest {
 
@@ -102,6 +103,34 @@ public class NagiosPassiveCheckSenderTest {
             .withLevel(CRITICAL)
             .withServiceName(SERVICE_NAME)
             .withMessage(MESSAGE)
+            .create();
+
+        passiveAlerter.send(payload);
+
+        waitForStub();
+
+        List<MessagePayload> passiveChecksList = stub.getMessagePayloadList();
+        assertThat(passiveChecksList, hasItem(payload));
+    }
+
+    @Test
+    public void shouldSendLargePassiveCheck() throws Exception {
+        stub.turnOnSupportForLargeMessages();
+
+        final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
+            .withNagiosHost(HOSTNAME)
+            .withPassword(PASSWORD)
+            .withEncryption(XOR)
+            .create();
+
+        final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
+
+        MessagePayload payload = new MessagePayloadBuilder()
+            .withSupportForLargeMessages()
+            .withHostname(HOSTNAME)
+            .withLevel(CRITICAL)
+            .withServiceName(SERVICE_NAME)
+            .withMessage(IOUtils.toString(new FileInputStream("src/test/resources/large message.txt")))
             .create();
 
         passiveAlerter.send(payload);
