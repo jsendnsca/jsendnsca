@@ -13,26 +13,25 @@
  */
 package com.googlecode.jsendnsca;
 
-import static org.junit.Assert.*;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.googlecode.jsendnsca.Level;
+import static org.junit.Assert.assertEquals;
 
 public class LevelTest {
 
+    @SuppressWarnings({"PublicField"})
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void shouldReturnIntegerValueForLevel() throws Exception {
-        assertEquals(0, Level.OK.ordinal());
+        assertEquals(0L, (long) Level.OK.ordinal());
     }
 
     @Test
-    public void shouldReturnLevelForLevelValue() throws Exception {
+    public void shouldReturnLevelForLevelIntegerValue() throws Exception {
         assertEquals(Level.OK, Level.toLevel(0));
         assertEquals(Level.WARNING, Level.toLevel(1));
         assertEquals(Level.CRITICAL, Level.toLevel(2));

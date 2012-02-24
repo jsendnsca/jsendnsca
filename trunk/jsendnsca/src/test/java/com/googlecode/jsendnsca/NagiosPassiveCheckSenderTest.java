@@ -13,31 +13,33 @@
  */
 package com.googlecode.jsendnsca;
 
-import static com.googlecode.jsendnsca.Level.*;
-import static com.googlecode.jsendnsca.encryption.Encryption.*;
-
-import static org.hamcrest.Matchers.*;
-
-import static org.junit.Assert.*;
-
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.util.List;
-
+import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
+import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
+import com.googlecode.jsendnsca.mocks.NagiosNscaStub;
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
-import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
-import com.googlecode.jsendnsca.mocks.NagiosNscaStub;
+import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.util.List;
+
+import static com.googlecode.jsendnsca.Level.CRITICAL;
+import static com.googlecode.jsendnsca.encryption.Encryption.TRIPLE_DES;
+import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class NagiosPassiveCheckSenderTest {
 
+    @SuppressWarnings({"PublicField"})
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     private static final String HOSTNAME = "localhost";
     private static final String MESSAGE = "Test Message";
@@ -112,6 +114,34 @@ public class NagiosPassiveCheckSenderTest {
         assertThat(passiveChecksList, hasItem(payload));
     }
 
+    @Test
+    public void shouldSendPassiveCheckWithLargeMessageSupport() throws Exception {
+        stub.turnOnLargeMessageSupportAsInNsca291();
+
+        final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
+            .withLargeMessageSupportEnabled()
+            .withNagiosHost(HOSTNAME)
+            .withPassword(PASSWORD)
+            .withEncryption(XOR)
+            .create();
+
+        final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
+
+        final MessagePayload payload = new MessagePayloadBuilder()
+            .withHostname(HOSTNAME)
+            .withLevel(CRITICAL)
+            .withServiceName(SERVICE_NAME)
+            .withMessage(large())
+            .create();
+
+        passiveAlerter.send(payload);
+
+        waitForStub();
+
+        List<MessagePayload> passiveChecksList = stub.getMessagePayloadList();
+        assertThat(passiveChecksList, hasItem(payload));
+    }
+
     /*
      * I've confirmed externally that the NagiosStub would allow the too long
      * hostname, servicename and message lengths so the trimming must be done by
@@ -141,9 +171,9 @@ public class NagiosPassiveCheckSenderTest {
 
         MessagePayload messagePayload = stub.getMessagePayloadList().get(0);
 
-        assertEquals(63, messagePayload.getHostname().length());
-        assertEquals(127, messagePayload.getServiceName().length());
-        assertEquals(511, messagePayload.getMessage().length());
+        assertEquals(63L, (long) messagePayload.getHostname().length());
+        assertEquals(127L, (long) messagePayload.getServiceName().length());
+        assertEquals(511L, (long) messagePayload.getMessage().length());
     }
 
     @Test
@@ -207,7 +237,7 @@ public class NagiosPassiveCheckSenderTest {
         passiveAlerter.send(payload);
     }
 
-    private String containingChars(int size) {
+    private static String containingChars(int size) {
         char[] chars = new char[size];
         for (int i = 0; i < size; i++) {
             chars[i] = 'X';
@@ -215,7 +245,11 @@ public class NagiosPassiveCheckSenderTest {
         return new String(chars);
     }
 
-    private void waitForStub() throws InterruptedException {
-        Thread.sleep(50);
+    private static void waitForStub() throws InterruptedException {
+        Thread.sleep(50L);
+    }
+
+    private String large() throws IOException {
+        return IOUtils.toString(getClass().getClassLoader().getResourceAsStream("lorem-ipsum.txt"));
     }
 }

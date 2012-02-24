@@ -13,19 +13,14 @@
  */
 package com.googlecode.jsendnsca;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+import org.junit.After;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Date;
 
-import org.junit.After;
-import org.junit.Test;
-
-import com.googlecode.jsendnsca.MessagePayload;
-import com.googlecode.jsendnsca.NagiosException;
-import com.googlecode.jsendnsca.NonBlockingNagiosPassiveCheckSender;
-import com.googlecode.jsendnsca.PassiveCheckSender;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertThat;
 
 public class NonBlockingNagiosPassiveCheckSenderTest {
 

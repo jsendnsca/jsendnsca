@@ -13,24 +13,26 @@
  */
 package com.googlecode.jsendnsca;
 
-import java.util.zip.CRC32;
-
 import com.googlecode.jsendnsca.utils.ByteArrayUtils;
 
+import java.util.zip.CRC32;
+
+@SuppressWarnings({"NumericCastThatLosesPrecision"})
 class PassiveCheckBytesBuilder {
 
-    private static final short NSCA_VERSION = 3;
-    private static final int PLUGIN_OUTPUT_SIZE = 512;
+    private static final short NSCA_VERSION = (short) 3;
     private static final int HOST_NAME_SIZE = 64;
     private static final int SERVICE_NAME_SIZE = 128;
 
     private final byte[] bytes;
-    private int currentOffset = 0;
+    private int currentOffset;
+    private final NagiosSettings nagiosSettings;
 
-    public PassiveCheckBytesBuilder() {
-        bytes = new byte[16 + HOST_NAME_SIZE + SERVICE_NAME_SIZE + PLUGIN_OUTPUT_SIZE];
+    PassiveCheckBytesBuilder(NagiosSettings nagiosSettings) {
+        this.nagiosSettings = nagiosSettings;
+        bytes = new byte[16 + HOST_NAME_SIZE + SERVICE_NAME_SIZE + nagiosSettings.getMaxMessageSizeInChars()];
         ByteArrayUtils.writeShort(bytes, NSCA_VERSION, currentOffset);
-        currentOffset += 8;
+        this.currentOffset += 8;
     }
 
     public PassiveCheckBytesBuilder withLevel(Level level) {
@@ -47,26 +49,26 @@ class PassiveCheckBytesBuilder {
 
     public PassiveCheckBytesBuilder withHostname(String hostname) {
         writeFixedString(hostname, HOST_NAME_SIZE - 1);
-        skipBytes(1);
+        skipOneByte();
         return this;
     }
 
     public PassiveCheckBytesBuilder withServiceName(String serviceName) {
         writeFixedString(serviceName, SERVICE_NAME_SIZE - 1);
-        skipBytes(1);
+        skipOneByte();
         return this;
     }
 
     public PassiveCheckBytesBuilder withMessage(String message) {
-        writeFixedString(message, PLUGIN_OUTPUT_SIZE - 1);
-        skipBytes(1);
+        writeFixedString(message, nagiosSettings.getMaxMessageSizeInChars() - 1);
+        skipOneByte();
         return this;
     }
 
-    public PassiveCheckBytesBuilder skipBytes(int numberToSkip) {
-        currentOffset += numberToSkip;
-        return this;
+    private void skipOneByte() {
+        currentOffset += 1;
     }
+
 
     public PassiveCheckBytesBuilder writeCRC() {
         final CRC32 crc = new CRC32();
@@ -79,7 +81,7 @@ class PassiveCheckBytesBuilder {
         return bytes;
     }
 
-    public PassiveCheckBytesBuilder encrypt(byte[] initVector, NagiosSettings nagiosSettings) {
+    public PassiveCheckBytesBuilder encrypt(byte[] initVector) {
         nagiosSettings.getEncryptor().encrypt(bytes, initVector, nagiosSettings.getPassword());
         return this;
     }

@@ -13,11 +13,11 @@
  */
 package com.googlecode.jsendnsca.builders;
 
-import static org.apache.commons.lang.StringUtils.*;
-
 import com.googlecode.jsendnsca.NagiosSettings;
 import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.encryption.Encryptor;
+
+import static org.apache.commons.lang.StringUtils.EMPTY;
 
 /**
  * Used to construct a {@link NagiosSettings} instance using a builder pattern
@@ -155,4 +155,13 @@ public class NagiosSettingsBuilder {
         return this;
     }
 
+    /**
+     ** The next {@link NagiosSettings} created will have large message support enabled
+     *
+     *  see {@link com.googlecode.jsendnsca.NagiosSettings#enableLargeMessageSupport()}
+     */
+    public NagiosSettingsBuilder withLargeMessageSupportEnabled() {
+        nagiosSettings.enableLargeMessageSupport();
+        return this;
+    }
 }

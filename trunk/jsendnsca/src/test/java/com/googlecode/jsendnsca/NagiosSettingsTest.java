@@ -13,23 +13,24 @@
  */
 package com.googlecode.jsendnsca;
 
-import static org.junit.Assert.*;
-
+import com.googlecode.jsendnsca.encryption.Encryption;
+import com.googlecode.jsendnsca.encryption.Encryptor;
+import com.googlecode.jsendnsca.encryption.TripleDESEncryptor;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.googlecode.jsendnsca.encryption.Encryption;
-import com.googlecode.jsendnsca.encryption.TripleDESEncryptor;
+import static org.junit.Assert.assertEquals;
 
 public class NagiosSettingsTest {
 
     private NagiosSettings nagiosSettings;
 
+    @SuppressWarnings({"PublicField"})
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
     
     @Before
     public void setUp() {
@@ -59,6 +60,18 @@ public class NagiosSettingsTest {
 
         assertEquals(Encryption.TRIPLE_DES.getEncryptor(), nagiosSettings.getEncryptor());
     }
+
+    @Test
+    public void shouldReturn512MaxCharsInMessageByDefault() throws Exception {
+        assertEquals(512L, (long) nagiosSettings.getMaxMessageSizeInChars());
+    }
+    
+    @Test
+    public void shouldReturn4096MaxCharsInMessageWhenEnabled() throws Exception {
+        nagiosSettings.enableLargeMessageSupport();
+
+        assertEquals(4096L, (long) nagiosSettings.getMaxMessageSizeInChars());
+    }
     
     @Test
     public void shouldThrowIllegalArgumentExceptionForNullEncryptor() throws Exception {
@@ -76,7 +89,7 @@ public class NagiosSettingsTest {
 
     @Test
     public void shouldSetEncryptionUsingEncryptor() throws Exception {
-        TripleDESEncryptor expectedEncryptor = new TripleDESEncryptor();
+        Encryptor expectedEncryptor = new TripleDESEncryptor();
         nagiosSettings.setEncryptor(expectedEncryptor);
 
         assertEquals(expectedEncryptor, nagiosSettings.getEncryptor());
