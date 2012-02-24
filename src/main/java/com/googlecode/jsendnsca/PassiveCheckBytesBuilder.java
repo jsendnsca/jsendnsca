@@ -13,23 +13,22 @@
  */
 package com.googlecode.jsendnsca;
 
-import com.googlecode.jsendnsca.utils.ByteArrayUtils;
-
 import java.util.zip.CRC32;
+
+import com.googlecode.jsendnsca.utils.ByteArrayUtils;
 
 class PassiveCheckBytesBuilder {
 
     private static final short NSCA_VERSION = 3;
+    private static final int PLUGIN_OUTPUT_SIZE = 512;
     private static final int HOST_NAME_SIZE = 64;
     private static final int SERVICE_NAME_SIZE = 128;
 
     private final byte[] bytes;
-    private final int maxMessageSizeInChars;
-    private int currentOffset;
+    private int currentOffset = 0;
 
-    PassiveCheckBytesBuilder(int maxMessageSizeInChars) {
-        this.maxMessageSizeInChars = maxMessageSizeInChars;
-        bytes = new byte[16 + HOST_NAME_SIZE + SERVICE_NAME_SIZE + maxMessageSizeInChars];
+    public PassiveCheckBytesBuilder() {
+        bytes = new byte[16 + HOST_NAME_SIZE + SERVICE_NAME_SIZE + PLUGIN_OUTPUT_SIZE];
         ByteArrayUtils.writeShort(bytes, NSCA_VERSION, currentOffset);
         currentOffset += 8;
     }
@@ -59,7 +58,7 @@ class PassiveCheckBytesBuilder {
     }
 
     public PassiveCheckBytesBuilder withMessage(String message) {
-        writeFixedString(message, maxMessageSizeInChars - 1);
+        writeFixedString(message, PLUGIN_OUTPUT_SIZE - 1);
         skipBytes(1);
         return this;
     }
