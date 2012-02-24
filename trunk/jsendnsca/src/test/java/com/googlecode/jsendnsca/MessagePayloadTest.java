@@ -13,22 +13,21 @@
  */
 package com.googlecode.jsendnsca;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.googlecode.jsendnsca.Level;
-import com.googlecode.jsendnsca.MessagePayload;
+import java.util.List;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.*;
 
 public class MessagePayloadTest {
 
+    @SuppressWarnings({"PublicField"})
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -85,13 +84,12 @@ public class MessagePayloadTest {
     public void shouldConstructTwoNewMessagePayload() throws Exception {
         final MessagePayload messagePayload = new MessagePayload("localhost", Level.OK, "test service", "test message");
 
-        final MessagePayload messagePayload2 = new MessagePayload("somehost", Level.WARNING, "foo service", "foo message");
-
         assertEquals("localhost", messagePayload.getHostname());
         assertEquals(Level.OK, messagePayload.getLevel());
         assertEquals("test service", messagePayload.getServiceName());
         assertEquals("test message", messagePayload.getMessage());
 
+        final MessagePayload messagePayload2 = new MessagePayload("somehost", Level.WARNING, "foo service", "foo message");
         assertEquals("somehost", messagePayload2.getHostname());
         assertEquals(Level.WARNING, messagePayload2.getLevel());
         assertEquals("foo service", messagePayload2.getServiceName());
@@ -122,9 +120,9 @@ public class MessagePayloadTest {
 
     @Test
     public void shouldThrowIllegalArgumentExceptionIfStringLevelIsNotRecognised() throws Exception {
-        final MessagePayload messagePayload = new MessagePayload();
 
         try {
+            final MessagePayload messagePayload = new MessagePayload();
             messagePayload.setLevel("foobar");
             fail("Should throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
@@ -142,11 +140,22 @@ public class MessagePayloadTest {
 
     @Test
     public void shouldDetermineShortHostnameCorrectly() throws Exception {
-        if (isUnix()) {
-            final MessagePayload messagePayload = new MessagePayload();
-            messagePayload.useLocalHostname();
-            assertEquals(getShortHostNameFromOS(), messagePayload.getHostname());
-        }
+        final MessagePayload messagePayload = new MessagePayload();
+        messagePayload.useLocalHostname();
+        assertEquals(getShortHostNameFromOS(), messagePayload.getHostname());
+    }
+
+    @Test
+    public void shouldReturnMaxNumbersOfCharsInMessageAs512() throws Exception {
+        MessagePayload messagePayload = new MessagePayload();
+        assertEquals(512, messagePayload.getMaxMessageSizeInChars());
+    }
+
+    @Test
+    public void shouldReturnMaxNumbersOfCharsInMessageAs4096WhenLargeMessageSupportSetToTrue() throws Exception {
+        MessagePayload messagePayload = new MessagePayload();
+        messagePayload.setSupportForLargeMessage();
+        assertEquals(4096, messagePayload.getMaxMessageSizeInChars());
     }
 
     @Test
@@ -159,22 +168,13 @@ public class MessagePayloadTest {
         assertThat(payloadString, containsString("message="));
     }
 
-    private static boolean isUnix() {
-        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-            return false;
-        }
-        return true;
-    }
-
+    @SuppressWarnings({"CallToRuntimeExec"})
     private static String getShortHostNameFromOS() throws Exception {
         final Runtime runtime = Runtime.getRuntime();
         final Process process = runtime.exec("hostname");
-        final BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-        final String expectedHostName = input.readLine();
-        input.close();
+        List<String> lines = IOUtils.readLines(process.getInputStream());
         assertEquals(0, process.waitFor());
 
-        return expectedHostName;
+        return lines.get(0);
     }
 }

@@ -13,35 +13,39 @@
  */
 package com.googlecode.jsendnsca;
 
-import static org.apache.commons.lang.builder.ToStringStyle.*;
-
-import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
+import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+
 /**
  * The Passive Check Message Payload
  *
  * @author Raj.Patel
  * @version 1.0
- * @see com.googlecode.jsendnsca.builders.MessagePayloadBuilder
+ * @see MessagePayloadBuilder
  */
 public class MessagePayload implements Serializable {
 
     private static final long serialVersionUID = 6014395299584333124L;
 
     private static final String DEFAULT_SERVICENAME = "UNDEFINED";
+    private static final int SMALL_MESSAGE_SIZE_IN_CHARS = 512;
+    private static final int LARGE_MESSAGE_SIZE_IN_CHARS = 4096;
 
     private String hostname;
     private Level level = Level.UNKNOWN;
     private String serviceName = DEFAULT_SERVICENAME;
     private String message = StringUtils.EMPTY;
+    private int maxMessageSizeInChars = SMALL_MESSAGE_SIZE_IN_CHARS;
 
     /**
      * Construct a new {@link MessagePayload} with hostname being the short
@@ -86,7 +90,7 @@ public class MessagePayload implements Serializable {
     /**
      * Use the short hostname of this machine in the passive check
      */
-    public void useLocalHostname() {
+    public final void useLocalHostname() {
         setHostname(false);
     }
 
@@ -192,6 +196,19 @@ public class MessagePayload implements Serializable {
         this.message = message;
     }
 
+    /**
+     * Switch on support for larger message of 4096 chars
+     * as supported from NSCA 2.9.1 as opposed to previous
+     * limit of 512 chars
+     */
+    public void setSupportForLargeMessage() {
+        maxMessageSizeInChars = LARGE_MESSAGE_SIZE_IN_CHARS;
+    }
+
+    public int getMaxMessageSizeInChars() {
+        return maxMessageSizeInChars;
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -214,7 +231,7 @@ public class MessagePayload implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MessagePayload == false) {
+        if (!(obj instanceof MessagePayload)) {
             return false;
         }
         if (this == obj) {
