@@ -13,14 +13,12 @@
  */
 package com.googlecode.jsendnsca.builders;
 
-import static com.googlecode.jsendnsca.encryption.Encryption.*;
-import static org.apache.commons.lang.StringUtils.*;
-
-import static org.junit.Assert.*;
-
+import com.googlecode.jsendnsca.NagiosSettings;
 import org.junit.Test;
 
-import com.googlecode.jsendnsca.NagiosSettings;
+import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
+import static org.apache.commons.lang.StringUtils.EMPTY;
+import static org.junit.Assert.assertEquals;
 
 public class NagiosSettingsBuilderTest {
 
@@ -41,6 +39,7 @@ public class NagiosSettingsBuilderTest {
         int responseTimeout = 1;
 
         NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
+            .withLargeMessageSupportEnabled()
             .withNagiosHost(host)
             .withPort(port)
             .withPassword(password)
@@ -51,11 +50,12 @@ public class NagiosSettingsBuilderTest {
             .create();
 
         assertEquals(host, nagiosSettings.getNagiosHost());
-        assertEquals(port, nagiosSettings.getPort());
+        assertEquals((long) port, (long) nagiosSettings.getPort());
         assertEquals(password, nagiosSettings.getPassword());
-        assertEquals(connectionTimeout, nagiosSettings.getConnectTimeout());
-        assertEquals(responseTimeout, nagiosSettings.getTimeout());
+        assertEquals((long) connectionTimeout, (long) nagiosSettings.getConnectTimeout());
+        assertEquals((long) responseTimeout, (long) nagiosSettings.getTimeout());
         assertEquals(XOR.getEncryptor(), nagiosSettings.getEncryptor());
+        assertEquals(4096L, (long) nagiosSettings.getMaxMessageSizeInChars());
     }
 
     @Test

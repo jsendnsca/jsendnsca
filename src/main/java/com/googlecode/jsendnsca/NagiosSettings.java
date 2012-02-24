@@ -13,18 +13,17 @@
  */
 package com.googlecode.jsendnsca;
 
-import static com.googlecode.jsendnsca.encryption.Encryption.*;
-import static org.apache.commons.lang.StringUtils.*;
-import static org.apache.commons.lang.builder.ToStringStyle.*;
-
+import com.googlecode.jsendnsca.encryption.Encryption;
+import com.googlecode.jsendnsca.encryption.Encryptor;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.math.IntRange;
 
-import com.googlecode.jsendnsca.encryption.Encryption;
-import com.googlecode.jsendnsca.encryption.Encryptor;
+import static com.googlecode.jsendnsca.encryption.Encryption.NONE;
+import static org.apache.commons.lang.StringUtils.defaultIfEmpty;
+import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 /**
  * The settings to use for sending the Passive Check
@@ -38,6 +37,8 @@ public class NagiosSettings {
     private static final int MIN_PORT = 1;
     private static final int MAX_PORT = 65535;
     private static final String INVALID_PORT_MESSAGE = String.format("port must be between %s and %s inclusive", MIN_PORT, MAX_PORT);
+    private static final int SMALL_MAX_MESSAGE_SIZE_IN_CHARS = 512;
+    private static final int LARGE_MAX_MESSAGE_SIZE_IN_CHARS = 4096;
 
     private String nagiosHost = "localhost";
     private String password = "";
@@ -45,6 +46,7 @@ public class NagiosSettings {
     private int timeout = 10000;
     private int connectTimeout = 5000;
     private Encryptor encryptor = NONE.getEncryptor();
+    private int maxMessageSizeInChars = SMALL_MAX_MESSAGE_SIZE_IN_CHARS;
 
     /**
      * The connection timeout
@@ -171,6 +173,25 @@ public class NagiosSettings {
         this.timeout = timeout;
     }
 
+    /**
+     * Leverage support NSCA 2.9.1 for longer messages of 4096 chars
+     * instead of previous limit of 512 chars.
+     */
+    public void enableLargeMessageSupport() {
+        maxMessageSizeInChars = LARGE_MAX_MESSAGE_SIZE_IN_CHARS;
+    }
+
+    /**
+     * The maximum number of chars in message sent to NSCA before
+     * the message is truncated
+     *
+     * see enableLargeMessageSupport
+     * @return number of chars
+     */
+    public int getMaxMessageSizeInChars() {
+        return maxMessageSizeInChars;
+    }
+
     @Override
     public int hashCode() {
         return new HashCodeBuilder(19, 55)
@@ -219,7 +240,7 @@ public class NagiosSettings {
             .toString();
     }
 
-    private boolean validPortRange(int port) {
+    private static boolean validPortRange(int port) {
         return new IntRange(MIN_PORT, MAX_PORT).containsInteger(port);
     }
 }
