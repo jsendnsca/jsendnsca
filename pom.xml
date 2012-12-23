@@ -1,13 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!-- to allow for deploying to OSS maven repo -->
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.jsendnsca</groupId>
 	<artifactId>jsendnsca</artifactId>
 	<packaging>bundle</packaging>
-	<version>2.1-RC1</version>
+	<version>2.1-SNAPSHOT</version>
 	<name>jsendnsca</name>
 	<description>Java API for sending Passive Checks to Nagios NSCA addon</description>
 	<url>https://jsendnsca.googlecode.com/</url>
@@ -21,6 +30,7 @@
 	<issueManagement>
 		<url>http://code.google.com/p/jsendnsca/issues/list</url>
 	</issueManagement>
+
 	<distributionManagement>
 		<repository>
 			<id>sonatype-nexus-staging</id>
@@ -33,7 +43,12 @@
 			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
-	<developers>
+  <scm>
+    <connection>scm:svn:https://jsendnsca.googlecode.com/svn/trunk/jsendnsca</connection>
+    <url>http://jsendnsca.googlecode.com/svn/trunk/jsendnsca</url>
+  </scm>
+
+  <developers>
 		<developer>
 			<id>rajneesh.patel</id>
 			<name>Raj Patel</name>
@@ -72,14 +87,11 @@
 			<archive>http://groups.google.com/group/jsend-nsca</archive>
 		</mailingList>
 	</mailingLists>
-	<scm>
-		<connection>scm:svn:https://jsendnsca.googlecode.com/svn/trunk/jsendnsca</connection>
-		<url>http://jsendnsca.googlecode.com/svn/trunk/jsendnsca</url>
-	</scm>
 	<organization>
 		<name>JSend NSCA</name>
 		<url>http://jsendnsca.googlecode.com/</url>
 	</organization>
+
 	<build>
 		<plugins>
 			<plugin>
