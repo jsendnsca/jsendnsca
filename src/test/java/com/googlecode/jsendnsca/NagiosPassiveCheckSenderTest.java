@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -47,10 +48,14 @@ public class NagiosPassiveCheckSenderTest {
     private static final String PASSWORD = "password";
 
     private NagiosNscaStub stub;
+    private int port;
 
     @Before
     public void startMockDaemon() throws Exception {
-        stub = new NagiosNscaStub(5667, PASSWORD);
+        ServerSocket serverSocket = new ServerSocket(0);
+        port = serverSocket.getLocalPort();
+        serverSocket.close();
+        stub = new NagiosNscaStub(port, PASSWORD);
         stub.start();
     }
 
@@ -92,19 +97,20 @@ public class NagiosPassiveCheckSenderTest {
     @Test
     public void shouldSendPassiveCheck() throws Exception {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
-            .withNagiosHost(HOSTNAME)
-            .withPassword(PASSWORD)
-            .withEncryption(XOR)
-            .create();
+                .withPort(port)
+                .withNagiosHost(HOSTNAME)
+                .withPassword(PASSWORD)
+                .withEncryption(XOR)
+                .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
 
         final MessagePayload payload = new MessagePayloadBuilder()
-            .withHostname(HOSTNAME)
-            .withLevel(CRITICAL)
-            .withServiceName(SERVICE_NAME)
-            .withMessage(MESSAGE)
-            .create();
+                .withHostname(HOSTNAME)
+                .withLevel(CRITICAL)
+                .withServiceName(SERVICE_NAME)
+                .withMessage(MESSAGE)
+                .create();
 
         passiveAlerter.send(payload);
 
@@ -119,20 +125,21 @@ public class NagiosPassiveCheckSenderTest {
         stub.turnOnLargeMessageSupportAsInNsca291();
 
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
-            .withLargeMessageSupportEnabled()
-            .withNagiosHost(HOSTNAME)
-            .withPassword(PASSWORD)
-            .withEncryption(XOR)
-            .create();
+                .withPort(port)
+                .withLargeMessageSupportEnabled()
+                .withNagiosHost(HOSTNAME)
+                .withPassword(PASSWORD)
+                .withEncryption(XOR)
+                .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
 
         final MessagePayload payload = new MessagePayloadBuilder()
-            .withHostname(HOSTNAME)
-            .withLevel(CRITICAL)
-            .withServiceName(SERVICE_NAME)
-            .withMessage(large())
-            .create();
+                .withHostname(HOSTNAME)
+                .withLevel(CRITICAL)
+                .withServiceName(SERVICE_NAME)
+                .withMessage(large())
+                .create();
 
         passiveAlerter.send(payload);
 
@@ -152,18 +159,19 @@ public class NagiosPassiveCheckSenderTest {
     @Test
     public void shouldTrimTooLongFields() throws Exception {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
-            .withNagiosHost(HOSTNAME)
-            .withPassword(PASSWORD)
-            .withEncryption(XOR)
-            .create();
+                .withPort(port)
+                .withNagiosHost(HOSTNAME)
+                .withPassword(PASSWORD)
+                .withEncryption(XOR)
+                .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
 
         final MessagePayload payload = new MessagePayloadBuilder()
-            .withHostname(containingChars(64))
-            .withServiceName(containingChars(128))
-            .withMessage(containingChars(512))
-            .create();
+                .withHostname(containingChars(64))
+                .withServiceName(containingChars(128))
+                .withMessage(containingChars(512))
+                .create();
 
         passiveAlerter.send(payload);
 
@@ -179,19 +187,20 @@ public class NagiosPassiveCheckSenderTest {
     @Test
     public void shouldSendPassiveCheckTripleDes() throws Exception {
         final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
-            .withNagiosHost(HOSTNAME)
-            .withPassword(PASSWORD)
-            .withEncryption(TRIPLE_DES)
-            .create();
+                .withPort(port)
+                .withNagiosHost(HOSTNAME)
+                .withPassword(PASSWORD)
+                .withEncryption(TRIPLE_DES)
+                .create();
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
 
         final MessagePayload payload = new MessagePayloadBuilder()
-            .withHostname(HOSTNAME)
-            .withLevel(Level.CRITICAL)
-            .withServiceName(SERVICE_NAME)
-            .withMessage(MESSAGE)
-            .create();
+                .withHostname(HOSTNAME)
+                .withLevel(Level.CRITICAL)
+                .withServiceName(SERVICE_NAME)
+                .withMessage(MESSAGE)
+                .create();
 
         passiveAlerter.send(payload);
     }
@@ -204,6 +213,7 @@ public class NagiosPassiveCheckSenderTest {
         final NagiosSettings nagiosSettings = new NagiosSettings();
         nagiosSettings.setNagiosHost(HOSTNAME);
         nagiosSettings.setPassword(PASSWORD);
+        nagiosSettings.setPort(port);
         stub.setSendInitialisationVector(false);
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
@@ -224,6 +234,7 @@ public class NagiosPassiveCheckSenderTest {
 
         final NagiosSettings nagiosSettings = new NagiosSettings();
         nagiosSettings.setTimeout(1000);
+        nagiosSettings.setPort(port);
         stub.setSimulateTimeoutInMs(1500);
 
         final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
