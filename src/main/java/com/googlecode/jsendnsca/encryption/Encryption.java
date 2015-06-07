@@ -35,7 +35,19 @@ public enum Encryption {
     /**
      * XOR encryption(?)
      */
-    XOR(new XorEncryptor());
+    XOR(new XorEncryptor()),
+    /**
+     * Rijndael 128 encryption
+     */
+    RIJNDAEL128(new AESEncryptor(16)),
+    /**
+     * Rijndael 192 encryption
+     */
+    RIJNDAEL192(new AESEncryptor(24)),
+    /**
+     * Rijndael 256 encryption
+     */
+    RIJNDAEL256(new AESEncryptor(32));
 
     /**
      * @return the {@link Encryptor} for this {@link Encryption} constant
