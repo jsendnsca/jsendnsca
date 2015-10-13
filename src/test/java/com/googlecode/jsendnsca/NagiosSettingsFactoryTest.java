@@ -13,9 +13,8 @@
  */
 package com.googlecode.jsendnsca;
 
-import static com.googlecode.jsendnsca.encryption.Encryption.*;
-
-import static org.junit.Assert.*;
+import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.Properties;
@@ -62,7 +61,7 @@ public class NagiosSettingsFactoryTest {
 
         assertEquals(expectedSettings, settings);
     }
-    
+
     @Test
     public void shouldOverideDefaultSettingsWithValidPropertiesFile() throws Exception {
         NagiosSettings settings = NagiosSettingsFactory.createSettings(new File("src/test/resources/nsca.properties"));
@@ -127,7 +126,7 @@ public class NagiosSettingsFactoryTest {
     @Test
     public void shouldThrowNagiosConfigurationExceptionForUnknownEncryption() throws Exception {
         expectedException.expect(NagiosConfigurationException.class);
-        expectedException.expectMessage("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor], was [foobar]");
+        expectedException.expectMessage("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor,rijndael128,rijndael192,rijndael256], was [foobar]");
 
         Properties unknownEncryption = new Properties();
         unknownEncryption.setProperty("nagios.nsca.encryption", "foobar");
