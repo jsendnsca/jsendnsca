@@ -22,15 +22,15 @@ import java.util.concurrent.Executors;
  * Instead it internally queues the passive check in an unbounded queue and has
  * a single worker thread sending from the queue.
  * <p>
- * 
+ *
  * Any exceptions resulting from sending the passive check are output to
  * standard error with a stack trace.
  * <p>
- * 
+ *
  * This sender is useful where you don't want to wait for the passive check to
  * be sent and don't care if the sending fails
  * <p>
- * 
+ *
  * @author Raj Patel
  * @since 1.2
  */
@@ -42,7 +42,7 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
     /**
      * Construct a new {@link NonBlockingNagiosPassiveCheckSender} with the
      * provided {@link NagiosSettings}
-     * 
+     *
      * @param settings
      *            the {@link NagiosSettings} to use to send the Passive Check
      */
@@ -57,11 +57,12 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.googlecode.jsendnsca.sender.INagiosPassiveCheckSender#send(com.googlecode
      * .jsendnsca.sender.MessagePayload)
      */
+    @Override
     public void send(MessagePayload payload) throws NagiosException, IOException {
         executor.execute(new NonBlockingSender(payload));
     }
@@ -69,10 +70,10 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
     /**
      * Sets the backing executor to use if you do not want to use the default
      * executor which is a single thread executor.
-     * <p/>
+     * <p>
      * You may want to use a custom executor in environments where you want to
      * be in control of the used thread pools.
-     * 
+     *
      * @param executor
      *            the custom executor to use
      */
@@ -82,7 +83,7 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
 
     /**
      * Shutdown the backing executor.
-     * <p/>
+     * <p>
      * To be used when your application has been shutdown and you want to
      * cleanup all resources such as if you run in a hot deployment environment.
      */
@@ -98,6 +99,7 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
             this.payload = payload;
         }
 
+        @Override
         public void run() {
             try {
                 sender.send(payload);
