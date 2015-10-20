@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jsendnsca/jsendnsca.svg?branch=master)](https://travis-ci.org/jsendnsca/jsendnsca)
+
 # jsendnsca
 JSend NSCA is Java API for sending passive checks to the Nagios NSCA add-on.
 
