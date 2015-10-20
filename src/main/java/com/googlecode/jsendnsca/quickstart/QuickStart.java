@@ -33,6 +33,7 @@ public class QuickStart {
      * Creates {@link NagiosSettings}, {@link MessagePayload} using builders and sends
      * using {@link NagiosPassiveCheckSender}
      * @param args
+     *          command line arguments
      */
     public static void main(String[] args) {
         NagiosSettings settings = new NagiosSettingsBuilder()
@@ -40,7 +41,7 @@ public class QuickStart {
             .withPort(5667) // you don't really need to set this as 5667 is default
             .withEncryption(Encryption.XOR)
             .create();
-        
+
         MessagePayload payload = new MessagePayloadBuilder()
             // you can use .withLocalHostname() or withCanonicalHostname to determine
             // your short and fully qualified domain name respectively for you instead of .withHostname
@@ -49,9 +50,9 @@ public class QuickStart {
             .withServiceName("Service Name")
             .withMessage("should work if everything set up OK")
             .create();
-        
+
         NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(settings);
-        
+
         try {
             sender.send(payload);
         } catch (NagiosException e) {

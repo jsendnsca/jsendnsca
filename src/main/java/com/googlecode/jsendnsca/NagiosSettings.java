@@ -13,17 +13,18 @@
  */
 package com.googlecode.jsendnsca;
 
-import com.googlecode.jsendnsca.encryption.Encryption;
-import com.googlecode.jsendnsca.encryption.Encryptor;
+import static com.googlecode.jsendnsca.encryption.Encryption.NONE;
+import static org.apache.commons.lang.StringUtils.defaultIfEmpty;
+import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.math.IntRange;
 
-import static com.googlecode.jsendnsca.encryption.Encryption.NONE;
-import static org.apache.commons.lang.StringUtils.defaultIfEmpty;
-import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+import com.googlecode.jsendnsca.encryption.Encryption;
+import com.googlecode.jsendnsca.encryption.Encryptor;
 
 /**
  * The settings to use for sending the Passive Check
@@ -116,6 +117,7 @@ public class NagiosSettings {
      * The {@link Encryption} to use to encrypt the passive check
      *
      * @param encryption
+     *             encryption algorithm
      */
     public void setEncryption(Encryption encryption) {
         setEncryptor(encryption.getEncryptor());
@@ -125,6 +127,7 @@ public class NagiosSettings {
      * The {@link Encryptor} to use to encrypt the passive check
      *
      * @param encryptor
+     *            message encryptor
      */
     public void setEncryptor(Encryptor encryptor) {
         Validate.notNull(encryptor, "encryptor cannot be null");

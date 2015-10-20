@@ -32,7 +32,7 @@ import com.googlecode.jsendnsca.utils.IOUtils;
  * keys for settings which you wish to override the default value of. See
  * {@link NagiosSettings} for default values.
  * </p>
- * 
+ *
  * <pre>
  * {@code
  * nagios.nsca.host=foobar
@@ -43,7 +43,7 @@ import com.googlecode.jsendnsca.utils.IOUtils;
  * nagios.nsca.encryption=xor
  * }
  * </pre>
- * 
+ *
  * @author Raj Patel
  * @since 2.0.0
  */
@@ -52,7 +52,7 @@ public class NagiosSettingsFactory {
     /**
      * Property Key constants to be used for nagios settings as keys in a
      * {@link Properties} instance
-     * 
+     *
      * @author Raj Patel
      */
     public enum PropertyKey {
@@ -97,7 +97,7 @@ public class NagiosSettingsFactory {
 
     /**
      * Create {@link NagiosSettings} from a properties file
-     * 
+     *
      * @param file
      *            containing properties
      * @return the {@link NagiosSettings}
@@ -112,7 +112,7 @@ public class NagiosSettingsFactory {
 
     /**
      * Create {@link NagiosSettings} from a stream containing properties
-     * 
+     *
      * @param inputStream
      *            containing properties
      * @return the {@link NagiosSettings}
@@ -133,12 +133,10 @@ public class NagiosSettingsFactory {
 
     /**
      * Create {@link NagiosSettings} from a properties object
-     * 
+     *
      * @param properties
      *            the properties object
      * @return the {@link NagiosSettings}
-     * @throws IOException
-     *             thrown on IO issue accessing stream
      * @throws NagiosConfigurationException
      *             thrown on invalid configuration values
      */
