@@ -47,7 +47,15 @@ public enum Encryption {
     /**
      * Rijndael 256 encryption
      */
-    RIJNDAEL256(new AESEncryptor(32));
+    RIJNDAEL256(new AESEncryptor(32)),
+    /**
+     * Blowfish 128 encryption
+     */
+    BLOWFISH128(new BlowfishEncryptor(16)),
+    /**
+     * Blowfish 448 encryption
+     */
+    BLOWFISH448(new BlowfishEncryptor(56));
 
     /**
      * @return the {@link Encryptor} for this {@link Encryption} constant
@@ -62,11 +70,11 @@ public enum Encryption {
 
     private final Encryptor encryptor;
 
-    private Encryption() {
+    Encryption() {
         this.encryptor = none();
     }
 
-    private Encryption(Encryptor encryptor) {
+    Encryption(Encryptor encryptor) {
         this.encryptor = encryptor;
     }
 
