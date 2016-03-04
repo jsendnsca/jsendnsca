@@ -9,14 +9,25 @@ import java.security.NoSuchAlgorithmException;
 import static java.lang.System.arraycopy;
 import static javax.crypto.Cipher.ENCRYPT_MODE;
 
+/**
+ * A Blowfish based {@link Encryptor} implementation.
+ */
 public class BlowfishEncryptor implements Encryptor {
 
     private static final String BLOWFISH = "Blowfish";
-    private static final String BLOWFISH_TRANSFORMATION = "Blowfish/CFB8/NoPadding";
+    private static final String BLOWFISH_TRANSFORMATION = BLOWFISH + "/CFB8/NoPadding";
+    private static final int JCE_MAX_ALLOWED_KEY_LENGTH = 2147483647;
     private static final int INIT_VECTOR_BYTES_LENGTH = 8;
 
     private int keyBytesLength;
 
+    /**
+     * Initializes a new {@code BlowfishEncryptor}.
+     * The max key length without using JCE is 16 (128 bits).
+     * With JCE, the max key length is 56 bytes (448 bits).
+     *
+     * @param keyBytesLength The max key lenght in bytes
+     */
     public BlowfishEncryptor(final int keyBytesLength) {
         assertValidKeyBytesLength(keyBytesLength);
 
@@ -51,16 +62,16 @@ public class BlowfishEncryptor implements Encryptor {
             throw new IllegalArgumentException("keyBytesLength must be greater than zero");
         }
         if(!isJceEnabled() && keyBytesLength > 16) {
-            throw new IllegalArgumentException("JCE is not enabled and keyBytesLength is longer than 16 byte (128 bit)");
+            throw new IllegalArgumentException("JCE is not enabled and keyBytesLength is longer than max key length of 16 byte (128 bit)");
         }
         if(isJceEnabled() && keyBytesLength > 56) {
-            throw new IllegalArgumentException("keyBytesLength is longer than 56 byte (448 bit)");
+            throw new IllegalArgumentException("keyBytesLength is longer than max key length of 56 byte (448 bit)");
         }
     }
 
     private boolean isJceEnabled() {
         try {
-            return Cipher.getMaxAllowedKeyLength(BLOWFISH) == 2147483647;
+            return Cipher.getMaxAllowedKeyLength(BLOWFISH) == JCE_MAX_ALLOWED_KEY_LENGTH;
         } catch(final NoSuchAlgorithmException exception) {
             throw new RuntimeException(exception);
         }
