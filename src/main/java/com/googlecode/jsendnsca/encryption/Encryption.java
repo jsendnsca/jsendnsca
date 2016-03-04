@@ -53,7 +53,7 @@ public enum Encryption {
      */
     BLOWFISH128(new BlowfishEncryptor(16)),
     /**
-     * Blowfish 448 encryption, JCE are needed to use Blowfish with long keys
+     * Blowfish 448 encryption, JCE is needed to use Blowfish with long keys
      */
     BLOWFISH448(new BlowfishEncryptor(56));
 
