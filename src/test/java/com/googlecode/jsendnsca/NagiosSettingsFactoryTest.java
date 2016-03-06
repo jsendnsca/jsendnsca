@@ -13,16 +13,16 @@
  */
 package com.googlecode.jsendnsca;
 
-import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-import java.util.Properties;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.io.File;
+import java.util.Properties;
+
+import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
+import static org.junit.Assert.assertEquals;
 
 public class NagiosSettingsFactoryTest {
 
@@ -126,7 +126,7 @@ public class NagiosSettingsFactoryTest {
     @Test
     public void shouldThrowNagiosConfigurationExceptionForUnknownEncryption() throws Exception {
         expectedException.expect(NagiosConfigurationException.class);
-        expectedException.expectMessage("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor,rijndael128,rijndael192,rijndael256], was [foobar]");
+        expectedException.expectMessage("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor,rijndael128,rijndael192,rijndael256,blowfish128,blowfish448], was [foobar]");
 
         Properties unknownEncryption = new Properties();
         unknownEncryption.setProperty("nagios.nsca.encryption", "foobar");
