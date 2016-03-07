@@ -8,7 +8,7 @@ import org.bouncycastle.crypto.params.*;
 
 public class AESEncryptor implements Encryptor {
 
-    private int _keyByteLength;
+    private final int _keyByteLength;
 
     public AESEncryptor(int keyByteLength) {
         _keyByteLength = keyByteLength;

@@ -83,15 +83,12 @@ public class NagiosSettingsFactory {
 
         private final String name;
 
-        private PropertyKey(String name) {
+        PropertyKey(String name) {
             this.name = name;
         }
 
         private boolean providedIn(Properties properties) {
-            if (properties.containsKey(name)) {
-                return true;
-            }
-            return false;
+            return properties.containsKey(name);
         }
     }
 

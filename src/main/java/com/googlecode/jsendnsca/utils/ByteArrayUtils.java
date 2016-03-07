@@ -106,7 +106,7 @@ public class ByteArrayUtils {
      *            the integer value
      * @return the byte array
      */
-    public static byte[] intToByteArray(int value) {
+    private static byte[] intToByteArray(int value) {
         final byte[] data = new byte[4];
 
         for (int i = 0; i < data.length; i++) {
@@ -124,7 +124,7 @@ public class ByteArrayUtils {
      *            the short value
      * @return the byte array
      */
-    public static byte[] shortToByteArray(short value) {
+    private static byte[] shortToByteArray(short value) {
         final byte[] data = new byte[2];
 
         for (int i = 0; i < data.length; i++) {

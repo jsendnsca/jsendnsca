@@ -31,5 +31,5 @@ public interface Encryptor {
      * @param password
      *            the NSCA daemon password
      */
-    public void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password);
+    void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password);
 }

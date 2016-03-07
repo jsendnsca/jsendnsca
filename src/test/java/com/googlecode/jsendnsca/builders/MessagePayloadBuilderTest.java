@@ -16,12 +16,12 @@
  */
 package com.googlecode.jsendnsca.builders;
 
-import static junit.framework.Assert.*;
-
 import org.junit.Test;
 
 import com.googlecode.jsendnsca.Level;
 import com.googlecode.jsendnsca.MessagePayload;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @version $Revision$

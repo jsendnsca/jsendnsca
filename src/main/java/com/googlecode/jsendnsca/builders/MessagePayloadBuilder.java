@@ -50,10 +50,8 @@ public class MessagePayloadBuilder {
      * Use the short hostname of the local machine in the passive check
      * 
      * @return the {@link MessagePayloadBuilder}
-     * @throws UnknownHostException
-     *             error while determining local machine name
      */
-    public MessagePayloadBuilder withLocalHostname() throws UnknownHostException {
+    public MessagePayloadBuilder withLocalHostname() {
         payload.useLocalHostname();
         return this;
     }
@@ -66,7 +64,7 @@ public class MessagePayloadBuilder {
      * @throws UnknownHostException
      *             error while determining local machine name
      */
-    public MessagePayloadBuilder withCanonicalHostname() throws UnknownHostException {
+    public MessagePayloadBuilder withCanonicalHostname() {
         payload.setHostname(true);
         return this;
     }

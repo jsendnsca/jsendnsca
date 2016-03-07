@@ -214,7 +214,7 @@ public class MessagePayload implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MessagePayload == false) {
+        if (!(obj instanceof MessagePayload)) {
             return false;
         }
         if (this == obj) {

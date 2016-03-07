@@ -50,9 +50,7 @@ public class TripleDESEncryptor implements Encryptor {
             cipher.init(ENCRYPT_MODE, key, iv);
             final byte[] cipherText = cipher.doFinal(passiveCheckBytes);
 
-            for (int i = 0; i < passiveCheckBytes.length; i++) {
-                passiveCheckBytes[i] = cipherText[i];
-            }
+            System.arraycopy(cipherText, 0, passiveCheckBytes, 0, passiveCheckBytes.length);
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
         }

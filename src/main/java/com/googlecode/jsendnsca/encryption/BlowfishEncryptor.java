@@ -19,7 +19,7 @@ public class BlowfishEncryptor implements Encryptor {
     private static final int JCE_MAX_ALLOWED_KEY_LENGTH = 2147483647;
     private static final int INIT_VECTOR_BYTES_LENGTH = 8;
 
-    private int keyBytesLength;
+    private final int keyBytesLength;
 
     /**
      * Initializes a new {@code BlowfishEncryptor}.

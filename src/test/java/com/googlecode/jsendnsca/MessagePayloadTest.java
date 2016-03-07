@@ -160,10 +160,7 @@ public class MessagePayloadTest {
     }
 
     private static boolean isUnix() {
-        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-            return false;
-        }
-        return true;
+        return !System.getProperty("os.name").toLowerCase().contains("windows");
     }
 
     private static String getShortHostNameFromOS() throws Exception {

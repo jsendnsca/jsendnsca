@@ -93,7 +93,7 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
 
     private class NonBlockingSender implements Runnable {
 
-        private MessagePayload payload;
+        private final MessagePayload payload;
 
         public NonBlockingSender(MessagePayload payload) {
             this.payload = payload;
