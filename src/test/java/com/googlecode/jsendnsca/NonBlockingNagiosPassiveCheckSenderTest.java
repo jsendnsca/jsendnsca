@@ -14,17 +14,29 @@
 package com.googlecode.jsendnsca;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.AbstractExecutorService;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class NonBlockingNagiosPassiveCheckSenderTest {
 
     private NonBlockingNagiosPassiveCheckSender sender;
+
+    @Before
+    public void setUp() throws Exception {
+        sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender(), new StandardErrorExceptionHandler());
+    }
 
     @After
     public void shutdownSender() {
@@ -38,7 +50,18 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
         long start = new Date().getTime();
         sender.send(new MessagePayload());
         long duration = new Date().getTime() - start;
+
         assertThat(duration, lessThan(100L));
+    }
+
+    @Test
+    public void shouldBeAbleToUseOwnExecutor() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        sender.setExecutor(new CurrentThreadExecutorService(latch));
+
+        sender.send(new MessagePayload());
+
+        assertTrue("timed out waiting for message to be sent", latch.await(10, TimeUnit.SECONDS));
     }
 
     private static class SlowNagiosPassiveCheckSender implements PassiveCheckSender {
@@ -48,6 +71,44 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
                 Thread.sleep(100L);
             } catch (InterruptedException ignore) {
             }
+        }
+    }
+
+    private static class CurrentThreadExecutorService extends AbstractExecutorService {
+        private final CountDownLatch countDownLatch;
+
+        public CurrentThreadExecutorService(CountDownLatch countDownLatch) {
+            this.countDownLatch = countDownLatch;
+        }
+
+        @Override
+        public void shutdown() {
+
+        }
+
+        @Override
+        public List<Runnable> shutdownNow() {
+            return Collections.emptyList();
+        }
+
+        @Override
+        public boolean isShutdown() {
+            return false;
+        }
+
+        @Override
+        public boolean isTerminated() {
+            return false;
+        }
+
+        @Override
+        public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+            return false;
+        }
+
+        @Override
+        public void execute(Runnable command) {
+            countDownLatch.countDown();
         }
     }
 }
