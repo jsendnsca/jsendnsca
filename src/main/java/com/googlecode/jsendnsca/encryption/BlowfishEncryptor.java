@@ -81,7 +81,7 @@ public class BlowfishEncryptor implements Encryptor {
         final int passwordBytesLength = passwordBytes.length;
 
         if(passwordBytesLength > keyBytesLength) {
-            throw new IllegalArgumentException( "Key size " + passwordBytesLength + " is longer than the specified key size " + keyBytesLength);
+            throw new IllegalArgumentException( "Key size " + passwordBytesLength + " bytes is longer than the specified key size " + keyBytesLength + " bytes");
         }
     }
 
