@@ -37,6 +37,8 @@ import java.util.concurrent.Executors;
 public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
 
     private final PassiveCheckSender sender;
+    private final NonBlockingPassiveCheckSenderExceptionHandler handler;
+
     private ExecutorService executor;
 
     /**
@@ -47,11 +49,23 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
      *            the {@link NagiosSettings} to use to send the Passive Check
      */
     public NonBlockingNagiosPassiveCheckSender(NagiosSettings settings) {
-        this(new NagiosPassiveCheckSender(settings));
+        this(new NagiosPassiveCheckSender(settings), new StandardErrorExceptionHandler());
     }
 
-    NonBlockingNagiosPassiveCheckSender(PassiveCheckSender sender) {
+    /**
+     * Construct a new {@link NonBlockingNagiosPassiveCheckSender} with the
+     * provided {@link NagiosSettings} and {@link NonBlockingPassiveCheckSenderExceptionHandler}
+     *
+     * @param settings the {@link NagiosSettings} to use to send the Passive Check
+     * @param handler the {@link NonBlockingPassiveCheckSenderExceptionHandler} to use while sending the Passive Check
+     */
+    public NonBlockingNagiosPassiveCheckSender(NagiosSettings settings, NonBlockingPassiveCheckSenderExceptionHandler handler) {
+        this(new NagiosPassiveCheckSender(settings), handler);
+    }
+
+    NonBlockingNagiosPassiveCheckSender(PassiveCheckSender sender, NonBlockingPassiveCheckSenderExceptionHandler handler) {
         this.sender = sender;
+        this.handler = handler;
         this.executor = Executors.newSingleThreadExecutor();
     }
 
@@ -104,7 +118,7 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
             try {
                 sender.send(payload);
             } catch (Exception e) {
-                e.printStackTrace();
+                handler.handleException(e);
             }
         }
     }
