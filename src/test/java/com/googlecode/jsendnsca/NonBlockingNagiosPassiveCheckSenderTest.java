@@ -33,7 +33,7 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
 
     @Test
     public void shouldReturnImmediatelyWhenSendingPassiveCheck() throws Exception {
-        sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender());
+        sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender(), new StandardErrorExceptionHandler());
 
         long start = new Date().getTime();
         sender.send(new MessagePayload());
