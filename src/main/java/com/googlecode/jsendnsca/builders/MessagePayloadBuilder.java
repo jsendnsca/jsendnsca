@@ -13,8 +13,6 @@
  */
 package com.googlecode.jsendnsca.builders;
 
-import java.net.UnknownHostException;
-
 import com.googlecode.jsendnsca.Level;
 import com.googlecode.jsendnsca.MessagePayload;
 
@@ -61,7 +59,6 @@ public class MessagePayloadBuilder {
      * check
      * 
      * @return the {@link MessagePayloadBuilder}
-     * @throws UnknownHostException
      *             error while determining local machine name
      */
     public MessagePayloadBuilder withCanonicalHostname() {
