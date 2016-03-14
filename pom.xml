@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <!-- to allow for deploying to OSS maven repo -->
     <parent>
@@ -8,16 +7,20 @@
         <version>7</version>
     </parent>
 
+    <prerequisites>
+        <maven>3.0.4</maven>
+    </prerequisites>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.googlecode.jsendnsca</groupId>
+    <groupId>com.github.jsendnsca</groupId>
     <artifactId>jsendnsca</artifactId>
     <packaging>bundle</packaging>
-    <version>2.1.0</version>
+    <version>2.1.1-RC1</version>
     <name>jsendnsca</name>
     <description>Java API for sending Passive Checks to Nagios NSCA addon</description>
     <url>https://github.com/jsendnsca/jsendnsca</url>
@@ -33,19 +36,21 @@
     </issueManagement>
 
     <distributionManagement>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
         <snapshotRepository>
             <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <name>Sonatype Nexus snapshot repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype Nexus release repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
+
     <scm>
         <connection>scm:git:https://github.com/jsendnsca/jsendnsca.git</connection>
+        <developerConnection>scm:git:git@github.com:jsendnsca/jsendnsca.git</developerConnection>
         <url>https://github.com/jsendnsca/jsendnsca.git</url>
     </scm>
 
@@ -58,31 +63,8 @@
                 <role>owner</role>
             </roles>
         </developer>
-        <developer>
-            <id>claus.ibsen</id>
-            <name>Claus Ibsen</name>
-            <email>claus.ibsen@gmail.com</email>
-            <roles>
-                <role>committer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>jeremy.spykerman</id>
-            <name>Jeremy Spykerman</name>
-            <email>jeremy.spykerman@gmail.com</email>
-            <roles>
-                <role>committer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>dariusz.lorenc</id>
-            <name>Darius Lorenc</name>
-            <email>dariusz.lorenc@gmail.com</email>
-            <roles>
-                <role>committer</role>
-            </roles>
-        </developer>
     </developers>
+
     <mailingLists>
         <mailingList>
             <archive>http://groups.google.com/group/jsend-nsca</archive>
@@ -98,30 +80,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
+                <version>3.5.1</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.12.4</version>
-                <executions>
-                    <execution>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- to generate the MANIFEST-FILE of the bundle -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.7</version>
+                <version>2.5.4</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
@@ -130,37 +99,6 @@
                         </Private-Package>
                     </instructions>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <windowtitle>JSend NSCA</windowtitle>
-                    <quiet>true</quiet>
-                    <linksource>true</linksource>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
@@ -187,7 +125,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.6</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/assembly/distribution.xml</descriptor>
@@ -202,16 +140,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- mvn release:perform -Darguments=-Dgpg.passphrase=PASSPHRASE -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <mavenExecutorId>forked-path</mavenExecutorId>
-                    <tagBase>https://jsendnsca.googlecode.com/svn/tags/</tagBase>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -229,8 +157,45 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.3</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>2.2.2</version>
+                        <configuration>
+                            <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.4</version>
+                        <version>1.6</version>
+                        <configuration>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
