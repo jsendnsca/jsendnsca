@@ -19,8 +19,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.jsendnsca</groupId>
     <artifactId>jsendnsca</artifactId>
-    <packaging>bundle</packaging>
     <version>2.1.1-RC2</version>
+    <packaging>jar</packaging>
     <name>jsendnsca</name>
     <description>Java API for sending Passive Checks to Nagios NSCA addon</description>
     <url>https://github.com/jsendnsca/jsendnsca</url>
@@ -86,20 +86,6 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            <!-- to generate the MANIFEST-FILE of the bundle -->
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.5.4</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>jsendnsca</Bundle-SymbolicName>
-                        <Private-Package>com.googlecode.jsendnsca.quickstart,com.googlecode.jsendnsca.utils
-                        </Private-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
@@ -123,36 +109,12 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/assembly/distribution.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
             <id>release</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
