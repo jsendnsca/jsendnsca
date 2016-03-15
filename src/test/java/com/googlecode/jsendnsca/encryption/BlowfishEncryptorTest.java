@@ -11,7 +11,7 @@ public class BlowfishEncryptorTest {
 
     @Test
     public void encrypt_should_throw_on_password_too_long() throws Exception {
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("Key size 57 bytes is longer than the specified key size 56 bytes");
 
         final BlowfishEncryptor encryptor = new BlowfishEncryptor();
