@@ -17,27 +17,28 @@ public class BlowfishEncryptor implements Encryptor {
 
     @Override
     public void encrypt(final byte[] passiveCheckBytes, final byte[] initVector, final String password) {
-        final byte[] passwordBytes = password.getBytes();
-
-        assertValidPasswordBytesLength(passwordBytes);
 
         final BlowfishEngine engine = new BlowfishEngine();
         PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CFBBlockCipher(engine, 8), new ZeroBytePadding());
 
         try {
-            byte[] sessionKey = new byte[KEY_BYTES_LENGTH];
+            final byte[] passwordBytes = password.getBytes("US-ASCII");
+
+            assertValidPasswordBytesLength(passwordBytes);
+
+            final byte[] sessionKey = new byte[KEY_BYTES_LENGTH];
             System.arraycopy(passwordBytes, 0, sessionKey, 0, Math.min(KEY_BYTES_LENGTH, passwordBytes.length));
 
-            byte[] iv = new byte[KEY_BYTES_LENGTH];
+            final byte[] iv = new byte[KEY_BYTES_LENGTH];
             System.arraycopy(initVector, 0, iv, 0, Math.min(KEY_BYTES_LENGTH, initVector.length));
 
             cipher.init(true, new ParametersWithIV(new KeyParameter(sessionKey), iv));
 
-            byte[] cipherText = new byte[cipher.getOutputSize(passiveCheckBytes.length)];
+            final byte[] cipherText = new byte[cipher.getOutputSize(passiveCheckBytes.length)];
             int cipherLength = cipher.processBytes(passiveCheckBytes, 0, passiveCheckBytes.length, cipherText, 0);
             cipherLength = cipherLength + cipher.doFinal(cipherText, cipherLength);
 
-            int bytesToCopy = Math.min(passiveCheckBytes.length, cipherLength);
+            final int bytesToCopy = Math.min(passiveCheckBytes.length, cipherLength);
             System.arraycopy(cipherText, 0, passiveCheckBytes, 0, bytesToCopy);
         } catch (Exception e) {
             throw new RuntimeException(e);
