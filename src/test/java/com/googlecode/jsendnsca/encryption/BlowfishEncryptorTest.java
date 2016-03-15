@@ -10,21 +10,13 @@ public class BlowfishEncryptorTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Test
-    public void constructor_should_throw_on_keyBytesLength_less_than_1() throws Exception {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("keyBytesLength must be greater than zero");
-
-        new BlowfishEncryptor(0);
-    }
-
-    @Test
     public void encrypt_should_throw_on_password_too_long() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Key size 21 bytes is longer than the specified key size 16 bytes");
+        expectedException.expectMessage("Key size 57 bytes is longer than the specified key size 56 bytes");
 
-        final BlowfishEncryptor encryptor = new BlowfishEncryptor(16);
+        final BlowfishEncryptor encryptor = new BlowfishEncryptor();
 
-        encryptor.encrypt("Passive check".getBytes(), "12345678".getBytes(), "thisPasswordIsTooLong");
+        encryptor.encrypt("Passive check".getBytes(), "12345678".getBytes(), "thisPasswordIsTooooooooooooooooooooooooooooooooooooooLong");
     }
 
 }
