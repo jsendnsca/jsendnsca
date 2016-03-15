@@ -37,6 +37,8 @@ import java.util.concurrent.Executors;
 public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
 
     private final PassiveCheckSender sender;
+    private final ExceptionHandler handler;
+
     private ExecutorService executor;
 
     /**
@@ -47,11 +49,23 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
      *            the {@link NagiosSettings} to use to send the Passive Check
      */
     public NonBlockingNagiosPassiveCheckSender(NagiosSettings settings) {
-        this(new NagiosPassiveCheckSender(settings));
+        this(new NagiosPassiveCheckSender(settings), new StandardErrorExceptionHandler());
     }
 
-    NonBlockingNagiosPassiveCheckSender(PassiveCheckSender sender) {
+    /**
+     * Construct a new {@link NonBlockingNagiosPassiveCheckSender} with the
+     * provided {@link NagiosSettings} and {@link NonBlockingPassiveCheckSenderExceptionHandler}
+     *
+     * @param settings the {@link NagiosSettings} to use to send the Passive Check
+     * @param handler the {@link NonBlockingPassiveCheckSenderExceptionHandler} to use while sending the Passive Check
+     */
+    public NonBlockingNagiosPassiveCheckSender(NagiosSettings settings, ExceptionHandler handler) {
+        this(new NagiosPassiveCheckSender(settings), handler);
+    }
+
+    NonBlockingNagiosPassiveCheckSender(PassiveCheckSender sender, ExceptionHandler handler) {
         this.sender = sender;
+        this.handler = handler;
         this.executor = Executors.newSingleThreadExecutor();
     }
 
@@ -91,6 +105,22 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
         executor.shutdown();
     }
 
+    /**
+     * Exception handler to handle exceptions while sending passive checks with the {@link NonBlockingNagiosPassiveCheckSender}.
+     *
+     * @author max.schwaab@gmail.com
+     */
+    public interface ExceptionHandler {
+
+        /**
+         * Handles an exception thrown while sending a passive check.
+         *
+         * @param exception The exception to handle.
+         */
+        void handleException(Exception exception);
+
+    }
+
     private class NonBlockingSender implements Runnable {
 
         private final MessagePayload payload;
@@ -104,8 +134,18 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
             try {
                 sender.send(payload);
             } catch (Exception e) {
-                e.printStackTrace();
+                handler.handleException(e);
             }
         }
     }
+
+    private static class StandardErrorExceptionHandler implements ExceptionHandler {
+
+        @Override
+        public void handleException(final Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

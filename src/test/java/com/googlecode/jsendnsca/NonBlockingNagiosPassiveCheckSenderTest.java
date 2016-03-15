@@ -13,6 +13,7 @@
  */
 package com.googlecode.jsendnsca;
 
+import com.googlecode.jsendnsca.NonBlockingNagiosPassiveCheckSender.ExceptionHandler;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
 
     @Before
     public void setUp() throws Exception {
-        sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender());
+        sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender(), new TestExceptionHandler());
     }
 
     @After
@@ -45,6 +46,8 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
 
     @Test
     public void shouldReturnImmediatelyWhenSendingPassiveCheck() throws Exception {
+        sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender(), new TestExceptionHandler());
+
         long start = new Date().getTime();
         sender.send(new MessagePayload());
         long duration = new Date().getTime() - start;
@@ -70,6 +73,15 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
             } catch (InterruptedException ignore) {
             }
         }
+    }
+
+    private static class TestExceptionHandler implements ExceptionHandler {
+
+        @Override
+        public void handleException(final Exception exception) {
+            exception.printStackTrace();
+        }
+
     }
 
     private static class CurrentThreadExecutorService extends AbstractExecutorService {
