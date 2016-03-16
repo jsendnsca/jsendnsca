@@ -49,13 +49,9 @@ public enum Encryption {
      */
     RIJNDAEL256(new AESEncryptor(32)),
     /**
-     * Blowfish 128 encryption
+     * Blowfish encryption
      */
-    BLOWFISH128(new BlowfishEncryptor(16)),
-    /**
-     * Blowfish 448 encryption, JCE is needed to use Blowfish with long keys
-     */
-    BLOWFISH448(new BlowfishEncryptor(56));
+    BLOWFISH(new BlowfishEncryptor());
 
     /**
      * @return the {@link Encryptor} for this {@link Encryption} constant

@@ -54,10 +54,10 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
 
     /**
      * Construct a new {@link NonBlockingNagiosPassiveCheckSender} with the
-     * provided {@link NagiosSettings} and {@link NonBlockingPassiveCheckSenderExceptionHandler}
+     * provided {@link NagiosSettings} and {@link ExceptionHandler}
      *
      * @param settings the {@link NagiosSettings} to use to send the Passive Check
-     * @param handler the {@link NonBlockingPassiveCheckSenderExceptionHandler} to use while sending the Passive Check
+     * @param handler the {@link ExceptionHandler} to use while sending the Passive Check
      */
     public NonBlockingNagiosPassiveCheckSender(NagiosSettings settings, ExceptionHandler handler) {
         this(new NagiosPassiveCheckSender(settings), handler);

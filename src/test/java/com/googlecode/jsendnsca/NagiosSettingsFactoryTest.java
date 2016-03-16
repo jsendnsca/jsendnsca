@@ -126,7 +126,7 @@ public class NagiosSettingsFactoryTest {
     @Test
     public void shouldThrowNagiosConfigurationExceptionForUnknownEncryption() throws Exception {
         expectedException.expect(NagiosConfigurationException.class);
-        expectedException.expectMessage("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor,rijndael128,rijndael192,rijndael256,blowfish128,blowfish448], was [foobar]");
+        expectedException.expectMessage("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor,rijndael128,rijndael192,rijndael256,blowfish], was [foobar]");
 
         Properties unknownEncryption = new Properties();
         unknownEncryption.setProperty("nagios.nsca.encryption", "foobar");

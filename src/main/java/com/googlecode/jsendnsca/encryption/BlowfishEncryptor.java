@@ -1,102 +1,56 @@
 package com.googlecode.jsendnsca.encryption;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
-
-import static java.lang.System.arraycopy;
-import static javax.crypto.Cipher.ENCRYPT_MODE;
+import org.bouncycastle.crypto.engines.BlowfishEngine;
+import org.bouncycastle.crypto.modes.CFBBlockCipher;
+import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
+import org.bouncycastle.crypto.paddings.ZeroBytePadding;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.params.ParametersWithIV;
 
 /**
  * A Blowfish based {@link Encryptor} implementation.
+ * The max key length is 56 bytes (448 bits).
  */
 public class BlowfishEncryptor implements Encryptor {
 
-    private static final String BLOWFISH = "Blowfish";
-    private static final String BLOWFISH_TRANSFORMATION = BLOWFISH + "/CFB8/NoPadding";
-    private static final int JCE_MAX_ALLOWED_KEY_LENGTH = 2147483647;
-    private static final int INIT_VECTOR_BYTES_LENGTH = 8;
-
-    private final int keyBytesLength;
-
-    /**
-     * Initializes a new {@code BlowfishEncryptor}.
-     * The max key length without using JCE is 16 (128 bits).
-     * With JCE, the max key length is 56 bytes (448 bits).
-     *
-     * @param keyBytesLength The max key lenght in bytes
-     */
-    public BlowfishEncryptor(final int keyBytesLength) {
-        assertValidKeyBytesLength(keyBytesLength);
-
-        this.keyBytesLength = keyBytesLength;
-    }
+    private static final int KEY_BYTES_LENGTH = 56;
 
     @Override
     public void encrypt(final byte[] passiveCheckBytes, final byte[] initVector, final String password) {
-        final byte[] passwordBytes = password.getBytes();
 
-        assertValidPasswordBytesLength(passwordBytes);
+        final BlowfishEngine engine = new BlowfishEngine();
+        PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CFBBlockCipher(engine, 8), new ZeroBytePadding());
 
         try {
-            final Cipher cipher = Cipher.getInstance(BLOWFISH_TRANSFORMATION);
-            final byte[] key = toFixedSizeByteArray(passwordBytes, keyBytesLength);
-            final byte[] initVectorBytes = toFixedSizeByteArray(initVector, INIT_VECTOR_BYTES_LENGTH);
-            final SecretKeySpec keySpec = new SecretKeySpec(key, BLOWFISH);
-            final IvParameterSpec ivParameterSpec = new IvParameterSpec(initVectorBytes);
+            final byte[] passwordBytes = password.getBytes("US-ASCII");
 
-            cipher.init(ENCRYPT_MODE, keySpec, ivParameterSpec);
+            assertValidPasswordBytesLength(passwordBytes);
 
-            final byte[] cipherBytes = cipher.doFinal(passiveCheckBytes);
+            final byte[] sessionKey = new byte[KEY_BYTES_LENGTH];
+            System.arraycopy(passwordBytes, 0, sessionKey, 0, Math.min(KEY_BYTES_LENGTH, passwordBytes.length));
 
-            arraycopy(cipherBytes, 0, passiveCheckBytes, 0, cipherBytes.length);
-        } catch(final GeneralSecurityException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
+            final byte[] iv = new byte[KEY_BYTES_LENGTH];
+            System.arraycopy(initVector, 0, iv, 0, Math.min(KEY_BYTES_LENGTH, initVector.length));
 
-    private void assertValidKeyBytesLength(final int keyBytesLength) {
-        if(keyBytesLength < 1) {
-            throw new IllegalArgumentException("keyBytesLength must be greater than zero");
-        }
-        if(!isJceEnabled() && keyBytesLength > 16) {
-            throw new IllegalArgumentException("JCE is not enabled and keyBytesLength is longer than max key length of 16 byte (128 bit)");
-        }
-        if(isJceEnabled() && keyBytesLength > 56) {
-            throw new IllegalArgumentException("keyBytesLength is longer than max key length of 56 byte (448 bit)");
-        }
-    }
+            cipher.init(true, new ParametersWithIV(new KeyParameter(sessionKey), iv));
 
-    private boolean isJceEnabled() {
-        try {
-            return Cipher.getMaxAllowedKeyLength(BLOWFISH) == JCE_MAX_ALLOWED_KEY_LENGTH;
-        } catch(final NoSuchAlgorithmException exception) {
-            throw new RuntimeException(exception);
+            final byte[] cipherText = new byte[cipher.getOutputSize(passiveCheckBytes.length)];
+            int cipherLength = cipher.processBytes(passiveCheckBytes, 0, passiveCheckBytes.length, cipherText, 0);
+            cipherLength = cipherLength + cipher.doFinal(cipherText, cipherLength);
+
+            final int bytesToCopy = Math.min(passiveCheckBytes.length, cipherLength);
+            System.arraycopy(cipherText, 0, passiveCheckBytes, 0, bytesToCopy);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
     private void assertValidPasswordBytesLength(final byte[] passwordBytes) {
         final int passwordBytesLength = passwordBytes.length;
 
-        if(passwordBytesLength > keyBytesLength) {
-            throw new IllegalArgumentException( "Key size " + passwordBytesLength + " bytes is longer than the specified key size " + keyBytesLength + " bytes");
+        if(passwordBytesLength > KEY_BYTES_LENGTH) {
+            throw new IllegalArgumentException( "Key size " + passwordBytesLength + " bytes is longer than the specified key size " + KEY_BYTES_LENGTH + " bytes");
         }
-    }
-
-    private byte[] toFixedSizeByteArray(byte[] source, int fixedLength) {
-        byte[] result = new byte[fixedLength];
-
-        for(int i = 0; i < fixedLength && i < source.length; ++i) {
-            if(i < source.length) {
-                result[i] = source[i];
-            } else {
-                result[i] = 0;
-            }
-        }
-
-        return result;
     }
 
 }
