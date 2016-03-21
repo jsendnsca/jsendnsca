@@ -37,8 +37,9 @@ public class MessagePayload implements Serializable {
     private static final long serialVersionUID = 6014395299584333124L;
 
     private static final String DEFAULT_SERVICENAME = "UNDEFINED";
+    public static final String UNKNOWN = "UNKNOWN";
 
-    private String hostname;
+    private String hostname = UNKNOWN;
     private Level level = Level.UNKNOWN;
     private String serviceName = DEFAULT_SERVICENAME;
     private String message = StringUtils.EMPTY;
@@ -49,20 +50,29 @@ public class MessagePayload implements Serializable {
      * empty message
      */
     public MessagePayload() {
-        useLocalHostname();
+        this(true);
+    }
+
+    /**
+     * Construct a new {@link MessagePayload} with level unknown, service name "undefined" and
+     * empty message
+     *
+     * @param useLocalHostname - set hostname to be the local hostname of this machine, otherwise
+     *                         will be set to "UNKNOWN";
+     */
+    public MessagePayload(boolean useLocalHostname) {
+        if (useLocalHostname) {
+            useLocalHostname();
+        }
     }
 
     /**
      * Construct a new {@link MessagePayload}
      *
-     * @param hostname
-     *            the hostname to be sent in this passive check
-     * @param level
-     *            the level
-     * @param serviceName
-     *            the service name
-     * @param message
-     *            the message
+     * @param hostname    the hostname to be sent in this passive check
+     * @param level       the level
+     * @param serviceName the service name
+     * @param message     the message
      */
     public MessagePayload(String hostname, Level level, String serviceName, String message) {
         Validate.notEmpty(hostname, "hostname cannot be null or an empty String");
@@ -93,9 +103,8 @@ public class MessagePayload implements Serializable {
     /**
      * Set the hostname in the passive check
      *
-     * @param useCanonical
-     *            true to use this machines fully qualified domain name, false
-     *            to use the short hostname
+     * @param useCanonical true to use this machines fully qualified domain name, false
+     *                     to use the short hostname
      */
     public void setHostname(boolean useCanonical) {
         InetAddress ipAddress;
@@ -114,8 +123,7 @@ public class MessagePayload implements Serializable {
     /**
      * Set the hostname in the passive check
      *
-     * @param hostname
-     *            the hostname to use
+     * @param hostname the hostname to use
      */
     public void setHostname(String hostname) {
         Validate.notEmpty(hostname, "hostname cannot be null or an empty String");
@@ -135,8 +143,7 @@ public class MessagePayload implements Serializable {
      * Set the level of the Passive check using a {@link String} The case of the
      * {@link String} is ignored
      *
-     * @param level
-     *            either "ok", "warning", "critical" or "unknown"
+     * @param level either "ok", "warning", "critical" or "unknown"
      */
     public void setLevel(String level) {
         this.level = Level.tolevel(level);
@@ -145,8 +152,7 @@ public class MessagePayload implements Serializable {
     /**
      * Set the level of the Passive check
      *
-     * @param level
-     *            the level
+     * @param level the level
      */
     public void setLevel(Level level) {
         this.level = level;
@@ -165,8 +171,7 @@ public class MessagePayload implements Serializable {
     /**
      * Set the service name of this passive check
      *
-     * @param serviceName
-     *            the service name
+     * @param serviceName the service name
      */
     public void setServiceName(String serviceName) {
         Validate.notEmpty(serviceName, "serviceName cannot be null or an empty String");
@@ -185,8 +190,7 @@ public class MessagePayload implements Serializable {
     /**
      * Set the message to send in this passive check
      *
-     * @param message
-     *            the message
+     * @param message the message
      */
     public void setMessage(String message) {
         this.message = message;
@@ -200,11 +204,11 @@ public class MessagePayload implements Serializable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(21, 57)
-            .append(hostname)
-            .append(level)
-            .append(serviceName)
-            .append(message)
-            .toHashCode();
+                .append(hostname)
+                .append(level)
+                .append(serviceName)
+                .append(message)
+                .toHashCode();
     }
 
     /*
@@ -223,11 +227,11 @@ public class MessagePayload implements Serializable {
         MessagePayload other = (MessagePayload) obj;
 
         return new EqualsBuilder()
-            .append(hostname, other.hostname)
-            .append(level, other.level)
-            .append(serviceName, other.serviceName)
-            .append(message, other.message)
-            .isEquals();
+                .append(hostname, other.hostname)
+                .append(level, other.level)
+                .append(serviceName, other.serviceName)
+                .append(message, other.message)
+                .isEquals();
     }
 
     /*
@@ -238,17 +242,17 @@ public class MessagePayload implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
-            .append("level", level)
-            .append("hostname", hostname)
-            .append("serviceName", serviceName)
-            .append("message", message)
-            .toString();
+                .append("level", level)
+                .append("hostname", hostname)
+                .append("serviceName", serviceName)
+                .append("message", message)
+                .toString();
     }
 
     public static class UnknownHostRuntimeException extends RuntimeException {
-    
+
         private static final long serialVersionUID = 6164363358198216472L;
-    
+
         public UnknownHostRuntimeException(UnknownHostException e) {
             super(e);
         }

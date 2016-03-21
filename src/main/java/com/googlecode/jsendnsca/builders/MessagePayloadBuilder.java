@@ -33,11 +33,15 @@ import com.googlecode.jsendnsca.MessagePayload;
  */
 public class MessagePayloadBuilder {
 
-    private final MessagePayload payload = new MessagePayload();
+    private final MessagePayload payload;
+
+    public MessagePayloadBuilder() {
+        this.payload = createMessagePayload();
+    }
 
     /**
      * Return the built {@link MessagePayload}
-     * 
+     *
      * @return the built {@link MessagePayload}
      */
     public MessagePayload create() {
@@ -46,7 +50,7 @@ public class MessagePayloadBuilder {
 
     /**
      * Use the short hostname of the local machine in the passive check
-     * 
+     *
      * @return the {@link MessagePayloadBuilder}
      */
     public MessagePayloadBuilder withLocalHostname() {
@@ -57,7 +61,7 @@ public class MessagePayloadBuilder {
     /**
      * Use the fully qualified domain name of the local machine in the passive
      * check
-     * 
+     *
      * @return the {@link MessagePayloadBuilder}
      *             error while determining local machine name
      */
@@ -68,7 +72,7 @@ public class MessagePayloadBuilder {
 
     /**
      * Use the supplied hostname in the passive check
-     * 
+     *
      * @param hostname
      *            the hostname
      * @return the {@link MessagePayloadBuilder}
@@ -80,7 +84,7 @@ public class MessagePayloadBuilder {
 
     /**
      * Set the level of the passive check
-     * 
+     *
      * @param level
      *            the level value
      * @return the {@link MessagePayloadBuilder}
@@ -92,7 +96,7 @@ public class MessagePayloadBuilder {
 
     /**
      * Set the level of the passive check
-     * 
+     *
      * @param level
      *            the {@link Level}
      * @return the {@link MessagePayloadBuilder}
@@ -104,7 +108,7 @@ public class MessagePayloadBuilder {
 
     /**
      * Set the service name of the passive check
-     * 
+     *
      * @param serviceName
      *            the service name
      * @return the {@link MessagePayloadBuilder}
@@ -116,7 +120,7 @@ public class MessagePayloadBuilder {
 
     /**
      * Set the message of the passive check
-     * 
+     *
      * @param message
      *            the message
      * @return the {@link MessagePayloadBuilder}
@@ -124,5 +128,10 @@ public class MessagePayloadBuilder {
     public MessagePayloadBuilder withMessage(String message) {
         payload.setMessage(message);
         return this;
+    }
+
+    //visible for testing
+    MessagePayload createMessagePayload() {
+        return new MessagePayload(false);
     }
 }

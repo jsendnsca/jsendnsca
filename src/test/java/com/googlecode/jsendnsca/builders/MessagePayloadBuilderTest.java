@@ -16,10 +16,13 @@
  */
 package com.googlecode.jsendnsca.builders;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.googlecode.jsendnsca.Level;
 import com.googlecode.jsendnsca.MessagePayload;
+
+import java.net.UnknownHostException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -68,6 +71,26 @@ public class MessagePayloadBuilderTest {
         assertEquals(Level.WARNING, messagePayload2.getLevel());
         assertEquals("foo service", messagePayload2.getServiceName());
         assertEquals("foo message", messagePayload2.getMessage());
+    }
+
+    @Test
+    public void shouldConstructPayloadWithoutUsingLocalHostname() {
+        MessagePayload messagePayload = new MessagePayloadBuilder() {
+            @Override
+            MessagePayload createMessagePayload() {
+                return new MessagePayload(false) {
+                    @Override
+                    public void useLocalHostname() {
+                        throw new UnknownHostRuntimeException(new UnknownHostException());
+                    }
+                };
+            }
+        }.create();
+
+        assertEquals("UNKNOWN", messagePayload.getHostname());
+        assertEquals(Level.UNKNOWN, messagePayload.getLevel());
+        assertEquals("UNDEFINED", messagePayload.getServiceName());
+        assertEquals(StringUtils.EMPTY, messagePayload.getMessage());
     }
 
 }
