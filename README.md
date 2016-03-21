@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/jsendnsca/jsendnsca.svg?branch=master)](https://travis-ci.org/jsendnsca/jsendnsca)
 [![Coverage Status](https://coveralls.io/repos/github/jsendnsca/jsendnsca/badge.svg?branch=master)](https://coveralls.io/github/jsendnsca/jsendnsca?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/56f0777535630e0029daff2f/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56f0777535630e0029daff2f)
 
 *This project has been migrated from the [google code project](https://code.google.com/p/jsendnsca)*
 
