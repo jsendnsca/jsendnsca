@@ -13,6 +13,8 @@ By using JSend NSCA, you can easily integrate your Java applications into a Nagi
 
 [2.1.1](https://github.com/jsendnsca/jsendnsca/releases/tag/v2.1.1)
 
+[Javadocs](http://jsendnsca.github.io/jsendnsca/)
+
 ##Maven
 
 ```xml
@@ -22,7 +24,6 @@ By using JSend NSCA, you can easily integrate your Java applications into a Nagi
   <version>2.1.1</version>
 </dependency>
 ```
-
 
 #Quickstart
 
