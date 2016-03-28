@@ -27,7 +27,6 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 import static com.googlecode.jsendnsca.Level.CRITICAL;
-import static com.googlecode.jsendnsca.encryption.Encryption.TRIPLE_DES;
 import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertEquals;
@@ -164,27 +163,6 @@ public class NagiosPassiveCheckSenderTest {
         assertEquals(63L, (long) messagePayload.getHostname().length());
         assertEquals(127L, (long) messagePayload.getServiceName().length());
         assertEquals(511L, (long) messagePayload.getMessage().length());
-    }
-
-    @Test
-    public void shouldSendPassiveCheckTripleDes() throws Exception {
-        final NagiosSettings nagiosSettings = new NagiosSettingsBuilder()
-                .withPort(stub.getPort())
-                .withNagiosHost(HOSTNAME)
-                .withPassword(PASSWORD)
-                .withEncryption(TRIPLE_DES)
-                .create();
-
-        final NagiosPassiveCheckSender passiveAlerter = new NagiosPassiveCheckSender(nagiosSettings);
-
-        final MessagePayload payload = new MessagePayloadBuilder()
-                .withHostname(HOSTNAME)
-                .withLevel(Level.CRITICAL)
-                .withServiceName(SERVICE_NAME)
-                .withMessage(MESSAGE)
-                .create();
-
-        passiveAlerter.send(payload);
     }
 
     @Test
