@@ -13,7 +13,7 @@
  */
 package com.googlecode.jsendnsca.encryption;
 
-import static org.apache.commons.lang.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.*;
 
 /**
  * XOR "Encryption"

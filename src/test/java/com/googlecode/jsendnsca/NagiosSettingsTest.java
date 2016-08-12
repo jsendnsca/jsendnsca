@@ -16,7 +16,7 @@ package com.googlecode.jsendnsca;
 import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.encryption.Encryptor;
 import com.googlecode.jsendnsca.encryption.TripleDESEncryptor;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -74,8 +74,8 @@ public class NagiosSettingsTest {
     }
     
     @Test
-    public void shouldThrowIllegalArgumentExceptionForNullEncryptor() throws Exception {
-        expectedException.expect(IllegalArgumentException.class);
+    public void shouldThrowNPEForNullEncryptor() throws Exception {
+        expectedException.expect(NullPointerException.class);
         expectedException.expectMessage("encryptor cannot be null");
         
         nagiosSettings.setEncryptor(null);

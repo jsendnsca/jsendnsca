@@ -13,11 +13,11 @@
  */
 package com.googlecode.jsendnsca.builders;
 
-import static org.apache.commons.lang.StringUtils.EMPTY;
-
 import com.googlecode.jsendnsca.NagiosSettings;
 import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.encryption.Encryptor;
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 /**
  * Used to construct a {@link NagiosSettings} instance using a builder pattern

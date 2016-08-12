@@ -13,16 +13,15 @@
  */
 package com.googlecode.jsendnsca;
 
+import com.googlecode.jsendnsca.encryption.Encryption;
+import com.googlecode.jsendnsca.utils.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import org.apache.commons.lang.StringUtils;
-
-import com.googlecode.jsendnsca.encryption.Encryption;
-import com.googlecode.jsendnsca.utils.IOUtils;
 
 /**
  * <p>

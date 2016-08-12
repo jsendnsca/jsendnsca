@@ -13,7 +13,7 @@
  */
 package com.googlecode.jsendnsca.utils;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Utility methods for writing to a byte array

@@ -16,7 +16,7 @@
  */
 package com.googlecode.jsendnsca.builders;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import com.googlecode.jsendnsca.Level;

@@ -13,7 +13,7 @@
  */
 package com.googlecode.jsendnsca.encryption;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Encryption to be used when sending the

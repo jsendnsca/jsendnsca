@@ -46,16 +46,16 @@ public class NagiosPassiveCheckSenderTest {
     public NagiosNscaStub stub = NagiosNscaStub.listeningOnAnyFreePort(PASSWORD);
 
     @Test
-    public void shouldThrowIllegalArgExceptionOnConstructingSenderWithNullNagiosSettings() {
-        expectedException.expect(IllegalArgumentException.class);
+    public void shouldThrowNPEOnConstructingSenderWithNullNagiosSettings() {
+        expectedException.expect(NullPointerException.class);
         expectedException.expectMessage("nagiosSettings cannot be null");
 
         new NagiosPassiveCheckSender(null);
     }
 
     @Test
-    public void shouldThrowIllegalArgExceptionOnSendingWithNullMessagePayload() throws Exception {
-        expectedException.expect(IllegalArgumentException.class);
+    public void shouldNPEOnSendingWithNullMessagePayload() throws Exception {
+        expectedException.expect(NullPointerException.class);
         expectedException.expectMessage("payload cannot be null");
 
         final NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(new NagiosSettings());
@@ -221,6 +221,6 @@ public class NagiosPassiveCheckSenderTest {
     }
 
     private String large() throws IOException {
-        return IOUtils.toString(getClass().getClassLoader().getResourceAsStream("lorem-ipsum.txt"));
+        return IOUtils.toString(getClass().getClassLoader().getResourceAsStream("lorem-ipsum.txt"), "UTF8");
     }
 }

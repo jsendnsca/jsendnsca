@@ -13,19 +13,17 @@
  */
 package com.googlecode.jsendnsca;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.googlecode.jsendnsca.Level;
-import com.googlecode.jsendnsca.MessagePayload;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.*;
 
 public class MessagePayloadTest {
 
@@ -99,8 +97,8 @@ public class MessagePayloadTest {
     }
 
     @Test
-    public void shouldThrowExceptionOnConstructingNewMessagePayloadWithNullHostname() {
-        expectedException.expect(IllegalArgumentException.class);
+    public void shouldThrowNPEOnConstructingNewMessagePayloadWithNullHostname() {
+        expectedException.expect(NullPointerException.class);
         expectedException.expectMessage("hostname cannot be null or an empty String");
 
         new MessagePayload(null, Level.OK, "test service", "test message");
