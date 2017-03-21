@@ -86,7 +86,7 @@ On the back of this, I decided to write JSend NSCA from the ground up as an exer
 
 Thanks goes to the [NagiosAppender](https://sourceforge.net/projects/nagiosappender/) project for details of the NSCA protocol and inspiration for this project.
 
-#Used By
+# Used By
 
 Amongst others:
 
