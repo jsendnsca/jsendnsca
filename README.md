@@ -5,19 +5,19 @@
 
 *This project has been migrated from the [google code project](https://code.google.com/p/jsendnsca)*
 
-#Overview
+# Overview
 
 JSend NSCA is Java API for sending passive checks to the [Nagios NSCA add-on](https://exchange.nagios.org/directory/Addons/Passive-Checks/NSCA--2D-Nagios-Service-Check-Acceptor/details).
 
 By using JSend NSCA, you can easily integrate your Java applications into a Nagios monitored environment thereby notifying [Nagios](https://www.nagios.org)/[Icinga](https://www.icinga.org/)/[Opsview](https://www.opsview.com/) of problems and issues during the running of your application.
 
-#Latest Release
+# Latest Release
 
 [2.1.1](https://github.com/jsendnsca/jsendnsca/releases/tag/v2.1.1)
 
 [Javadocs](http://jsendnsca.github.io/jsendnsca/)
 
-##Maven
+## Maven
 
 ```xml
 <dependency>
@@ -27,7 +27,7 @@ By using JSend NSCA, you can easily integrate your Java applications into a Nagi
 </dependency>
 ```
 
-#Quickstart
+# Quickstart
 
 ```java
 package com.googlecode.jsendnsca.quickstart;
@@ -72,7 +72,7 @@ public class QuickStart {
 }
 ```
 
-#Background
+# Background
 
 JSend NSCA was developed as a company I worked for used Nagios to monitor applications and servers. For existing applications written in Perl and c, there are options available to send passive checks but for Java applications, the option available was to shell out and execute the send_nsca command line tool.
 
@@ -82,7 +82,7 @@ A search on the internet revealed a few options such as the [NagiosAppender](htt
 
 On the back of this, I decided to write JSend NSCA from the ground up as an exercise in TDD and thought I would make it available as an open source project so other developers can benefit from the functionality.
 
-#Acknowledgements
+# Acknowledgements
 
 Thanks goes to the [NagiosAppender](https://sourceforge.net/projects/nagiosappender/) project for details of the NSCA protocol and inspiration for this project.
 
