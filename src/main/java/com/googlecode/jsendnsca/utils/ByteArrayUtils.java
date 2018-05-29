@@ -95,7 +95,11 @@ public class ByteArrayUtils {
             value = value.substring(0, fixedSize);
         }
 
-        System.arraycopy(value.getBytes(), 0, myBytes, 0, value.getBytes().length);
+        try {
+            System.arraycopy(value.getBytes("US-ASCII"), 0, myBytes, 0, value.getBytes("US-ASCII").length);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return myBytes;
     }
 

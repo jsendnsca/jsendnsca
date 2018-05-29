@@ -39,19 +39,19 @@ public class TripleDESEncryptor implements Encryptor {
      * byte[], java.lang.String)
      */
     public void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password) {
-        final byte[] keyBytes = toFixedSizeByteArray(password.getBytes(), 24);
-        final byte[] initVectorBytes = toFixedSizeByteArray(initVector, 8);
-
-        final SecretKey key = new SecretKeySpec(keyBytes, DES_ALGORITHM);
-        final IvParameterSpec iv = new IvParameterSpec(initVectorBytes);
-
         try {
+            final byte[] keyBytes = toFixedSizeByteArray(password.getBytes("US-ASCII"), 24);
+            final byte[] initVectorBytes = toFixedSizeByteArray(initVector, 8);
+
+            final SecretKey key = new SecretKeySpec(keyBytes, DES_ALGORITHM);
+            final IvParameterSpec iv = new IvParameterSpec(initVectorBytes);
+
             final Cipher cipher = Cipher.getInstance(DES_TRANSFORMATION);
             cipher.init(ENCRYPT_MODE, key, iv);
             final byte[] cipherText = cipher.doFinal(passiveCheckBytes);
 
             System.arraycopy(cipherText, 0, passiveCheckBytes, 0, passiveCheckBytes.length);
-        } catch (GeneralSecurityException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

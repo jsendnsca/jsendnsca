@@ -39,13 +39,17 @@ public class XorEncryptor implements Encryptor {
         }
 
         if (isNotBlank(password)) {
-            final byte[] passwordBytes = password.getBytes();
+            try {
+                final byte[] passwordBytes = password.getBytes("US-ASCII");
 
-            for (int y = 0, x = 0; y < passiveCheckBytes.length; y++, x++) {
-                if (x >= passwordBytes.length) {
-                    x = 0;
+                for (int y = 0, x = 0; y < passiveCheckBytes.length; y++, x++) {
+                    if (x >= passwordBytes.length) {
+                        x = 0;
+                    }
+                    passiveCheckBytes[y] ^= passwordBytes[x];
                 }
-                passiveCheckBytes[y] ^= passwordBytes[x];
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }
