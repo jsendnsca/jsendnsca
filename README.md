@@ -1,5 +1,5 @@
 ![Maven Build](https://github.com/jsendnsca/jsendnsca/actions/workflows/maven.yml/badge.svg)
-[![Coverage](.github/badges/jacoco.svg)](https://github.com/USERNAME/REPOSITORY/actions/workflows/build.yml)
+[![Coverage](.github/badges/jacoco.svg)](https://github.com/jsendnsca/jsendnsca/actions/workflows/maven.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.jsendnsca/jsendnsca.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/com.github.jsendnsca/jsendnsca/)
 
 *This project has been migrated from the [google code project](https://code.google.com/p/jsendnsca)*
