@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/jsendnsca/jsendnsca.svg?branch=master)](https://travis-ci.org/jsendnsca/jsendnsca)
-[![Coverage Status](https://coveralls.io/repos/github/jsendnsca/jsendnsca/badge.svg?branch=master)](https://coveralls.io/github/jsendnsca/jsendnsca?branch=master)
+![example workflow](https://github.com/jsendnsca/jsendnsca/actions/workflows/maven.yml/badge.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.jsendnsca/jsendnsca.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/com.github.jsendnsca/jsendnsca/)
 
 *This project has been migrated from the [google code project](https://code.google.com/p/jsendnsca)*
