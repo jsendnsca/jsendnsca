@@ -1,9 +1,0 @@
-language: java
-
-repo_token: 6F0NlYf3yxWJ24aWUEPXQLAvp21z2e1pk
-
-after_success:
-  - mvn clean test jacoco:report coveralls:report
-
-script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install
