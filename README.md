@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/jsendnsca/jsendnsca.svg?branch=master)](https://travis-ci.org/jsendnsca/jsendnsca)
 [![Coverage Status](https://coveralls.io/repos/github/jsendnsca/jsendnsca/badge.svg?branch=master)](https://coveralls.io/github/jsendnsca/jsendnsca?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.jsendnsca/jsendnsca.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/com.github.jsendnsca/jsendnsca/)
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=com.github.jsendnsca%3Ajsendnsca)](https://sonarcloud.io/dashboard?id=com.github.jsendnsca%3Ajsendnsca)
 
 *This project has been migrated from the [google code project](https://code.google.com/p/jsendnsca)*
 

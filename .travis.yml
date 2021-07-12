@@ -5,11 +5,5 @@ repo_token: 6F0NlYf3yxWJ24aWUEPXQLAvp21z2e1pk
 after_success:
   - mvn clean test jacoco:report coveralls:report
 
-addons:
-  sonarcloud:
-    organization: "jsendnsca"
-    token:
-      secure: 7bed9ec9e441116e8a7b8135c6bdfbacde66bad1
 script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install
