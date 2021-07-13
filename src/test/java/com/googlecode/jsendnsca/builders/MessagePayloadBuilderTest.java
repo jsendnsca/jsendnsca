@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 public class MessagePayloadBuilderTest {
 
     @Test
-    public void shouldConstructNewMessagePayload() throws Exception {
+    public void shouldConstructNewMessagePayload() {
         final MessagePayload messagePayload = new MessagePayloadBuilder()
             .withHostname("localhost")
             .withLevel(Level.CRITICAL)
@@ -47,7 +47,7 @@ public class MessagePayloadBuilderTest {
     }
 
     @Test
-    public void shouldConstructTwoNewMessagePayload() throws Exception {
+    public void shouldConstructTwoNewMessagePayload() {
         final MessagePayload messagePayload = new MessagePayloadBuilder()
             .withHostname("localhost")
             .withLevel(Level.OK)

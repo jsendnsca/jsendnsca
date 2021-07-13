@@ -18,7 +18,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -26,8 +25,8 @@ import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class NonBlockingNagiosPassiveCheckSenderTest {
@@ -35,7 +34,7 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
     private NonBlockingNagiosPassiveCheckSender sender;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender(), new TestExceptionHandler());
     }
 
@@ -67,7 +66,7 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
 
     private static class SlowNagiosPassiveCheckSender implements PassiveCheckSender {
 
-        public void send(MessagePayload payload) throws NagiosException, IOException {
+        public void send(MessagePayload payload) throws NagiosException {
             try {
                 Thread.sleep(100L);
             } catch (InterruptedException ignore) {
@@ -112,7 +111,7 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
         }
 
         @Override
-        public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+        public boolean awaitTermination(long timeout, TimeUnit unit) {
             return false;
         }
 

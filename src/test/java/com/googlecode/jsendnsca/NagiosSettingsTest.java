@@ -17,11 +17,14 @@ import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.encryption.Encryptor;
 import com.googlecode.jsendnsca.encryption.TripleDESEncryptor;
 import org.apache.commons.lang3.StringUtils;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static org.hamcrest.MatcherAssert.*;
 import static org.junit.Assert.assertEquals;
 
 public class NagiosSettingsTest {
@@ -38,7 +41,7 @@ public class NagiosSettingsTest {
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionWhenSettingHostnameToEmptyString() throws Exception {
+    public void shouldThrowIllegalArgumentExceptionWhenSettingHostnameToEmptyString() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("nagiosHost cannot be null or empty");
 
@@ -46,7 +49,7 @@ public class NagiosSettingsTest {
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionForInvalidPort() throws Exception {
+    public void shouldThrowIllegalArgumentExceptionForInvalidPort() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("port must be between 1 and 65535 inclusive");
 
@@ -55,26 +58,26 @@ public class NagiosSettingsTest {
     }
 
     @Test
-    public void shouldSetEncryptionUsingEnum() throws Exception {
+    public void shouldSetEncryptionUsingEnum() {
         nagiosSettings.setEncryption(Encryption.TRIPLE_DES);
 
         assertEquals(Encryption.TRIPLE_DES.getEncryptor(), nagiosSettings.getEncryptor());
     }
 
     @Test
-    public void shouldReturn512MaxCharsInMessageByDefault() throws Exception {
-        assertEquals(512L, (long) nagiosSettings.getMaxMessageSizeInChars());
+    public void shouldReturn512MaxCharsInMessageByDefault() {
+        assertEquals(512L, nagiosSettings.getMaxMessageSizeInChars());
     }
     
     @Test
-    public void shouldReturn4096MaxCharsInMessageWhenEnabled() throws Exception {
+    public void shouldReturn4096MaxCharsInMessageWhenEnabled() {
         nagiosSettings.enableLargeMessageSupport();
 
-        assertEquals(4096L, (long) nagiosSettings.getMaxMessageSizeInChars());
+        assertEquals(4096L, nagiosSettings.getMaxMessageSizeInChars());
     }
     
     @Test
-    public void shouldThrowNPEForNullEncryptor() throws Exception {
+    public void shouldThrowNPEForNullEncryptor() {
         expectedException.expect(NullPointerException.class);
         expectedException.expectMessage("encryptor cannot be null");
         
@@ -82,13 +85,14 @@ public class NagiosSettingsTest {
     }
 
     @Test
-    public void shouldReturnStringOfNagiosSettings() throws Exception {
+    public void shouldReturnStringOfNagiosSettings() {
         String settings = new NagiosSettings().toString();
-        assertEquals("NagiosSettings[nagiosHost=localhost,port=5667,password=,timeout=10000,connectTimeout=5000,encryptor=none]", settings);
+
+        assertThat(settings, Matchers.startsWith("NagiosSettings[nagiosHost=localhost,port=5667,password=,timeout=10000,connectTimeout=5000"));
     }
 
     @Test
-    public void shouldSetEncryptionUsingEncryptor() throws Exception {
+    public void shouldSetEncryptionUsingEncryptor() {
         Encryptor expectedEncryptor = new TripleDESEncryptor();
         nagiosSettings.setEncryptor(expectedEncryptor);
 

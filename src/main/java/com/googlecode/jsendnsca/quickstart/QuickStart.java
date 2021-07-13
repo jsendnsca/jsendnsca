@@ -13,8 +13,6 @@
  */
 package com.googlecode.jsendnsca.quickstart;
 
-import java.io.IOException;
-
 import com.googlecode.jsendnsca.Level;
 import com.googlecode.jsendnsca.MessagePayload;
 import com.googlecode.jsendnsca.NagiosException;
@@ -56,8 +54,6 @@ public class QuickStart {
         try {
             sender.send(payload);
         } catch (NagiosException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }

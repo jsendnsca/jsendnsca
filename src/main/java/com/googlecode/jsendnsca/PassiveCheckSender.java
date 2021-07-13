@@ -13,8 +13,6 @@
  */
 package com.googlecode.jsendnsca;
 
-import java.io.IOException;
-
 /**
  * Interface to be implemented by {@link PassiveCheckSender}'s
  * 
@@ -29,9 +27,6 @@ public interface PassiveCheckSender {
      *            the Passive Check message payload
      * @throws NagiosException
      *             thrown if an error occurs while sending the passive check
-     * @throws IOException
-     *             thrown if I/O error occurs while trying to establish
-     *             connection with nagios host
      */
-    void send(MessagePayload payload) throws NagiosException, IOException;
+    void send(MessagePayload payload);
 }

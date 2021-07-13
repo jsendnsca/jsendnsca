@@ -13,6 +13,8 @@
  */
 package com.googlecode.jsendnsca.encryption;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.apache.commons.lang3.StringUtils.*;
 
 /**
@@ -40,7 +42,7 @@ public class XorEncryptor implements Encryptor {
 
         if (isNotBlank(password)) {
             try {
-                final byte[] passwordBytes = password.getBytes("US-ASCII");
+                final byte[] passwordBytes = password.getBytes(StandardCharsets.US_ASCII);
 
                 for (int y = 0, x = 0; y < passiveCheckBytes.length; y++, x++) {
                     if (x >= passwordBytes.length) {

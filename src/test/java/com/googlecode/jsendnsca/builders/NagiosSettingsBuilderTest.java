@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 public class NagiosSettingsBuilderTest {
 
     @Test
-    public void shouldCreateDefault() throws Exception {
+    public void shouldCreateDefault() {
         NagiosSettings defaultNagiosSettings = new NagiosSettings();
 
         NagiosSettings nagiosSettings = new NagiosSettingsBuilder().createDefault();
@@ -31,7 +31,7 @@ public class NagiosSettingsBuilderTest {
     }
 
     @Test
-    public void shouldCreateWithEverythingOverriden() throws Exception {
+    public void shouldCreateWithEverythingOverriden() {
         String host = "nagioshost";
         int port = 9999;
         String password = "s3cr3t";
@@ -50,16 +50,16 @@ public class NagiosSettingsBuilderTest {
             .create();
 
         assertEquals(host, nagiosSettings.getNagiosHost());
-        assertEquals((long) port, (long) nagiosSettings.getPort());
+        assertEquals(port, nagiosSettings.getPort());
         assertEquals(password, nagiosSettings.getPassword());
-        assertEquals((long) connectionTimeout, (long) nagiosSettings.getConnectTimeout());
-        assertEquals((long) responseTimeout, (long) nagiosSettings.getTimeout());
+        assertEquals(connectionTimeout, nagiosSettings.getConnectTimeout());
+        assertEquals(responseTimeout, nagiosSettings.getTimeout());
         assertEquals(XOR.getEncryptor(), nagiosSettings.getEncryptor());
-        assertEquals(4096L, (long) nagiosSettings.getMaxMessageSizeInChars());
+        assertEquals(4096L, nagiosSettings.getMaxMessageSizeInChars());
     }
 
     @Test
-    public void shouldCreateSettingsWithNoPassword() throws Exception {
+    public void shouldCreateSettingsWithNoPassword() {
         NagiosSettings settings = new NagiosSettingsBuilder()
             .withPassword("set to something as default is empty string")
             .withNoPassword()

@@ -22,15 +22,19 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 
 import static com.googlecode.jsendnsca.Level.CRITICAL;
 import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 public class NagiosPassiveCheckSenderTest {
 
@@ -54,7 +58,7 @@ public class NagiosPassiveCheckSenderTest {
     }
 
     @Test
-    public void shouldNPEOnSendingWithNullMessagePayload() throws Exception {
+    public void shouldNPEOnSendingWithNullMessagePayload() {
         expectedException.expect(NullPointerException.class);
         expectedException.expectMessage("payload cannot be null");
 
@@ -64,8 +68,8 @@ public class NagiosPassiveCheckSenderTest {
     }
 
     @Test
-    public void shouldThrowUnknownHostExceptionOnUnknownHost() throws Exception {
-        expectedException.expect(UnknownHostException.class);
+    public void shouldThrowUnknownHostExceptionOnUnknownHost() {
+        expectedException.expect(UncheckedIOException.class);
         expectedException.expectMessage("foobar");
 
         NagiosSettings nagiosSettings = new NagiosSettings();
@@ -160,13 +164,13 @@ public class NagiosPassiveCheckSenderTest {
 
         MessagePayload messagePayload = stub.getMessagePayloadList().get(0);
 
-        assertEquals(63L, (long) messagePayload.getHostname().length());
-        assertEquals(127L, (long) messagePayload.getServiceName().length());
-        assertEquals(511L, (long) messagePayload.getMessage().length());
+        assertEquals(63L, messagePayload.getHostname().length());
+        assertEquals(127L, messagePayload.getServiceName().length());
+        assertEquals(511L, messagePayload.getMessage().length());
     }
 
     @Test
-    public void shouldThrowNagiosExceptionIfNoInitVectorSentOnConnection() throws Exception {
+    public void shouldThrowNagiosExceptionIfNoInitVectorSentOnConnection() {
         expectedException.expect(NagiosException.class);
         expectedException.expectMessage("Can't read initialisation vector");
 
@@ -188,9 +192,10 @@ public class NagiosPassiveCheckSenderTest {
     }
 
     @Test
-    public void shouldTimeoutWhenSendingPassiveCheck() throws Exception {
-        expectedException.expect(SocketTimeoutException.class);
-        expectedException.expectMessage("Read timed out");
+    public void shouldTimeoutWhenSendingPassiveCheck() {
+        expectedException.expect(NagiosException.class);
+        expectedException.expectMessage("Can't read initialisation vector");
+        expectedException.expectCause(any(SocketTimeoutException.class));
 
         final NagiosSettings nagiosSettings = new NagiosSettings();
         nagiosSettings.setTimeout(1000);
@@ -221,6 +226,6 @@ public class NagiosPassiveCheckSenderTest {
     }
 
     private String large() throws IOException {
-        return IOUtils.toString(getClass().getClassLoader().getResourceAsStream("lorem-ipsum.txt"), "UTF8");
+        return IOUtils.toString(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("lorem-ipsum.txt")), StandardCharsets.UTF_8);
     }
 }

@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 public class ByteArrayUtilsTest {
 
     @Test
-    public void shouldWriteShortToByteArray() throws Exception {
+    public void shouldWriteShortToByteArray() {
         final byte[] expected = new byte[] { 0, 0, 0, 3 };
         final byte[] actual = new byte[4];
         final short value = 3;
@@ -32,7 +32,7 @@ public class ByteArrayUtilsTest {
     }
 
     @Test
-    public void shouldWriteIntegerToByteArray() throws Exception {
+    public void shouldWriteIntegerToByteArray() {
         final byte[] expected = new byte[] { 0, 0, 0, 0, 0, 3 };
         final byte[] actual = new byte[6];
         final int value = 3;
@@ -43,7 +43,7 @@ public class ByteArrayUtilsTest {
     }
 
     @Test
-    public void shouldReturnFixedSizeByteArrayForString() throws Exception {
+    public void shouldReturnFixedSizeByteArrayForString() {
         final byte[] expected = new byte[] { 116, 101, 115, 116, 0 };
         final String value = "test";
 
@@ -53,21 +53,21 @@ public class ByteArrayUtilsTest {
     }
 
     @Test
-    public void shouldReturnNullByteArrayIfPassedANullString() throws Exception {
+    public void shouldReturnNullByteArrayIfPassedANullString() {
         final byte[] actual = ByteArrayUtils.getFixedSizeBytes(5, null);
 
         assertNull(actual);
     }
 
     @Test
-    public void shouldReturnByteArrayOf5InSizeIfPassedEmptyString() throws Exception {
+    public void shouldReturnByteArrayOf5InSizeIfPassedEmptyString() {
         final byte[] actual = ByteArrayUtils.getFixedSizeBytes(5, StringUtils.EMPTY);
 
-        assertTrue(actual.length == 5);
+        assertEquals(5, actual.length);
     }
 
     @Test
-    public void shouldTruncateStringIntoFixedSizeByteArrayAndWriteItToDestinationByteArray() throws Exception {
+    public void shouldTruncateStringIntoFixedSizeByteArrayAndWriteItToDestinationByteArray() {
         final byte[] expected = new byte[] { 0, 0, 116, 101, 115, 116 };
         final byte[] actual = new byte[6];
         final String value = "testing";

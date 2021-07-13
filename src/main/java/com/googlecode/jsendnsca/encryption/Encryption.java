@@ -75,9 +75,6 @@ public enum Encryption {
     }
 
     private Encryptor none() {
-        return new Encryptor() {
-            public void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password) {
-            }
-        };
+        return (passiveCheckBytes, initVector, password) -> { };
     }
 }

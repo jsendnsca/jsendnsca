@@ -15,7 +15,7 @@ package com.googlecode.jsendnsca.encryption;
 
 import static javax.crypto.Cipher.*;
 
-import java.security.GeneralSecurityException;
+import java.nio.charset.StandardCharsets;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -40,7 +40,7 @@ public class TripleDESEncryptor implements Encryptor {
      */
     public void encrypt(byte[] passiveCheckBytes, byte[] initVector, String password) {
         try {
-            final byte[] keyBytes = toFixedSizeByteArray(password.getBytes("US-ASCII"), 24);
+            final byte[] keyBytes = toFixedSizeByteArray(password.getBytes(StandardCharsets.US_ASCII), 24);
             final byte[] initVectorBytes = toFixedSizeByteArray(initVector, 8);
 
             final SecretKey key = new SecretKeySpec(keyBytes, DES_ALGORITHM);

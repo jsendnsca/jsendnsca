@@ -13,7 +13,6 @@
  */
 package com.googlecode.jsendnsca;
 
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -77,7 +76,7 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
      * .jsendnsca.sender.MessagePayload)
      */
     @Override
-    public void send(MessagePayload payload) throws NagiosException, IOException {
+    public void send(MessagePayload payload) throws NagiosException {
         executor.execute(new NonBlockingSender(payload));
     }
 

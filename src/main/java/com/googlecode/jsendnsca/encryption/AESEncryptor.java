@@ -18,6 +18,8 @@ import org.bouncycastle.crypto.modes.CFBBlockCipher;
 import org.bouncycastle.crypto.paddings.*;
 import org.bouncycastle.crypto.params.*;
 
+import java.nio.charset.StandardCharsets;
+
 
 public class AESEncryptor implements Encryptor {
 
@@ -33,7 +35,7 @@ public class AESEncryptor implements Encryptor {
 
         try {
             byte[] sessionKey = new byte[_keyByteLength];
-            byte[] passwordBytes = password.getBytes("US-ASCII");
+            byte[] passwordBytes = password.getBytes(StandardCharsets.US_ASCII);
             System.arraycopy(passwordBytes, 0, sessionKey, 0, Math.min(_keyByteLength, passwordBytes.length));
 
             byte[] iv = new byte[_keyByteLength];

@@ -19,7 +19,7 @@ package com.googlecode.jsendnsca;
  * @author Raj.Patel
  * @version 1.0
  */
-public class NagiosException extends Exception {
+public class NagiosException extends RuntimeException {
 
     private static final long serialVersionUID = 5630051795639637370L;
 

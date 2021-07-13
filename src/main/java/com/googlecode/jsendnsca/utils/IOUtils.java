@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 /**
  * Utility IO methods
@@ -59,24 +58,6 @@ public class IOUtils {
 	 */
 	public static void closeQuietly(OutputStream output) {
 		close(output);
-	}
-
-	/**
-	 * Unconditionally close a <code>Socket</code>.
-	 * <p>
-	 * Equivalent to {@link Socket#close()}, except any exceptions will be
-	 * ignored. This is typically used in finally blocks.
-	 *
-	 * @param socket
-	 *            the socket to close, may be null or already closed
-	 */
-	public static void closeQuietly(Socket socket) {
-		try {
-			if (socket != null) {
-				socket.close();
-			}
-		} catch (IOException ignore) {
-		}
 	}
 
 	public static void closeQuietly(ServerSocket serverSocket) {

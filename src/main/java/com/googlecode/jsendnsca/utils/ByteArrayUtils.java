@@ -15,6 +15,8 @@ package com.googlecode.jsendnsca.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * Utility methods for writing to a byte array
  * 
@@ -96,7 +98,7 @@ public class ByteArrayUtils {
         }
 
         try {
-            System.arraycopy(value.getBytes("US-ASCII"), 0, myBytes, 0, value.getBytes("US-ASCII").length);
+            System.arraycopy(value.getBytes(StandardCharsets.US_ASCII), 0, myBytes, 0, value.getBytes(StandardCharsets.US_ASCII).length);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

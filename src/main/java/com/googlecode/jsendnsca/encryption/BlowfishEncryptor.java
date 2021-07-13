@@ -20,6 +20,8 @@ import org.bouncycastle.crypto.paddings.ZeroBytePadding;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * A Blowfish based {@link Encryptor} implementation.
  * The max key length is 56 bytes (448 bits).
@@ -35,7 +37,7 @@ public class BlowfishEncryptor implements Encryptor {
         PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CFBBlockCipher(engine, 8), new ZeroBytePadding());
 
         try {
-            final byte[] passwordBytes = password.getBytes("US-ASCII");
+            final byte[] passwordBytes = password.getBytes(StandardCharsets.US_ASCII);
 
             assertValidPasswordBytesLength(passwordBytes);
 

@@ -33,41 +33,39 @@ package com.googlecode.jsendnsca.quickstart;
 
 import java.io.IOException;
 
-import com.googlecode.jsendnsca.Level; 
-import com.googlecode.jsendnsca.MessagePayload; 
-import com.googlecode.jsendnsca.NagiosException; 
-import com.googlecode.jsendnsca.NagiosPassiveCheckSender; 
-import com.googlecode.jsendnsca.NagiosSettings; 
-import com.googlecode.jsendnsca.builders.MessagePayloadBuilder; 
-import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder; 
+import com.googlecode.jsendnsca.Level;
+import com.googlecode.jsendnsca.MessagePayload;
+import com.googlecode.jsendnsca.NagiosException;
+import com.googlecode.jsendnsca.NagiosPassiveCheckSender;
+import com.googlecode.jsendnsca.NagiosSettings;
+import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
+import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
 import com.googlecode.jsendnsca.encryption.Encryption;
 
 public class QuickStart {
 
-  public static void main(String[] args) {
-      NagiosSettings settings = new NagiosSettingsBuilder()
-          .withNagiosHost("nagiosHostNameOrIPAddress")
-          .withPort(5667)
-          .withEncryption(Encryption.XOR)
-          .create();
-  
-      MessagePayload payload = new MessagePayloadBuilder()
-          .withHostname("hostname of machine sending check")
-          .withLevel(Level.OK)
-          .withServiceName("Service Name")
-          .withMessage("should work if everything set up OK")
-          .create();
-  
-      NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(settings);
-  
-      try {
-          sender.send(payload);
-      } catch (NagiosException e) {
-          e.printStackTrace();
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
-  }
+    public static void main(String[] args) {
+        NagiosSettings settings = new NagiosSettingsBuilder()
+                .withNagiosHost("nagiosHostNameOrIPAddress")
+                .withPort(5667)
+                .withEncryption(Encryption.XOR)
+                .create();
+
+        MessagePayload payload = new MessagePayloadBuilder()
+                .withHostname("hostname of machine sending check")
+                .withLevel(Level.OK)
+                .withServiceName("Service Name")
+                .withMessage("should work if everything set up OK")
+                .create();
+
+        NagiosPassiveCheckSender sender = new NagiosPassiveCheckSender(settings);
+
+        try {
+            sender.send(payload);
+        } catch (NagiosException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 ```
 

@@ -14,36 +14,30 @@
 package com.googlecode.jsendnsca;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
 
 public class MessagePayloadTest {
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     @Test
-    public void shouldThrowIllegalArgumentExceptionOnEmptyServiceName() throws Exception {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("serviceName cannot be null or an empty String");
-
+    public void shouldThrowIllegalArgumentExceptionOnEmptyServiceName() {
         final MessagePayload payload = new MessagePayload();
 
         payload.setHostname("localhost");
         payload.setLevel(Level.CRITICAL);
-        payload.setServiceName(StringUtils.EMPTY);
+        assertThrows("serviceName cannot be null or an empty String", IllegalArgumentException.class,
+                () -> payload.setServiceName(StringUtils.EMPTY));
     }
 
     @Test
-    public void shouldConstructValidObjectWhenUsingNoArgConstructor() throws Exception {
+    public void shouldConstructValidObjectWhenUsingNoArgConstructor() {
         final MessagePayload messagePayload = new MessagePayload();
 
         assertTrue(StringUtils.isNotEmpty(messagePayload.getHostname()));
@@ -53,24 +47,22 @@ public class MessagePayloadTest {
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionOnEmptyHostName() throws Exception {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("hostname cannot be null or an empty String");
-
+    public void shouldThrowIllegalArgumentExceptionOnEmptyHostName() {
         final MessagePayload payload = new MessagePayload();
 
-        payload.setHostname(StringUtils.EMPTY);
+        assertThrows("hostname cannot be null or an empty String", IllegalArgumentException.class,
+                () -> payload.setHostname(StringUtils.EMPTY));
     }
 
     @Test
-    public void shouldAllowEmptyMessageToBeSet() throws Exception {
+    public void shouldAllowEmptyMessageToBeSet() {
         final MessagePayload payload = new MessagePayload();
 
         payload.setMessage(StringUtils.EMPTY);
     }
 
     @Test
-    public void shouldConstructNewMessagePayload() throws Exception {
+    public void shouldConstructNewMessagePayload() {
         final MessagePayload messagePayload = new MessagePayload("localhost", Level.OK, "test service", "test message");
 
         assertEquals("localhost", messagePayload.getHostname());
@@ -80,7 +72,7 @@ public class MessagePayloadTest {
     }
 
     @Test
-    public void shouldConstructTwoNewMessagePayload() throws Exception {
+    public void shouldConstructTwoNewMessagePayload() {
         final MessagePayload messagePayload = new MessagePayload("localhost", Level.OK, "test service", "test message");
 
         final MessagePayload messagePayload2 = new MessagePayload("somehost", Level.WARNING, "foo service", "foo message");
@@ -98,14 +90,12 @@ public class MessagePayloadTest {
 
     @Test
     public void shouldThrowNPEOnConstructingNewMessagePayloadWithNullHostname() {
-        expectedException.expect(NullPointerException.class);
-        expectedException.expectMessage("hostname cannot be null or an empty String");
-
-        new MessagePayload(null, Level.OK, "test service", "test message");
+        assertThrows("hostname cannot be null or an empty String", NullPointerException.class,
+                () -> new MessagePayload(null, Level.OK, "test service", "test message"));
     }
 
     @Test
-    public void shouldConvertStringLevelsToIntegerWhileIgnoringCase() throws Exception {
+    public void shouldConvertStringLevelsToIntegerWhileIgnoringCase() {
         final MessagePayload messagePayload = new MessagePayload();
 
         messagePayload.setLevel("Ok");
@@ -119,7 +109,7 @@ public class MessagePayloadTest {
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionIfStringLevelIsNotRecognised() throws Exception {
+    public void shouldThrowIllegalArgumentExceptionIfStringLevelIsNotRecognised() {
         final MessagePayload messagePayload = new MessagePayload();
 
         try {
@@ -131,7 +121,7 @@ public class MessagePayloadTest {
     }
 
     @Test
-    public void shouldSetLevelUsingEnum() throws Exception {
+    public void shouldSetLevelUsingEnum() {
         final MessagePayload payload = new MessagePayload();
         payload.setLevel(Level.WARNING);
 
@@ -148,7 +138,7 @@ public class MessagePayloadTest {
     }
 
     @Test
-    public void shouldReturnUsefulStringContainingMessagePayloadFields() throws Exception {
+    public void shouldReturnUsefulStringContainingMessagePayloadFields() {
         String payloadString = new MessagePayload().toString();
 
         assertThat(payloadString, startsWith("MessagePayload[level=UNKNOWN"));
