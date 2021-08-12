@@ -10,11 +10,11 @@ JSend NSCA is Java API for sending passive checks to the [Nagios NSCA add-on](ht
 
 By using JSend NSCA, you can easily integrate your Java applications into a Nagios monitored environment thereby notifying [Nagios](https://www.nagios.org)/[Icinga](https://www.icinga.org/)/[Opsview](https://www.opsview.com/) of problems and issues during the running of your application.
 
-# Latest Release
+# Versions
 
-[2.2.0](https://github.com/jsendnsca/jsendnsca/releases/tag/v2.2.0)
+For Java 11+, use [2.2.0+](https://search.maven.org/artifact/com.github.jsendnsca/jsendnsca/2.2.0/jar)
 
-[Javadocs](http://jsendnsca.github.io/jsendnsca/)
+For Java 6+, use [2.1.1](https://search.maven.org/artifact/com.github.jsendnsca/jsendnsca/2.1.1/jar)
 
 ## Maven
 
