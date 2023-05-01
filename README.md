@@ -71,11 +71,11 @@ public class QuickStart {
 
 # Background
 
-JSend NSCA was developed as a company I worked for used Nagios to monitor applications and servers. For existing applications written in Perl and c, there are options available to send passive checks but for Java applications, the option available was to shell out and execute the send_nsca command line tool.
+JSend NSCA was developed as a company I worked for at the time used Nagios to monitor applications and servers. For existing applications written in Perl and c, there are options available to send passive checks but for Java applications, the option available was to shell out and execute the send_nsca command line tool.
 
-Although send_nsca worked in this manner, it’s ugly and we preferred having the code within our applications for better performance, testability, cleanliness...
+Although send_nsca worked in this manner, it was ugly and we preferred having the code within our applications for better performance, testability, cleanliness...
 
-A search on the internet revealed a few options such as the [NagiosAppender](https://sourceforge.net/projects/nagiosappender/) for log4j but in the end we settled on writing our own client. This client is currently in use thus proving the feasibility of the approach.
+A search on the internet revealed a few options such as the [NagiosAppender](https://sourceforge.net/projects/nagiosappender/) for log4j but in the end we settled on writing our own client.
 
 On the back of this, I decided to write JSend NSCA from the ground up as an exercise in TDD and thought I would make it available as an open source project so other developers can benefit from the functionality.
 
@@ -87,9 +87,8 @@ Thanks goes to the [NagiosAppender](https://sourceforge.net/projects/nagiosappen
 
 Amongst others:
 
-* [Apache Camel Nagios Component](http://camel.apache.org/nagios.html)
-* [Groundwork Open Source JDMA](https://kb.groundworkopensource.com/display/SUPPORT/Technical+Product+Description+for+JDMA)
+* [Apache Camel Nagios Component](https://camel.apache.org/components/3.14.x/nagios-component.htmll)
+* [Groundwork Open Source JDMA](https://kb.groundworkopensource.com/display/DOC71/Nagios)
 * [jAlarms](http://jalarms.sourceforge.net/)
 * [bischeck](http://gforge.ingby.com/gf/project/bischeck/)
 * [Cisco Prime Network](http://www.cisco.com/c/dam/en/us/td/docs/net_mgmt/prime/network/4-2/open_source/CiscoPrimeNetwork-4-2-OpenSource.pdf)
-
