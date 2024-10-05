@@ -24,18 +24,12 @@
         <url>https://github.com/jsendnsca/jsendnsca/issues</url>
     </issueManagement>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <name>Sonatype Nexus snapshot repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
+    <repositories>
         <repository>
-            <id>ossrh</id>
-            <name>Sonatype Nexus release repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>some-repo</id>
+            <url>http://mvnrepository.com</url>
         </repository>
-    </distributionManagement>
+    </repositories>
 
     <scm>
         <connection>scm:git:https://github.com/jsendnsca/jsendnsca.git</connection>
@@ -136,10 +130,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
-                        <version>3.0.0-M4</version>
-                        <configuration>
-                            <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
-                        </configuration>
+                        <version>3.0.0</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -163,11 +154,6 @@
                         <artifactId>nexus-staging-maven-plugin</artifactId>
                         <version>1.6.7</version>
                         <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -183,8 +169,8 @@
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.69</version>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.77</version>
         </dependency>
 
         <!-- testing -->
