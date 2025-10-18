@@ -87,7 +87,7 @@ Thanks goes to the [NagiosAppender](https://sourceforge.net/projects/nagiosappen
 
 Amongst others:
 
-* [Quarkus Camel Nagios Component]([https://camel.apache.org/components/3.14.x/nagios-component.htmll](https://quarkus.io/extensions/org.apache.camel.quarkus/camel-quarkus-nagios/))
+* [Quarkus Camel Nagios Component](https://quarkus.io/extensions/org.apache.camel.quarkus/camel-quarkus-nagios/)
 * [Groundwork Open Source JDMA](https://kb.groundworkopensource.com/display/DOC71/Nagios)
 * [jAlarms](http://jalarms.sourceforge.net/)
 * [bischeck](http://gforge.ingby.com/gf/project/bischeck/)
