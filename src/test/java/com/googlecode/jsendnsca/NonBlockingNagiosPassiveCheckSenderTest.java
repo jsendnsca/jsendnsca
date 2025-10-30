@@ -14,9 +14,9 @@
 package com.googlecode.jsendnsca;
 
 import com.googlecode.jsendnsca.NonBlockingNagiosPassiveCheckSender.ExceptionHandler;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.Date;
@@ -27,18 +27,18 @@ import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NonBlockingNagiosPassiveCheckSenderTest {
 
     private NonBlockingNagiosPassiveCheckSender sender;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender(), new TestExceptionHandler());
     }
 
-    @After
+    @AfterEach
     public void shutdownSender() {
         sender.shutdown();
     }
@@ -61,7 +61,7 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
 
         sender.send(new MessagePayload());
 
-        assertTrue("timed out waiting for message to be sent", latch.await(10, TimeUnit.SECONDS));
+        assertTrue(latch.await(10, TimeUnit.SECONDS), "timed out waiting for message to be sent");
     }
 
     private static class SlowNagiosPassiveCheckSender implements PassiveCheckSender {

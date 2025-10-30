@@ -22,7 +22,7 @@ For Java 6+, use [2.1.1](https://search.maven.org/artifact/com.github.jsendnsca/
 <dependency>
   <groupId>com.github.jsendnsca</groupId>
   <artifactId>jsendnsca</artifactId>
-  <version>2.2.0</version>
+  <version>3.0.0</version>
 </dependency>
 ```
 

@@ -19,6 +19,7 @@ package com.googlecode.jsendnsca.encryption;
  * @author Raj Patel
  * 
  */
+@FunctionalInterface
 public interface Encryptor {
 
     /**

@@ -109,6 +109,7 @@ public class NonBlockingNagiosPassiveCheckSender implements PassiveCheckSender {
      *
      * @author max.schwaab@gmail.com
      */
+    @FunctionalInterface
     public interface ExceptionHandler {
 
         /**

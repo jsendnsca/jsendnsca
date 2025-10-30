@@ -19,6 +19,7 @@ package com.googlecode.jsendnsca;
  * @author Raj.Patel
  * @version 1.0
  */
+@FunctionalInterface
 public interface PassiveCheckSender {
     /**
      * Send Passive Check

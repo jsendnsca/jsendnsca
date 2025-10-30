@@ -13,17 +13,21 @@
  */
 package com.googlecode.jsendnsca.encryption;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 public class BlowfishEncryptorTest {
 
     @Test
     public void encrypt_should_throw_on_password_too_long() {
         final BlowfishEncryptor encryptor = new BlowfishEncryptor();
 
-        assertThrows("Key size 57 bytes is longer than the specified key size 56 bytes", RuntimeException.class,
-                () -> encryptor.encrypt("Passive check".getBytes(), "12345678".getBytes(), "thisPasswordIsTooooooooooooooooooooooooooooooooooooooLong"));
+        assertThrows(
+                RuntimeException.class,
+                () -> encryptor.encrypt(
+                        "Passive check".getBytes(),
+                        "12345678".getBytes(),
+                        "thisPasswordIsTooooooooooooooooooooooooooooooooooooooLong"),
+                "Key size 57 bytes is longer than the specified key size 56 bytes");
     }
 }

@@ -16,45 +16,39 @@ package com.googlecode.jsendnsca;
 import com.googlecode.jsendnsca.encryption.Encryption;
 import com.googlecode.jsendnsca.encryption.Encryptor;
 import com.googlecode.jsendnsca.encryption.TripleDESEncryptor;
-import org.apache.commons.lang3.StringUtils;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.junit.Assert.assertEquals;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class NagiosSettingsTest {
 
     private NagiosSettings nagiosSettings;
 
-    @SuppressWarnings({"PublicField"})
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
-    
-    @Before
+    @BeforeEach
     public void setUp() {
         nagiosSettings = new NagiosSettings();
     }
 
     @Test
     public void shouldThrowIllegalArgumentExceptionWhenSettingHostnameToEmptyString() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("nagiosHost cannot be null or empty");
-
-        nagiosSettings.setNagiosHost(StringUtils.EMPTY);
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> nagiosSettings.setNagiosHost(EMPTY));
+        assertThat(ex.getMessage(), is("nagiosHost cannot be null or empty"));
     }
 
     @Test
     public void shouldThrowIllegalArgumentExceptionForInvalidPort() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("port must be between 1 and 65535 inclusive");
-
         int maxValidPort = 65535;
-        nagiosSettings.setPort(maxValidPort + 1);
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                nagiosSettings.setPort(maxValidPort + 1)
+        );
+        assertThat(ex.getMessage(), is("port must be between 1 and 65535 inclusive"));
     }
 
     @Test
@@ -78,10 +72,11 @@ public class NagiosSettingsTest {
     
     @Test
     public void shouldThrowNPEForNullEncryptor() {
-        expectedException.expect(NullPointerException.class);
-        expectedException.expectMessage("encryptor cannot be null");
-        
-        nagiosSettings.setEncryptor(null);
+        NullPointerException thrown = assertThrows(NullPointerException.class, () ->
+                nagiosSettings.setEncryptor(null)
+        );
+        assertThat(thrown.getMessage(), is("encryptor cannot be null"));
+        ;
     }
 
     @Test
