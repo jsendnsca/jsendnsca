@@ -12,9 +12,11 @@ By using JSend NSCA, you can easily integrate your Java applications into a Nagi
 
 # Versions
 
-For Java 11+, use [2.2.0+](https://search.maven.org/artifact/com.github.jsendnsca/jsendnsca/2.2.0/jar)
+For Java 17+, use [3.0.0](https://central.sonatype.com/artifact/com.github.jsendnsca/jsendnsca/3.0.0)
 
-For Java 6+, use [2.1.1](https://search.maven.org/artifact/com.github.jsendnsca/jsendnsca/2.1.1/jar)
+For Java 11+, use [2.2.0](https://central.sonatype.com/artifact/com.github.jsendnsca/jsendnsca/2.2.0)
+
+For Java 6+, use [2.1.1](https://central.sonatype.com/artifact/com.github.jsendnsca/jsendnsca/2.1.1)
 
 ## Maven
 
