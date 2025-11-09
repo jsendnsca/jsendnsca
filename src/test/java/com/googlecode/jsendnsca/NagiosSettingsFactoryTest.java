@@ -14,26 +14,25 @@
 package com.googlecode.jsendnsca;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.Properties;
 
+import static com.googlecode.jsendnsca.NagiosSettingsFactory.createSettings;
 import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class NagiosSettingsFactoryTest {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void shouldCreateDefaultNagiosSettingForEmptyProperties() throws Exception {
         Properties emptyProperties = new Properties();
 
-        NagiosSettings settings = NagiosSettingsFactory.createSettings(emptyProperties);
+        NagiosSettings settings = createSettings(emptyProperties);
 
         NagiosSettings defaultSettings = new NagiosSettings();
         assertEquals(defaultSettings, settings);
@@ -49,7 +48,7 @@ public class NagiosSettingsFactoryTest {
         overrideAllSettings.setProperty("nagios.nsca.connect.timeout", "10000");
         overrideAllSettings.setProperty("nagios.nsca.encryption", "xor");
 
-        NagiosSettings settings = NagiosSettingsFactory.createSettings(overrideAllSettings);
+        NagiosSettings settings = createSettings(overrideAllSettings);
 
         NagiosSettings expectedSettings = new NagiosSettings();
         expectedSettings.setNagiosHost("foobar");
@@ -64,7 +63,7 @@ public class NagiosSettingsFactoryTest {
 
     @Test
     public void shouldOverideDefaultSettingsWithValidPropertiesFile() throws Exception {
-        NagiosSettings settings = NagiosSettingsFactory.createSettings(new File("src/test/resources/nsca.properties"));
+        NagiosSettings settings = createSettings(new File("src/test/resources/nsca.properties"));
 
         NagiosSettings expectedSettings = new NagiosSettings();
         expectedSettings.setNagiosHost("foobar");
@@ -82,7 +81,7 @@ public class NagiosSettingsFactoryTest {
         Properties overrideHostNameOnly = new Properties();
         overrideHostNameOnly.setProperty("nagios.nsca.host", "foobar");
 
-        NagiosSettings settings = NagiosSettingsFactory.createSettings(overrideHostNameOnly);
+        NagiosSettings settings = createSettings(overrideHostNameOnly);
 
         NagiosSettings expectedSettings = new NagiosSettings();
         expectedSettings.setNagiosHost("foobar");
@@ -92,46 +91,51 @@ public class NagiosSettingsFactoryTest {
 
     @Test
     public void shouldThrowNagiosConfigurationExceptionForEmptyPropertyValue() throws Exception {
-        expectedException.expect(NagiosConfigurationException.class);
-        expectedException.expectMessage("Key [nagios.nsca.host] value cannot be empty or purely whitespace");
-
         Properties emptyPropertyValue = new Properties();
         emptyPropertyValue.setProperty("nagios.nsca.host", StringUtils.EMPTY);
 
-        NagiosSettingsFactory.createSettings(emptyPropertyValue);
+        NagiosConfigurationException ex = assertThrows(
+                NagiosConfigurationException.class,
+                () -> NagiosSettingsFactory.createSettings(emptyPropertyValue));
+        assertThat(ex.getMessage(),
+                is("Key [nagios.nsca.host] value cannot be empty or purely whitespace"));
     }
 
     @Test
     public void shouldThrowNagiosConfigurationExceptionForNonIntegerValueProvidedForIntegerValueKey() throws Exception {
-        expectedException.expect(NagiosConfigurationException.class);
-        expectedException.expectMessage("Key [nagios.nsca.timeout] must be an integer, was [notANumber]");
-
         Properties nonIntegerTimeout = new Properties();
         nonIntegerTimeout.setProperty("nagios.nsca.timeout", "notANumber");
 
-        NagiosSettingsFactory.createSettings(nonIntegerTimeout);
+        NagiosConfigurationException ex = assertThrows(NagiosConfigurationException.class,
+                () -> createSettings(nonIntegerTimeout));
+        assertThat(ex.getMessage(),
+                is("Key [nagios.nsca.timeout] must be an integer, was [notANumber]"));
     }
 
     @Test
     public void shouldThrowNagiosConfigurationExceptionForOutOfRangePort() throws Exception {
-        expectedException.expect(NagiosConfigurationException.class);
-        expectedException.expectMessage("Key [nagios.nsca.port] port must be between 1 and 65535 inclusive, was [65536]");
-
         Properties outOfRangePort = new Properties();
         outOfRangePort.setProperty("nagios.nsca.port", "65536");
 
-        NagiosSettingsFactory.createSettings(outOfRangePort);
+
+        NagiosConfigurationException ex = assertThrows(
+                NagiosConfigurationException.class,
+                () -> createSettings(outOfRangePort));
+        assertThat(ex.getMessage(),
+                is("Key [nagios.nsca.port] port must be between 1 and 65535 inclusive, was [65536]"));
     }
 
     @Test
     public void shouldThrowNagiosConfigurationExceptionForUnknownEncryption() throws Exception {
-        expectedException.expect(NagiosConfigurationException.class);
-        expectedException.expectMessage("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor,rijndael128,rijndael192,rijndael256,blowfish], was [foobar]");
-
         Properties unknownEncryption = new Properties();
         unknownEncryption.setProperty("nagios.nsca.encryption", "foobar");
 
-        NagiosSettingsFactory.createSettings(unknownEncryption);
+        NagiosConfigurationException ex = assertThrows(
+                NagiosConfigurationException.class,
+                () -> createSettings(unknownEncryption));
+        assertThat(ex.getMessage(),
+                is("Key [nagios.nsca.encryption] must be one of [none,triple_des,xor,rijndael128,rijndael192,rijndael256,blowfish], was [foobar]"));
+
     }
 
 }

@@ -16,15 +16,14 @@
  */
 package com.googlecode.jsendnsca.builders;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-
 import com.googlecode.jsendnsca.Level;
 import com.googlecode.jsendnsca.MessagePayload;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 import java.net.UnknownHostException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @version $Revision$

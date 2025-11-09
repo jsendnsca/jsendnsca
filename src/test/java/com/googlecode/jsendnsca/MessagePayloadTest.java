@@ -14,15 +14,18 @@
 package com.googlecode.jsendnsca;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class MessagePayloadTest {
 
@@ -32,8 +35,9 @@ public class MessagePayloadTest {
 
         payload.setHostname("localhost");
         payload.setLevel(Level.CRITICAL);
-        assertThrows("serviceName cannot be null or an empty String", IllegalArgumentException.class,
-                () -> payload.setServiceName(StringUtils.EMPTY));
+        assertThrows(IllegalArgumentException.class,
+                () -> payload.setServiceName(StringUtils.EMPTY),
+                "serviceName cannot be null or an empty String");
     }
 
     @Test
@@ -50,8 +54,9 @@ public class MessagePayloadTest {
     public void shouldThrowIllegalArgumentExceptionOnEmptyHostName() {
         final MessagePayload payload = new MessagePayload();
 
-        assertThrows("hostname cannot be null or an empty String", IllegalArgumentException.class,
-                () -> payload.setHostname(StringUtils.EMPTY));
+        assertThrows(IllegalArgumentException.class,
+                () -> payload.setHostname(StringUtils.EMPTY),
+                "hostname cannot be null or an empty String");
     }
 
     @Test
@@ -59,6 +64,7 @@ public class MessagePayloadTest {
         final MessagePayload payload = new MessagePayload();
 
         payload.setMessage(StringUtils.EMPTY);
+        assertEquals(StringUtils.EMPTY, payload.getMessage());
     }
 
     @Test
@@ -90,8 +96,9 @@ public class MessagePayloadTest {
 
     @Test
     public void shouldThrowNPEOnConstructingNewMessagePayloadWithNullHostname() {
-        assertThrows("hostname cannot be null or an empty String", NullPointerException.class,
-                () -> new MessagePayload(null, Level.OK, "test service", "test message"));
+        assertThrows(NullPointerException.class,
+                () -> new MessagePayload(null, Level.OK, "test service", "test message"),
+                "hostname cannot be null or an empty String");
     }
 
     @Test

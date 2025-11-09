@@ -13,10 +13,10 @@
  */
 package com.googlecode.jsendnsca;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LevelTest {
 
@@ -35,7 +35,9 @@ public class LevelTest {
 
     @Test
     public void shouldThrowIllegalAgrumentExceptionForInvalidLevelValue() {
-        assertThrows("LevelValue [4] is not a valid level", IllegalArgumentException.class, () -> Level.toLevel(4));
+        assertThrows(IllegalArgumentException.class,
+                () -> Level.toLevel(4),
+                "LevelValue [4] is not a valid level");
     }
 
     @Test

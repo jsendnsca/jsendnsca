@@ -14,11 +14,11 @@
 package com.googlecode.jsendnsca.builders;
 
 import com.googlecode.jsendnsca.NagiosSettings;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.googlecode.jsendnsca.encryption.Encryption.XOR;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NagiosSettingsBuilderTest {
 
