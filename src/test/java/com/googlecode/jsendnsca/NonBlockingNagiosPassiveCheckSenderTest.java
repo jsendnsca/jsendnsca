@@ -44,7 +44,7 @@ public class NonBlockingNagiosPassiveCheckSenderTest {
     }
 
     @Test
-    public void shouldReturnImmediatelyWhenSendingPassiveCheck() throws Exception {
+    public void shouldReturnImmediatelyWhenSendingPassiveCheck() {
         sender = new NonBlockingNagiosPassiveCheckSender(new SlowNagiosPassiveCheckSender(), new TestExceptionHandler());
 
         long start = new Date().getTime();

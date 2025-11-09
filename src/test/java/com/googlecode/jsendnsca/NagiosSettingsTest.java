@@ -76,7 +76,6 @@ public class NagiosSettingsTest {
                 nagiosSettings.setEncryptor(null)
         );
         assertThat(thrown.getMessage(), is("encryptor cannot be null"));
-        ;
     }
 
     @Test

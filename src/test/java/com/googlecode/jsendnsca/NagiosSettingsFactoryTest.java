@@ -90,7 +90,7 @@ public class NagiosSettingsFactoryTest {
     }
 
     @Test
-    public void shouldThrowNagiosConfigurationExceptionForEmptyPropertyValue() throws Exception {
+    public void shouldThrowNagiosConfigurationExceptionForEmptyPropertyValue() {
         Properties emptyPropertyValue = new Properties();
         emptyPropertyValue.setProperty("nagios.nsca.host", StringUtils.EMPTY);
 
@@ -102,7 +102,7 @@ public class NagiosSettingsFactoryTest {
     }
 
     @Test
-    public void shouldThrowNagiosConfigurationExceptionForNonIntegerValueProvidedForIntegerValueKey() throws Exception {
+    public void shouldThrowNagiosConfigurationExceptionForNonIntegerValueProvidedForIntegerValueKey() {
         Properties nonIntegerTimeout = new Properties();
         nonIntegerTimeout.setProperty("nagios.nsca.timeout", "notANumber");
 
@@ -113,7 +113,7 @@ public class NagiosSettingsFactoryTest {
     }
 
     @Test
-    public void shouldThrowNagiosConfigurationExceptionForOutOfRangePort() throws Exception {
+    public void shouldThrowNagiosConfigurationExceptionForOutOfRangePort() {
         Properties outOfRangePort = new Properties();
         outOfRangePort.setProperty("nagios.nsca.port", "65536");
 
@@ -126,7 +126,7 @@ public class NagiosSettingsFactoryTest {
     }
 
     @Test
-    public void shouldThrowNagiosConfigurationExceptionForUnknownEncryption() throws Exception {
+    public void shouldThrowNagiosConfigurationExceptionForUnknownEncryption() {
         Properties unknownEncryption = new Properties();
         unknownEncryption.setProperty("nagios.nsca.encryption", "foobar");
 

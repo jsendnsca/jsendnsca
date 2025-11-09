@@ -218,13 +218,12 @@ public class MessagePayload implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof MessagePayload)) {
+        if (!(obj instanceof MessagePayload other)) {
             return false;
         }
         if (this == obj) {
             return true;
         }
-        MessagePayload other = (MessagePayload) obj;
 
         return new EqualsBuilder()
                 .append(hostname, other.hostname)
